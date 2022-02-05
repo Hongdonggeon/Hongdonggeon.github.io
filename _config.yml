@@ -102,7 +102,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "돌갈단"
+  name             : 
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "돌아가면 돌아갈수록 단단해진다"
   location         : "South Korea"
