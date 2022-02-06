@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-06T19:41:46+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">JDK, JRE, JVM</title><link href="http://localhost:4000/JDK,JRE,JVM/" rel="alternate" type="text/html" title="JDK, JRE, JVM" /><published>2022-02-06T00:00:00+09:00</published><updated>2022-02-06T00:00:00+09:00</updated><id>http://localhost:4000/JDK,JRE,JVM</id><content type="html" xml:base="http://localhost:4000/JDK,JRE,JVM/"><![CDATA[<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
+I"�<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
 
 <p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
 
@@ -22,13 +22,13 @@
 
 <ul>
   <li>
-    <p>Java SE (Java Standard Edition)<br />: 표준 에디션의 자바 플랫폼이다. 자바 언어의 핵심 기능을 제공한다. 주요 패키지는 java.lang , java.io , java.util, java.awt 등이 있다.</p>
+    <p>Java SE (Java Standard Edition)<br />표준 에디션의 자바 플랫폼이다. 자바 언어의 핵심 기능을 제공한다. 주요 패키지는 java.lang , java.io , java.util, java.awt 등이 있다.</p>
   </li>
   <li>
-    <p>Java EE (Java Enterprise Edition)<br />: Java SE에 웹 어플리케이션 서버에서 동작하는 기능을 추가한 플랫폼이다.  JSP, Servlet, JDBC 등 기업용 어플리케이션을 개발하는데 필요한 다양한 것들이 포함된 플랫폼이다.</p>
+    <p>Java EE (Java Enterprise Edition)<br />Java SE에 웹 어플리케이션 서버에서 동작하는 기능을 추가한 플랫폼이다.  JSP, Servlet, JDBC 등 기업용 어플리케이션을 개발하는데 필요한 다양한 것들이 포함된 플랫폼이다.</p>
   </li>
   <li>
-    <p>Java ME (Java Micro Edition)<br />: 임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.</p>
+    <p>Java ME (Java Micro Edition)<br />임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.</p>
 
     <p><br /></p>
   </li>
@@ -68,7 +68,9 @@
 
 <p><strong>JIT 컴파일러 (Just In Time compiler)</strong></p>
 
-<p>JIT 컴파일러란 런타임에 자바 바이트 코드를 실제 기계어로 변환해주는 컴파일러를 의미한다. 프로그램의 실행 속도를 향상시키기 위해 동적 번역이라는 기법을 사용한다.</p>
+<p>JIT 컴파일러란 런타임에 자바 바이트 코드를 실제 기계어로 변환해주는 컴파일러를 의미한다.</p>
+
+<p>프로그램의 실행 속도를 향상시키기 위해 동적 번역이라는 기법을 사용한다.</p>
 
 <p><br /></p>
 
@@ -98,4 +100,5 @@
 
 <p>https://tecoble.techcourse.co.kr/post/2021-07-12-jvm-jre-jdk/</p>
 
-<p>http://www.tcpschool.com/java/java_intro_programming</p>]]></content><author><name>kun</name></author><summary type="html"><![CDATA[]]></summary></entry></feed>
+<p>http://www.tcpschool.com/java/java_intro_programming</p>
+:ET
