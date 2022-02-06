@@ -13,6 +13,8 @@ date: 2022-02-06
 
 JDK란 Java를 활용하여 프로그램을 개발할 때 필요한 도구 모음이다. JRE는 Java 프로그램을 실행하기 위한 도구들의 구성요소로 독립적으로 사용 가능하다. 하지만 프로그램을 실행시키는 것도 개발의 일환이기 때문에 JDK는 JRE를 필요로 한다.
 
+
+
 ### JDK 구성요소
 
 - javac : 자바 컴파일러. 자바 소스파일을 바이트코드로 반환
@@ -34,8 +36,8 @@ JDK란 Java를 활용하여 프로그램을 개발할 때 필요한 도구 모�
 - Java ME (Java Micro Edition)
 
   임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.
-
-
+  
+  <br/> 
 
 # JRE (Java Runtime Environment)
 
@@ -53,7 +55,7 @@ Java를 실행시키는데 필수적인 라이브러리다. java.io, java.util, 
 
 필요한 클래스들을 JVM 위로 올려주는 역할을 한다. Javac를 통해 생성된 .class 파일은 각 디렉토리에 흩어져 있다. 그리고 라이브러리의 클래스 파일들은 $JAVAHOME_ 내부 경로에 존재한다. 이러한 각각의 클래스 파일들을 찾아서 JVM의 메모리에 탑재해주는 역할을 하는 것이 ClassLoader 이다. ClassLoader 는 크게 Loading, Linking, 그리고 Initialization 3가지 역할을 맡게 된다. Loading 은 클래스 파일을 탑재하는 과정, Linking 은 클래스 파일을 사용하기 위해 검증하고, 기본 값으로 초기화하는 과정이다. Initialization 은 static field 의 값들을 개발자가 정의한 값으로 초기화를 하는 과정이다.
 
-
+<br/> 
 
 # JVM (Java Virtual Machine)
 
@@ -75,7 +77,7 @@ JIT 컴파일러란 프로그램이 실행 중인 런타임에 실제 기계어�
 
 jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 자동으로 회수해 준다. 
 
-
+<br/> 
 
 # 정리
 
@@ -87,9 +89,9 @@ jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 
 
 그리고 바이트 코드가 JVM 위에서 원활하게 작동이 되기 위해서는 필수적인 자바 라이브러리나 우리가 작성한 클래스 파일들이 필요하는데, 이러한 각각의 클래스 파일들을 JVM 위에 올려주는 역할을 하는 것이 JRE이다.
 
+<br/> 
 
-
-### 출처
+출처
 
 https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk
 
