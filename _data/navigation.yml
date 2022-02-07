@@ -1,3 +1,5 @@
 main:
   - title: "Tech"
     url: /categories/
+  - title: "TIL"
+    url: /til/
