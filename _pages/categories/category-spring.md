@@ -1,5 +1,5 @@
 ---
-title: "SPRING BOOT"
+title: "Spring boot"
 layout: archive
 permalink: categories/spring
 author_profile: true
