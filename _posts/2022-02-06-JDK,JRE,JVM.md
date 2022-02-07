@@ -2,6 +2,8 @@
 title: JDK, JRE, JVM
 toc: true
 toc_sticky: true
+categories:
+  - java
 date: 2022-02-06
 ---
 

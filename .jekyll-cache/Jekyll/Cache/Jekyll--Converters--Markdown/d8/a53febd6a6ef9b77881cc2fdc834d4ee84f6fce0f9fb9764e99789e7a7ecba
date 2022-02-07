@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-07T23:00:46+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">JDK, JRE, JVM</title><link href="http://localhost:4000/java/JDK,JRE,JVM/" rel="alternate" type="text/html" title="JDK, JRE, JVM" /><published>2022-02-06T00:00:00+09:00</published><updated>2022-02-06T00:00:00+09:00</updated><id>http://localhost:4000/java/JDK,JRE,JVM</id><content type="html" xml:base="http://localhost:4000/java/JDK,JRE,JVM/"><![CDATA[<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
+I"ä<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
 
 <p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
 
@@ -98,4 +98,5 @@
 
 <p>https://tecoble.techcourse.co.kr/post/2021-07-12-jvm-jre-jdk/</p>
 
-<p>http://www.tcpschool.com/java/java_intro_programming</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[]]></summary></entry></feed>
+<p>http://www.tcpschool.com/java/java_intro_programming</p>
+:ET

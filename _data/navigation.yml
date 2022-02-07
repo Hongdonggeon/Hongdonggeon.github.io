@@ -1,7 +1,3 @@
-  url: https://Hongdonggeon.com/
-- title: "Categories"
-  url: /categories/
-- title: "Tags"
-  url: /tags/
-- title: "About"
-  url: /about/
+main:
+  - title: "Categories"
+    url: /categories/
