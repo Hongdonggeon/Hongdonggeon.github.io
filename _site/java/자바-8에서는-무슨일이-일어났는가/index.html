@@ -1,4 +1,341 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-13T21:24:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">Java 8에서는 무슨일이 일어났는가?</title><link href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="alternate" type="text/html" title="Java 8에서는 무슨일이 일어났는가?" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EC%9E%90%EB%B0%94%208%EC%97%90%EC%84%9C%EB%8A%94%20%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80</id><content type="html" xml:base="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/"><![CDATA[<h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Java 8에서는 무슨일이 일어났는가? - Keep Going</title>
+<meta name="description" content="자바 8, 9, 10, 11 무슨일이 일어나고 있는가">
+
+
+  <meta name="author" content="kun">
+  
+  <meta property="article:author" content="kun">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Keep Going">
+<meta property="og:title" content="Java 8에서는 무슨일이 일어났는가?">
+<meta property="og:url" content="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/">
+
+
+  <meta property="og:description" content="자바 8, 9, 10, 11 무슨일이 일어나고 있는가">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-13T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Keep Going Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Keep Going
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Tech</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">kun</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>돌아가면 돌아갈수록 단단해진다</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:ghd700@naver.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/Hongdonggeon" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    <br/>
+    
+      
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">2</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
+        <span class="nav__sub-title">DEV</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
+                
+                    
+                        <li><a href="/categories/java" class="">JAVA (2)</a></li>
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+            </ul>
+      </li>
+  </ul>
+</nav>
+    
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Java 8에서는 무슨일이 일어났는가?">
+    <meta itemprop="description" content="자바 8, 9, 10, 11 무슨일이 일어나고 있는가">
+    <meta itemprop="datePublished" content="2022-02-13T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" class="u-url" itemprop="url">Java 8에서는 무슨일이 일어났는가?
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</a><ul><li><a href="#자바-함수">자바 함수</a><ul><li><a href="#메서드와-람다를-일급-시민으로">메서드와 람다를 일급 시민으로</a></li><li><a href="#메서드-전달에서-람다로">메서드 전달에서 람다로</a></li></ul></li><li><a href="#스트림">스트림</a><ul><li><a href="#멀티스레딩은-어렵다">멀티스레딩은 어렵다</a></li></ul></li><li><a href="#디폴트-메서드와-자바-모듈">디폴트 메서드와 자바 모듈</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
 
 <p>자바 8은 간결한 코드, 멀티코어 프로세서의 쉬운 활용이라는 두 가지 요구사항을 기반으로 한다.<br /></p>
 
@@ -180,101 +517,171 @@
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">default</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
       <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
   <span class="o">}</span>
-</code></pre></div></div>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[자바 8, 9, 10, 11 무슨일이 일어나고 있는가]]></summary></entry><entry><title type="html">JDK, JRE, JVM</title><link href="http://localhost:4000/java/JDK,JRE,JVM/" rel="alternate" type="text/html" title="JDK, JRE, JVM" /><published>2022-02-06T00:00:00+09:00</published><updated>2022-02-06T00:00:00+09:00</updated><id>http://localhost:4000/java/JDK,JRE,JVM</id><content type="html" xml:base="http://localhost:4000/java/JDK,JRE,JVM/"><![CDATA[<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
+</code></pre></div></div>
 
-<p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
 
-<h1 id="jdk-java-development-kit">JDK (Java Development Kit)</h1>
+        
+      </section>
 
-<p>JDK란 Java를 활용하여 프로그램을 개발할 때 필요한 도구 모음이다. <br />JRE는 Java 프로그램을 실행하기 위한 도구들의 구성요소로 독립적으로 사용 가능하다. <br />하지만 프로그램을 실행시키는 것도 개발의 일환이기 때문에 JDK는 JRE를 필요로 한다.</p>
+      <footer class="page__meta">
+        
+        
 
-<p><br /></p>
 
-<p><strong>JDK 구성요소</strong></p>
+  
 
-<ul>
-  <li>javac : 자바 컴파일러. 자바 소스파일을 바이트코드로 반환</li>
-  <li>jdb : 자바 디버깅 툴</li>
-  <li>jar : 서로 관련있는 클래스 라이브러리들과 리소스를 하나의 파일로 묶어주는 툴</li>
-</ul>
 
-<p><br /></p>
+  
 
-<p><strong>JDK 종류</strong></p>
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#java" class="page__taxonomy-item p-category" rel="tag">java</a>
+    
+    </span>
+  </p>
 
-<ul>
-  <li>
-    <p>Java SE (Java Standard Edition)<br />: 표준 에디션의 자바 플랫폼이다. 자바 언어의 핵심 기능을 제공한다. 주요 패키지는 java.lang , java.io , java.util, java.awt 등이 있다.</p>
-  </li>
-  <li>
-    <p>Java EE (Java Enterprise Edition)<br />: Java SE에 웹 어플리케이션 서버에서 동작하는 기능을 추가한 플랫폼이다.  JSP, Servlet, JDBC 등 기업용 어플리케이션을 개발하는데 필요한 다양한 것들이 포함된 플랫폼이다.</p>
-  </li>
-  <li>
-    <p>Java ME (Java Micro Edition)<br />: 임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.</p>
 
-    <p><br /></p>
-  </li>
-</ul>
+        
 
-<h1 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h1>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-02-13T00:00:00+09:00">February 13, 2022</time></p>
 
-<p>JVM 위에서 .class 파일이 원활하게 작동하기 위해서는 몇 가지 필수적인 요소들이 필요하는데 이를 제공해주는 것이 JRE다.<br /> JRE는 크게 JVM과 Java Class Libraries, Class Loader라는 요소로 구성이 된다.</p>
+      </footer>
 
-<p><br /></p>
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
 
-<p><strong>Java Class Libraries</strong></p>
+  <a href="https://twitter.com/intent/tweet?text=Java+8%EC%97%90%EC%84%9C%EB%8A%94+%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4+%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80%3F%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2F%25EC%259E%2590%25EB%25B0%2594-8%25EC%2597%2590%25EC%2584%259C%25EB%258A%2594-%25EB%25AC%25B4%25EC%258A%25A8%25EC%259D%25BC%25EC%259D%25B4-%25EC%259D%25BC%25EC%2596%25B4%25EB%2582%25AC%25EB%258A%2594%25EA%25B0%2580%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-<p>Java를 실행시키는데 필수적인 라이브러리다.<br />java.io, java.util, java.thread, java.lang 등 작동에 필수적인 요소들을 가지고 있다.<br />JVM에 올라가는 바이트 코드에서도 필수 라이브러리를 참고하고 있기 때문에 간단한 코드라도 필수 라이브러리가 필요하다.</p>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2F%25EC%259E%2590%25EB%25B0%2594-8%25EC%2597%2590%25EC%2584%259C%25EB%258A%2594-%25EB%25AC%25B4%25EC%258A%25A8%25EC%259D%25BC%25EC%259D%25B4-%25EC%259D%25BC%25EC%2596%25B4%25EB%2582%25AC%25EB%258A%2594%25EA%25B0%2580%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-<p><br /></p>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2F%25EC%259E%2590%25EB%25B0%2594-8%25EC%2597%2590%25EC%2584%259C%25EB%258A%2594-%25EB%25AC%25B4%25EC%258A%25A8%25EC%259D%25BC%25EC%259D%25B4-%25EC%259D%25BC%25EC%2596%25B4%25EB%2582%25AC%25EB%258A%2594%25EA%25B0%2580%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
 
-<p><strong>Class Loader</strong></p>
 
-<p>필요한 클래스들을 JVM 위로 올려주는 역할을 한다. <br />Javac를 통해 생성된 .class 파일은 각 디렉토리에 흩어져 있다.<br />그리고 라이브러리의 클래스 파일들은 $JAVAHOME_ 내부 경로에 존재한다.<br />이러한 각각의 클래스 파일들을 찾아서 JVM의 메모리에 탑재해주는 역할을 하는 것이 ClassLoader 이다.</p>
+      
+  <nav class="pagination">
+    
+      <a href="/java/JDK,JRE,JVM/" class="pagination--pager" title="JDK, JRE, JVM
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
 
-<p>ClassLoader 는 크게 Loading, Linking, 그리고 Initialization 3가지 역할을 맡게 된다.<br /> Loading 은 클래스 파일을 탑재하는 과정, Linking 은 클래스 파일을 사용하기 위해 검증하고, 기본 값으로 초기화하는 과정이다. Initialization 은 static field 의 값들을 개발자가 정의한 값으로 초기화를 하는 과정이다.</p>
+    </div>
 
-<p><br /></p>
+    
+  </article>
 
-<h1 id="jvm-java-virtual-machine">JVM (Java Virtual Machine)</h1>
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
 
-<p>JVM은 Java로 작성된 프로그램이 돌아가도록 만들어준다.<br />Java로 작성된 프로그램은 운영체제에 맞는 실행파일로 컴파일되는 것이 아닌 .class라는 확장자를 가진 파일로 변환이 되는데 이 .class 파일이 JVM위에서 작동하는 것이고 JVM이 .class 파일에 환경을 제공해준다.<br />JVM은 자바 인터프리터, JIT 커파일러, 가비지 컬렉터로 구성되어 있다.</p>
 
-<p><br /></p>
 
-<p><strong>Java Interpreter</strong></p>
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/java/JDK,JRE,JVM/" rel="permalink">JDK, JRE, JVM
+</a>
+      
+    </h2>
+    
 
-<p>자바 컴파일러에 의해 변환된 자바 바이트 코드를 읽고 해석하는 역할을 하는 것이 자바 인터프리터다.</p>
+  <p class="page__meta">
+    
 
-<p><br /></p>
+    
 
-<p><strong>JIT 컴파일러 (Just In Time compiler)</strong></p>
+    
+      
+      
 
-<p>JIT 컴파일러란 런타임에 자바 바이트 코드를 실제 기계어로 변환해주는 컴파일러를 의미한다. 프로그램의 실행 속도를 향상시키기 위해 동적 번역이라는 기법을 사용한다.</p>
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
 
-<p><br /></p>
 
-<p><strong>Garbage Collector</strong></p>
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
 
-<p>jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 자동으로 회수해 준다.</p>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
 
-<p><br /></p>
+    
 
-<h3 id="정리">정리</h3>
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
 
-<p><img src="https://user-images.githubusercontent.com/67885363/152675147-e4b7c544-68cf-40bf-813c-e4cabcbf8a9c.png" alt="img_java_programming" /></p>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
 
-<p>우리가 작성하는 자바 클래스 파일(.java)은 JDK의 자바 컴파일러(javac) 를 통해 자바 바이트 코드(.class) 로 변환하게 된다.</p>
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
 
-<p>자바 컴파일러에 의해 생성된 자바 바이트 코드는 운영체제에 상관없이 JVM 위에서 작동이 되기 때문에 Java가 이식성이 좋은 것이다.</p>
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
 
-<p>그리고 바이트 코드가 JVM 위에서 원활하게 작동이 되기 위해서는 필수적인 자바 라이브러리나 우리가 작성한 클래스 파일들이 필요하는데, 이러한 각각의 클래스 파일들을 JVM 위에 올려주는 역할을 하는 것이 JRE이다.</p>
+<div class="page__footer-copyright">&copy; 2022 Keep Going. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
-<p><br /></p>
+      </footer>
+    </div>
 
-<p>출처</p>
+    
+  <script src="/assets/js/main.min.js"></script>
 
-<p>https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk<br />
-https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/<br />
-https://tecoble.techcourse.co.kr/post/2021-07-12-jvm-jre-jdk/<br />
-http://www.tcpschool.com/java/java_intro_programming</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[]]></summary></entry></feed>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
