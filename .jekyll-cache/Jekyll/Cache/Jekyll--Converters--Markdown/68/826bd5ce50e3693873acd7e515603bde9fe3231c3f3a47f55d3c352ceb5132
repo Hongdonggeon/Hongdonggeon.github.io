@@ -1,9 +1,0 @@
-I"·<h2 id="junit">Junit</h2>
-<ul>
-  <li>assertThatExceptionOfType</li>
-  <li>assertThatIoException</li>
-  <li>@DisplayName</li>
-  <li>@ParameterizedTest</li>
-  <li>@CsvSource</li>
-</ul>
-:ET
