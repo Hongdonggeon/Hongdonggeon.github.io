@@ -91,7 +91,7 @@ jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 
 
 <br/> 
 
-출처
+참고
 
 https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk<br/>
 https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/<br/>
