@@ -1,4 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-15T22:05:02+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">Java 8에서는 무슨일이 일어났는가?</title><link href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="alternate" type="text/html" title="Java 8에서는 무슨일이 일어났는가?" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EC%9E%90%EB%B0%94%208%EC%97%90%EC%84%9C%EB%8A%94%20%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80</id><content type="html" xml:base="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/"><![CDATA[<h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-16T02:49:12+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">2022.02.15 인스턴스 메서드 vs 클래스 메서드</title><link href="http://localhost:4000/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="alternate" type="text/html" title="2022.02.15 인스턴스 메서드 vs 클래스 메서드" /><published>2022-02-15T00:00:00+09:00</published><updated>2022-02-15T00:00:00+09:00</updated><id>http://localhost:4000/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%20%EB%A9%94%EC%84%9C%EB%93%9C%20vs%20%ED%81%B4%EB%9E%98%EC%8A%A4%20%EB%A9%94%EC%84%9C%EB%93%9C</id><content type="html" xml:base="http://localhost:4000/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/"><![CDATA[<h2 id="static-메서드는-언제-사용해야-하나">static 메서드는 언제 사용해야 하나?</h2>
+
+<p>평소에 static 메서드의 사용 여부에 대해 많이 고민이 되는 것 같다.
+자동차 경주 게임 미션을 하면서도, 고민이 되는 경우가 있었다.
+일단, 게임에 있어서 판정을 해주는 Referee 클래스 이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Referee</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MOVE_CRITERIA</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">canCarMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">randomValue</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">randomValue</span> <span class="o">&gt;=</span> <span class="no">MOVE_CRITERIA</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">judgeWinner</span><span class="o">(</span><span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxPosition</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+			<span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">isPosition</span><span class="o">(</span><span class="n">maxPosition</span><span class="o">))</span>
+			<span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>고민 끝에, Referee 클래스는 유틸리티 클래스로 설계하였다.
+그때, 유틸리티 클래스 설계로 결정한 이유로는 여러가지가 있다.</p>
+
+<ul>
+  <li>여러 개의 객체가 필요가 없다는 점</li>
+  <li>인스턴스 필드가 없다는 점</li>
+</ul>
+
+<p>이때만 해도, 인스턴스 필드가 인스턴스의 상태 정보를 나타내는지는 몰랐다.
+인스턴스 필드를 상태 변수라고도 이야기 한다고 한다.
+무조건적이진 않겠지만, 인스턴스화 할 클래스로 만들 것인지, 유틸리티 클래스로 만들 것인지 고민이 된다면, 인스턴스 필드의 여부를 생각해보면 될 것 같다.</p>
+
+<p>다시 생각해봤을 때, Referee 클래스는 아무런 상태 변수도 없기 때문에 유틸리티 클래스로 만들어 주길 잘한 것 같다.</p>
+
+<p><br /></p>
+
+<p>두번재는, 모든 로직에 대해서 조립을 해주는 Game 클래스다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Game</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">WINNER_NAME_DELIMITER</span> <span class="o">=</span> <span class="s">", "</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">NEGATIVE_ERROR_MESSAGE</span> <span class="o">=</span> <span class="s">"[ERROR] 음수를 입력할 수 없습니다"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">ERROR_CRITERIA_VALUE_ZERO</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">();</span>
+  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Cars</span> <span class="n">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="nc">CarFactory</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">inputCarNames</span><span class="o">()));</span>
+        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carSet</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getCars</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">validateGameCount</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">inputGameCount</span><span class="o">());</span>
+        <span class="nc">OutputView</span><span class="o">.</span><span class="na">printGameResultTitle</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">play</span><span class="o">(</span><span class="n">carSet</span><span class="o">);</span>
+            <span class="n">showResult</span><span class="o">(</span><span class="n">carSet</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">showWinner</span><span class="o">(</span><span class="nc">Referee</span><span class="o">.</span><span class="na">judgeWinner</span><span class="o">(</span><span class="n">carSet</span><span class="o">,</span> <span class="n">cars</span><span class="o">.</span><span class="na">getMaxPosition</span><span class="o">()));</span>
+    <span class="o">}</span>
+  
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">play</span><span class="o">(</span><span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">boolean</span> <span class="n">canCarMove</span> <span class="o">=</span> <span class="nc">Referee</span><span class="o">.</span><span class="na">canCarMove</span><span class="o">(</span><span class="n">makeRandomValue</span><span class="o">());</span>
+            <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">canCarMove</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+  
+  <span class="o">....</span>
+</code></pre></div></div>
+
+<p>지금 다시 보니, 애매한 것 같다.
+인스턴스 필드는 없는데, 메서드들은 다 인스턴스 메서드로 선언이 되어 있다.
+모든 메서드를 static 메서드로 바꾸면, 유틸리티 클래스가 될 것 같은데,,,,
+무언가 모든 메서드를 static 메서드를 만들기엔 부담스럽다는 생각이 든다.</p>
+
+<p>그리고, 이 Game 클래스의 <code class="language-plaintext highlighter-rouge">play()</code>는 상태를 Car들의 position값을 변하게 해준다,
+즉, 객체의 상태를 변화시켜준다.</p>
+
+<p>Car들을 관리해주는 Cars를 인스턴스 필드로 사용해서 리팩토링 해봐야겠다.</p>
+
+<p><br /></p>
+
+<h2 id="인스턴스-메서드">인스턴스 메서드</h2>
+
+<p>인스턴스의 상태를 변경하거나 상태 정보를 반환할 때 사용하는 메소드다.
+인스턴스를 생성한 후, 메세지를 보낼 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">canCarMove</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">canCarMove</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">position</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="클래스-메서드">클래스 메서드</h2>
+
+<p>인스턴스의 상태와는 관련이 없다.
+인스턴스를 생성하지 않은 상태에서도 호출이 가능하다.
+클래스 메서드는 유틸리티 메서드라고 부른다.
+static이 붙은 변수나 메서드들은 JVM이 시작될 때, static 영역에 저장되고 프로그램이 끝날 때까지 사라지지 않고 메모리에 남아있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">of</span><span class="o">(</span><span class="nc">String</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">arrNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span>
+        <span class="k">return</span>  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arrNames</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="static-메서드의-장단점">static 메서드의 장단점</h2>
+
+<h3 id="속도가-빨라지고-반복적인-사용에-효율적이다">속도가 빨라지고 반복적인 사용에 효율적이다.</h3>
+
+<p>메서드를 사용할 때, 객체를 생성해 줄 필요가 없으니 생성자를 호출할 필요가 없게 되고 속도가 빨라질 수밖에 없다.</p>
+
+<p><br /></p>
+
+<h3 id="객체-지향에서-멀어진다">객체 지향에서 멀어진다.</h3>
+
+<p>static 메서드는 객체의 생명 주기와 관계없이 프로그램 시작부터 끝날 때까지 메모리에 남아있기 때문에 객체 지향이라는 키워드와는 멀어진다.
+객체 지향에서는, 객체들은 서로 관계를 맺고 메시지를 통해 정보를 교환하고 반환한다.
+정적 메서드는 객체에게 행위를 지시하는 것이 아닌 함수 호출에 불과하다.
+그리고 정적 메서드는 오버라이딩이 불가하므로 인터페이스에서는 사용할 수도 없게 된다.
+정적 메서드는 런타임 이전 컴파일시에 정적 바인딩이 이루어지기 때문에, 동적 바인딩도 불가능하다.</p>
+
+<p><br /></p>
+
+<h3 id="메모리-효율이-떨어질-수-있다">메모리 효율이 떨어질 수 있다.</h3>
+
+<p>런타임 중 동적으로 생성된 것들은 가비지 컬렉션의 대상이 되는데, 정적으로 할당된 static 영역은 대상이 아니다.
+static으로 할당된 영역이 커지면 가비지 컬렉션의 효율이 떨어지게 된다.
+static 영역은 프로그램이 끝날 때까지 메모리에서 내릴 수 없게 되므로 효율이 떨어질 수 있다.</p>
+
+<p><br />
+ <br /></p>
+
+<hr />
+
+<p>참고 <a href="https://tecoble.techcourse.co.kr/post/2020-07-16-static-method/">https://tecoble.techcourse.co.kr/post/2020-07-16-static-method/</a></p>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[static 메서드는 언제 사용해야 하나?]]></summary></entry><entry><title type="html">Java 8에서는 무슨일이 일어났는가?</title><link href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="alternate" type="text/html" title="Java 8에서는 무슨일이 일어났는가?" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EC%9E%90%EB%B0%94%208%EC%97%90%EC%84%9C%EB%8A%94%20%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80</id><content type="html" xml:base="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/"><![CDATA[<h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
 
 <p>자바 8은 간결한 코드, 멀티코어 프로세서의 쉬운 활용이라는 두 가지 요구사항을 기반으로 한다.<br /></p>
 
@@ -209,11 +350,48 @@
 <br /></p>
 
 <h2 id="커밋">커밋</h2>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[함수 vs 메서드 모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다. 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다. 함수와 메서드의 용어에 대해서 생각해보게 되었다.]]></summary></entry><entry><title type="html">2022.02.11 스트림 joining, 상대방 커밋 이력 가져오기</title><link href="http://localhost:4000/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC-joining,-%EC%83%81%EB%8C%80%EB%B0%A9-%EC%BB%A4%EB%B0%8B-%EC%9D%B4%EB%A0%A5-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0/" rel="alternate" type="text/html" title="2022.02.11 스트림 joining, 상대방 커밋 이력 가져오기" /><published>2022-02-11T00:00:00+09:00</published><updated>2022-02-11T00:00:00+09:00</updated><id>http://localhost:4000/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC%20joining,%20%EC%83%81%EB%8C%80%EB%B0%A9%20%EC%BB%A4%EB%B0%8B%20%EC%9D%B4%EB%A0%A5%20%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC-joining,-%EC%83%81%EB%8C%80%EB%B0%A9-%EC%BB%A4%EB%B0%8B-%EC%9D%B4%EB%A0%A5-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0/"><![CDATA[<h2 id="스트림-colloctorsjoining">스트림 Colloctors.joining()</h2>
-<h2 id="상대방-커밋-이력과-코드-가져오기">상대방 커밋 이력과 코드 가져오기</h2>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[스트림 Colloctors.joining() 상대방 커밋 이력과 코드 가져오기]]></summary></entry><entry><title type="html">2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스</title><link href="http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/" rel="alternate" type="text/html" title="2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스" /><published>2022-02-10T00:00:00+09:00</published><updated>2022-02-10T00:00:00+09:00</updated><id>http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C%20%ED%91%9C%ED%98%84%EC%8B%9D,%20%ED%8C%A9%ED%86%A0%EB%A6%AC%20%EB%A9%94%EC%84%9C%EB%93%9C%20%ED%8C%A8%ED%84%B4,%20%EC%9C%A0%ED%8B%B8%20%ED%81%B4%EB%9E%98%EC%8A%A4</id><content type="html" xml:base="http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/"><![CDATA[<h2 id="정규-표현식">정규 표현식</h2>
+<h2 id="상대방-커밋-이력과-코드-가져오기">상대방 커밋 이력과 코드 가져오기</h2>
+
+<ul>
+  <li><strong>git remote add <code class="language-plaintext highlighter-rouge">축약할 이름</code> <code class="language-plaintext highlighter-rouge">가져올 상대의 저장소</code></strong></li>
+</ul>
+
+<p>내 Local git과 가져올 Github의 저장소의 주소를 연결시켜주기 위해 이 작업이 필요하다.
+축약할 이름은 자기가 편한 이름으로 지어주면 된다.
+보통 자주 사용하는 <code class="language-plaintext highlighter-rouge">origin</code>도 하나의 이름이다.
+git clone 을 하면 자동으로 clone 한 저장소와 연결이 된다. 그 때, 자동으로 origin 이라고 이름이 지어진다.</p>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>git fetch <code class="language-plaintext highlighter-rouge">축약이름</code> <code class="language-plaintext highlighter-rouge">브랜치명</code></strong></li>
+</ul>
+
+<p>이렇게 작성을 해주면, 내가 입력한 브랜치의 코드들과 커밋만 가져와 준다.</p>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>git merge <code class="language-plaintext highlighter-rouge">축약이름</code>/ <code class="language-plaintext highlighter-rouge">브랜치</code></strong></li>
+</ul>
+
+<p>커밋 이력은 git log를 통해 확인할 수 있다.
+이 작업을 하면, 코드와 커밋 이력이 내 로컬 저장소에 생기게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/154097981-42ca3527-d5f4-4624-b1ad-4e21edf885f9.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/154098199-df2fdacf-733c-49a7-97bf-920496a52f43.png" alt="image" /></p>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[스트림 Colloctors.joining() 상대방 커밋 이력과 코드 가져오기]]></summary></entry><entry><title type="html">2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스</title><link href="http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/" rel="alternate" type="text/html" title="2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스" /><published>2022-02-10T00:00:00+09:00</published><updated>2022-02-10T00:00:00+09:00</updated><id>http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C%20%ED%91%9C%ED%98%84%EC%8B%9D,%20%ED%8C%A9%ED%86%A0%EB%A6%AC%20%EB%A9%94%EC%84%9C%EB%93%9C%20%ED%8C%A8%ED%84%B4,%20%EC%9C%A0%ED%8B%B8%20%ED%81%B4%EB%9E%98%EC%8A%A4</id><content type="html" xml:base="http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/"><![CDATA[<h2 id="정규-표현식">정규 표현식</h2>
 
 <h2 id="팩토리-메서드-패턴">팩토리 메서드 패턴</h2>
 
-<h2 id="유틸-클래스">유틸 클래스</h2>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[정규 표현식]]></summary></entry><entry><title type="html">2022.02.09 Junit</title><link href="http://localhost:4000/til/Junit/" rel="alternate" type="text/html" title="2022.02.09 Junit" /><published>2022-02-09T00:00:00+09:00</published><updated>2022-02-09T00:00:00+09:00</updated><id>http://localhost:4000/til/Junit</id><content type="html" xml:base="http://localhost:4000/til/Junit/"><![CDATA[<p>우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다.<br />
+<h2 id="유틸-클래스">유틸 클래스</h2>
+
+<p>이렇게 모든 메소드가 static이고 객체를 만들어 쓰지 않는 클래스를 유틸리티 클래스라고 한다.<br />
+이 클래스는 인스턴스화 될 필요가 없다. <br />
+생성자 사용을 방지하기 위해 기본 생성자를 private으로 만들수도 있다.<br />
+상속을 방지하기 위해 클래스를 final로 선언한다. <br />
+유틸리티 클래스에서 비즈니스 로직을 다루는 것은 좋지 않다.<br />나 같은 경우는 InputView나 OutputView 같은 뷰클래스들은 유틸 클래스로 만든다.<br />
+그리고 상황에 맞게, 인스턴스가 없는 클래스 같은 경우 유틸 클래스로 만들어 효율적으로 관리할 수 있을 것 같다.</p>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[정규 표현식]]></summary></entry><entry><title type="html">2022.02.09 Junit</title><link href="http://localhost:4000/til/Junit/" rel="alternate" type="text/html" title="2022.02.09 Junit" /><published>2022-02-09T00:00:00+09:00</published><updated>2022-02-09T00:00:00+09:00</updated><id>http://localhost:4000/til/Junit</id><content type="html" xml:base="http://localhost:4000/til/Junit/"><![CDATA[<p>우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다.<br />
 이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다.<br />
 지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해 궁금증이 생겨 정리해보았다.<br /></p>
 
@@ -366,9 +544,9 @@ delimeterString 속성을 쓰면 문자 대신 문자열로 구분자를 사용�
 
 <p><br /></p>
 
-<p>출처<br />
-https://pjh3749.tistory.com/241<br />
-https://donghyeon.dev/junit/2021/04/11/JUnit5-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C/</p>]]></content><author><name>kun</name></author><category term="til" /><summary type="html"><![CDATA[우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다. 이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다. 지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해 궁금증이 생겨 정리해보았다.]]></summary></entry><entry><title type="html">JDK, JRE, JVM</title><link href="http://localhost:4000/java/JDK,JRE,JVM/" rel="alternate" type="text/html" title="JDK, JRE, JVM" /><published>2022-02-06T00:00:00+09:00</published><updated>2022-02-06T00:00:00+09:00</updated><id>http://localhost:4000/java/JDK,JRE,JVM</id><content type="html" xml:base="http://localhost:4000/java/JDK,JRE,JVM/"><![CDATA[<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
+<p>참고<br />
+<a href="https://pjh3749.tistory.com/241">https://pjh3749.tistory.com/241</a><br />
+<a href="https://donghyeon.dev/junit/2021/04/11/JUnit5-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C/">https://donghyeon.dev/junit/2021/04/11/JUnit5-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C/</a></p>]]></content><author><name>kun</name></author><category term="til" /><summary type="html"><![CDATA[우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다. 이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다. 지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해 궁금증이 생겨 정리해보았다.]]></summary></entry><entry><title type="html">JDK, JRE, JVM</title><link href="http://localhost:4000/java/JDK,JRE,JVM/" rel="alternate" type="text/html" title="JDK, JRE, JVM" /><published>2022-02-06T00:00:00+09:00</published><updated>2022-02-06T00:00:00+09:00</updated><id>http://localhost:4000/java/JDK,JRE,JVM</id><content type="html" xml:base="http://localhost:4000/java/JDK,JRE,JVM/"><![CDATA[<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
 
 <p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
 
@@ -460,7 +638,7 @@ https://donghyeon.dev/junit/2021/04/11/JUnit5-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D
 
 <p><br /></p>
 
-<p>출처</p>
+<p>참고</p>
 
 <p>https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk<br />
 https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/<br />

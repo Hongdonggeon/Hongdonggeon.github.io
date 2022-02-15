@@ -12,13 +12,13 @@ var store = [{
         "teaser": null
       },{
         "title": "2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스",
-        "excerpt":"정규 표현식   팩토리 메서드 패턴   유틸 클래스  ","categories": ["til","java"],
+        "excerpt":"정규 표현식 팩토리 메서드 패턴 유틸 클래스 이렇게 모든 메소드가 static이고 객체를 만들어 쓰지 않는 클래스를 유틸리티 클래스라고 한다. 이 클래스는 인스턴스화 될 필요가 없다. 생성자 사용을 방지하기 위해 기본 생성자를 private으로 만들수도 있다. 상속을 방지하기 위해 클래스를 final로 선언한다. 유틸리티 클래스에서 비즈니스 로직을 다루는 것은 좋지 않다. 나 같은...","categories": ["til","java"],
         "tags": [],
         "url": "/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/",
         "teaser": null
       },{
         "title": "2022.02.11 스트림 joining, 상대방 커밋 이력 가져오기",
-        "excerpt":"스트림 Colloctors.joining()  상대방 커밋 이력과 코드 가져오기  ","categories": ["til","java"],
+        "excerpt":"스트림 Colloctors.joining() 상대방 커밋 이력과 코드 가져오기 git remote add 축약할 이름 가져올 상대의 저장소 내 Local git과 가져올 Github의 저장소의 주소를 연결시켜주기 위해 이 작업이 필요하다. 축약할 이름은 자기가 편한 이름으로 지어주면 된다. 보통 자주 사용하는 origin도 하나의 이름이다. git clone 을 하면 자동으로 clone 한 저장소와 연결이 된다....","categories": ["til","java"],
         "tags": [],
         "url": "/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC-joining,-%EC%83%81%EB%8C%80%EB%B0%A9-%EC%BB%A4%EB%B0%8B-%EC%9D%B4%EB%A0%A5-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0/",
         "teaser": null
@@ -33,5 +33,11 @@ var store = [{
         "excerpt":"함수 vs 메서드 모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다. 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다. 함수와 메서드의 용어에 대해서 생각해보게 되었다. 함수 프로그래밍 언어에 있어서 함수라는 것은...","categories": ["java","til"],
         "tags": [],
         "url": "/java/til/%ED%95%A8%EC%88%98-vs-%EB%A9%94%EC%84%9C%EB%93%9C/",
+        "teaser": null
+      },{
+        "title": "2022.02.15 인스턴스 메서드 vs 클래스 메서드",
+        "excerpt":"static 메서드는 언제 사용해야 하나? 평소에 static 메서드의 사용 여부에 대해 많이 고민이 되는 것 같다. 자동차 경주 게임 미션을 하면서도, 고민이 되는 경우가 있었다. 일단, 게임에 있어서 판정을 해주는 Referee 클래스 이다. public class Referee { private static final int MOVE_CRITERIA = 4; public static boolean canCarMove(int randomValue) {...","categories": ["java","til"],
+        "tags": [],
+        "url": "/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/",
         "teaser": null
       }]

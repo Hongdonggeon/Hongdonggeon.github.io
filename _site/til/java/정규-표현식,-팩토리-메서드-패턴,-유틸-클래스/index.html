@@ -260,7 +260,7 @@
   <ul class="nav__items" id="category_tag_menu">
       <!--전체 글 수-->
       <li>
-            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">6</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">7</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
       </li>
       <li>
         <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
@@ -271,7 +271,7 @@
                 <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
                 
                     
-                        <li><a href="/categories/java" class="">JAVA (5)</a></li>
+                        <li><a href="/categories/java" class="">JAVA (6)</a></li>
                     
                 
                     
@@ -289,7 +289,7 @@
                     
                 
                     
-                        <li><a href="/categories/til" class="">TIL (4)</a></li>
+                        <li><a href="/categories/til" class="">TIL (5)</a></li>
                     
                 
             </ul>
@@ -353,6 +353,13 @@
 <h2 id="팩토리-메서드-패턴">팩토리 메서드 패턴</h2>
 
 <h2 id="유틸-클래스">유틸 클래스</h2>
+
+<p>이렇게 모든 메소드가 static이고 객체를 만들어 쓰지 않는 클래스를 유틸리티 클래스라고 한다.<br />
+이 클래스는 인스턴스화 될 필요가 없다. <br />
+생성자 사용을 방지하기 위해 기본 생성자를 private으로 만들수도 있다.<br />
+상속을 방지하기 위해 클래스를 final로 선언한다. <br />
+유틸리티 클래스에서 비즈니스 로직을 다루는 것은 좋지 않다.<br />나 같은 경우는 InputView나 OutputView 같은 뷰클래스들은 유틸 클래스로 만든다.<br />
+그리고 상황에 맞게, 인스턴스가 없는 클래스 같은 경우 유틸 클래스로 만들어 효율적으로 관리할 수 있을 것 같다.</p>
 
         
       </section>
@@ -420,6 +427,46 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="permalink">2022.02.15 인스턴스 메서드 vs 클래스 메서드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">static 메서드는 언제 사용해야 하나?
+</p>
+  </article>
+</div>
+
         
           
 
@@ -540,47 +587,6 @@
     <p class="archive__item-excerpt" itemprop="description">스트림 Colloctors.joining()
 상대방 커밋 이력과 코드 가져오기
 </p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/til/Junit/" rel="permalink">2022.02.09 Junit
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다.
-이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다.
-지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해...</p>
   </article>
 </div>
 

@@ -260,7 +260,7 @@
   <ul class="nav__items" id="category_tag_menu">
       <!--전체 글 수-->
       <li>
-            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">6</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">7</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
       </li>
       <li>
         <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
@@ -271,7 +271,7 @@
                 <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
                 
                     
-                        <li><a href="/categories/java" class="">JAVA (5)</a></li>
+                        <li><a href="/categories/java" class="">JAVA (6)</a></li>
                     
                 
                     
@@ -289,7 +289,7 @@
                     
                 
                     
-                        <li><a href="/categories/til" class="">TIL (4)</a></li>
+                        <li><a href="/categories/til" class="">TIL (5)</a></li>
                     
                 
             </ul>
@@ -350,6 +350,36 @@
         
         <h2 id="스트림-colloctorsjoining">스트림 Colloctors.joining()</h2>
 <h2 id="상대방-커밋-이력과-코드-가져오기">상대방 커밋 이력과 코드 가져오기</h2>
+
+<ul>
+  <li><strong>git remote add <code class="language-plaintext highlighter-rouge">축약할 이름</code> <code class="language-plaintext highlighter-rouge">가져올 상대의 저장소</code></strong></li>
+</ul>
+
+<p>내 Local git과 가져올 Github의 저장소의 주소를 연결시켜주기 위해 이 작업이 필요하다.
+축약할 이름은 자기가 편한 이름으로 지어주면 된다.
+보통 자주 사용하는 <code class="language-plaintext highlighter-rouge">origin</code>도 하나의 이름이다.
+git clone 을 하면 자동으로 clone 한 저장소와 연결이 된다. 그 때, 자동으로 origin 이라고 이름이 지어진다.</p>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>git fetch <code class="language-plaintext highlighter-rouge">축약이름</code> <code class="language-plaintext highlighter-rouge">브랜치명</code></strong></li>
+</ul>
+
+<p>이렇게 작성을 해주면, 내가 입력한 브랜치의 코드들과 커밋만 가져와 준다.</p>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>git merge <code class="language-plaintext highlighter-rouge">축약이름</code>/ <code class="language-plaintext highlighter-rouge">브랜치</code></strong></li>
+</ul>
+
+<p>커밋 이력은 git log를 통해 확인할 수 있다.
+이 작업을 하면, 코드와 커밋 이력이 내 로컬 저장소에 생기게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/154097981-42ca3527-d5f4-4624-b1ad-4e21edf885f9.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/154098199-df2fdacf-733c-49a7-97bf-920496a52f43.png" alt="image" /></p>
 
         
       </section>
@@ -417,6 +447,46 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="permalink">2022.02.15 인스턴스 메서드 vs 클래스 메서드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">static 메서드는 언제 사용해야 하나?
+</p>
+  </article>
+</div>
+
         
           
 
@@ -536,47 +606,6 @@
 
     <p class="archive__item-excerpt" itemprop="description">정규 표현식
 </p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/til/Junit/" rel="permalink">2022.02.09 Junit
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다.
-이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다.
-지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해...</p>
   </article>
 </div>
 
