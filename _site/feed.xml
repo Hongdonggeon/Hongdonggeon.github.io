@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-14T11:59:41+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">2022.02.13 TIL</title><link href="http://localhost:4000/java/til/TIL/" rel="alternate" type="text/html" title="2022.02.13 TIL" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/til/TIL</id><content type="html" xml:base="http://localhost:4000/java/til/TIL/"><![CDATA[<h2 id="함수-vs-메서드">함수 vs 메서드</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-15T19:31:26+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">2022.02.13 TIL</title><link href="http://localhost:4000/java/til/2022.02.13-TIL/" rel="alternate" type="text/html" title="2022.02.13 TIL" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/til/2022.02.13%20TIL</id><content type="html" xml:base="http://localhost:4000/java/til/2022.02.13-TIL/"><![CDATA[<h2 id="함수-vs-메서드">함수 vs 메서드</h2>
 <p>모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다.<br />
 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다.<br />
 함수와 메서드의 용어에 대해서 생각해보게 되었다.
@@ -6,24 +6,27 @@
 
 <h3 id="함수">함수</h3>
 <p>프로그래밍 언어에 있어서 함수라는 것은 어떠한 기능을 수행하는 것이다.
-<br /><br /></p>
+<br /></p>
 
 <h3 id="메서드">메서드</h3>
 <p>메서드도 함수처럼 어떠한 기능을 수행하는 것인데, 차이가 있다면 메서드는 클래스와 연관되어 있는 함수라는 것이다.<br /> 
  클래스 내에 선언되어 있는 함수가 바로 메서드다. 
- <br />
  <br /></p>
 
-<p>### 정리</p>
+<h3 id="정리">정리</h3>
 
-<p><strong>클래스 및 객체와 연관되어 있는 것이라면 메서드고, 그것들과 상관없이 독립적으로 존재하는 것은 함수다.<br /> 
- 함수가 메서드보다 더 큰 개념이라고 생각할 수 있다.</strong></p>
+<p><strong>클래스 및 객체와 연관되어 있는 것이라면 메서드고, 그것들과 상관없이 독립적으로 존재하는 것은 함수다. 함수가 메서드보다 더 큰 개념이라고 생각할 수 있다.</strong>
+ Java 클래스에서 함수라는 용어를 사용하지 않았던 것은, Java는 모두 클래스로 이루어져있고 클래스 밖에 어떠한 것도 선언할 수 없기 때문이었다.</p>
 
-<p>Java 클래스에서 함수라는 용어를 사용하지 않았던 것은, Java는 모두 클래스로 이루어져있고 클래스 밖에 어떠한 것도 선언할 수 없기 때문이었다.</p>
+<p><br />
+<br /></p>
 
-<p>## TDA(Tell don’t ask) 법칙</p>
+<h2 id="tdatell-dont-ask-법칙">TDA(Tell don’t ask) 법칙</h2>
 
-<p>## 커밋</p>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[함수 vs 메서드 모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다. 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다. 함수와 메서드의 용어에 대해서 생각해보게 되었다.]]></summary></entry><entry><title type="html">Java 8에서는 무슨일이 일어났는가?</title><link href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="alternate" type="text/html" title="Java 8에서는 무슨일이 일어났는가?" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EC%9E%90%EB%B0%94%208%EC%97%90%EC%84%9C%EB%8A%94%20%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80</id><content type="html" xml:base="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/"><![CDATA[<h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
+<p><br />
+<br /></p>
+
+<h2 id="커밋">커밋</h2>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[함수 vs 메서드 모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다. 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다. 함수와 메서드의 용어에 대해서 생각해보게 되었다.]]></summary></entry><entry><title type="html">Java 8에서는 무슨일이 일어났는가?</title><link href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="alternate" type="text/html" title="Java 8에서는 무슨일이 일어났는가?" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EC%9E%90%EB%B0%94%208%EC%97%90%EC%84%9C%EB%8A%94%20%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80</id><content type="html" xml:base="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/"><![CDATA[<h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
 
 <p>자바 8은 간결한 코드, 멀티코어 프로세서의 쉬운 활용이라는 두 가지 요구사항을 기반으로 한다.<br /></p>
 
@@ -205,12 +208,12 @@
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">default</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
       <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
   <span class="o">}</span>
-</code></pre></div></div>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[자바 8, 9, 10, 11 무슨일이 일어나고 있는가]]></summary></entry><entry><title type="html">2022.02.11 TIL</title><link href="http://localhost:4000/til/java/TIL/" rel="alternate" type="text/html" title="2022.02.11 TIL" /><published>2022-02-11T00:00:00+09:00</published><updated>2022-02-11T00:00:00+09:00</updated><id>http://localhost:4000/til/java/TIL</id><content type="html" xml:base="http://localhost:4000/til/java/TIL/"><![CDATA[<h2 id="스트림-colloctorsjoining">스트림 Colloctors,joining()</h2>
-<h2 id="상대방-커밋-이력과-코드-가져오기">상대방 커밋 이력과 코드 가져오기</h2>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[스트림 Colloctors,joining() 상대방 커밋 이력과 코드 가져오기]]></summary></entry><entry><title type="html">2022.02.10 TIL</title><link href="http://localhost:4000/til/java/TIL/" rel="alternate" type="text/html" title="2022.02.10 TIL" /><published>2022-02-10T00:00:00+09:00</published><updated>2022-02-10T00:00:00+09:00</updated><id>http://localhost:4000/til/java/TIL</id><content type="html" xml:base="http://localhost:4000/til/java/TIL/"><![CDATA[<h2 id="정규-표현식">정규 표현식</h2>
+</code></pre></div></div>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[자바 8, 9, 10, 11 무슨일이 일어나고 있는가]]></summary></entry><entry><title type="html">2022.02.11 TIL</title><link href="http://localhost:4000/til/java/2022.02.11-TIL/" rel="alternate" type="text/html" title="2022.02.11 TIL" /><published>2022-02-11T00:00:00+09:00</published><updated>2022-02-11T00:00:00+09:00</updated><id>http://localhost:4000/til/java/2022.02.11%20TIL</id><content type="html" xml:base="http://localhost:4000/til/java/2022.02.11-TIL/"><![CDATA[<h2 id="스트림-colloctorsjoining">스트림 Colloctors,joining()</h2>
+<h2 id="상대방-커밋-이력과-코드-가져오기">상대방 커밋 이력과 코드 가져오기</h2>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[스트림 Colloctors,joining() 상대방 커밋 이력과 코드 가져오기]]></summary></entry><entry><title type="html">2022.02.10 TIL</title><link href="http://localhost:4000/til/java/2022.02.10-TIL/" rel="alternate" type="text/html" title="2022.02.10 TIL" /><published>2022-02-10T00:00:00+09:00</published><updated>2022-02-10T00:00:00+09:00</updated><id>http://localhost:4000/til/java/2022.02.10%20TIL</id><content type="html" xml:base="http://localhost:4000/til/java/2022.02.10-TIL/"><![CDATA[<h2 id="정규-표현식">정규 표현식</h2>
 
 <h2 id="팩토리-메서드-패턴">팩토리 메서드 패턴</h2>
 
-<h2 id="유틸-클래스">유틸 클래스</h2>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[정규 표현식]]></summary></entry><entry><title type="html">2022.02.09 TIL</title><link href="http://localhost:4000/til/TIL/" rel="alternate" type="text/html" title="2022.02.09 TIL" /><published>2022-02-09T00:00:00+09:00</published><updated>2022-02-09T00:00:00+09:00</updated><id>http://localhost:4000/til/TIL</id><content type="html" xml:base="http://localhost:4000/til/TIL/"><![CDATA[<h2 id="junit">Junit</h2>
+<h2 id="유틸-클래스">유틸 클래스</h2>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[정규 표현식]]></summary></entry><entry><title type="html">2022.02.09 TIL</title><link href="http://localhost:4000/til/2022.02.09-TIL/" rel="alternate" type="text/html" title="2022.02.09 TIL" /><published>2022-02-09T00:00:00+09:00</published><updated>2022-02-09T00:00:00+09:00</updated><id>http://localhost:4000/til/2022.02.09%20TIL</id><content type="html" xml:base="http://localhost:4000/til/2022.02.09-TIL/"><![CDATA[<h2 id="junit">Junit</h2>
 <ul>
   <li>assertThatExceptionOfType</li>
   <li>assertThatIoException</li>

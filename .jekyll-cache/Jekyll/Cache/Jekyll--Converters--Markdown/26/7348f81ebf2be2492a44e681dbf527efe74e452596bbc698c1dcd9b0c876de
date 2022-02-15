@@ -1,10 +1,10 @@
-I"�
+I"�
 <div class="list__item">
   <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/TIL/" rel="permalink">2022.02.13 TIL
+        <a href="/java/til/2022.02.13-TIL/" rel="permalink">2022.02.13 TIL
 </a>
       
     </h2>
@@ -41,42 +41,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/til/java/TIL/" rel="permalink">2022.02.10 TIL
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">정규 표현식
-</p>
-  </article>
-</div>
-
-<div class="list__item">
-  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/til/java/TIL/" rel="permalink">2022.02.11 TIL
+        <a href="/til/java/2022.02.11-TIL/" rel="permalink">2022.02.11 TIL
 </a>
       
     </h2>
@@ -112,7 +77,42 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/til/TIL/" rel="permalink">2022.02.09 TIL
+        <a href="/til/java/2022.02.10-TIL/" rel="permalink">2022.02.10 TIL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">정규 표현식
+</p>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/til/2022.02.09-TIL/" rel="permalink">2022.02.09 TIL
 </a>
       
     </h2>

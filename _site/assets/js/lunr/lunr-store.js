@@ -8,25 +8,25 @@ var store = [{
         "title": "2022.02.09 TIL",
         "excerpt":"Junit     assertThatExceptionOfType   assertThatIoException   @DisplayName   @ParameterizedTest   @CsvSource  ","categories": ["til"],
         "tags": [],
-        "url": "/til/TIL/",
+        "url": "/til/2022.02.09-TIL/",
         "teaser": null
       },{
         "title": "2022.02.10 TIL",
         "excerpt":"정규 표현식   팩토리 메서드 패턴   유틸 클래스  ","categories": ["til","java"],
         "tags": [],
-        "url": "/til/java/TIL/",
+        "url": "/til/java/2022.02.10-TIL/",
         "teaser": null
       },{
         "title": "2022.02.11 TIL",
         "excerpt":"스트림 Colloctors,joining()  상대방 커밋 이력과 코드 가져오기  ","categories": ["til","java"],
         "tags": [],
-        "url": "/til/java/TIL/",
+        "url": "/til/java/2022.02.11-TIL/",
         "teaser": null
       },{
         "title": "2022.02.13 TIL",
         "excerpt":"함수 vs 메서드 모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다. 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다. 함수와 메서드의 용어에 대해서 생각해보게 되었다. 함수 프로그래밍 언어에 있어서 함수라는 것은...","categories": ["java","til"],
         "tags": [],
-        "url": "/java/til/TIL/",
+        "url": "/java/til/2022.02.13-TIL/",
         "teaser": null
       },{
         "title": "Java 8에서는 무슨일이 일어났는가?",
