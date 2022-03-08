@@ -1,5 +1,5 @@
 ---
-title: 2022.02.19 Controller는 무슨 역할을 하는가?
+title: Controller는 무슨 역할을 하는가?
 toc: true
 toc_sticky: true
 categories:
