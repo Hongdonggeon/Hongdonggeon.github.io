@@ -1,107 +1,242 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-16T02:49:12+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">2022.02.15 인스턴스 메서드 vs 클래스 메서드</title><link href="http://localhost:4000/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="alternate" type="text/html" title="2022.02.15 인스턴스 메서드 vs 클래스 메서드" /><published>2022-02-15T00:00:00+09:00</published><updated>2022-02-15T00:00:00+09:00</updated><id>http://localhost:4000/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%20%EB%A9%94%EC%84%9C%EB%93%9C%20vs%20%ED%81%B4%EB%9E%98%EC%8A%A4%20%EB%A9%94%EC%84%9C%EB%93%9C</id><content type="html" xml:base="http://localhost:4000/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/"><![CDATA[<h2 id="static-메서드는-언제-사용해야-하나">static 메서드는 언제 사용해야 하나?</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-10T11:10:35+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">협력하는 객체들의 공동체</title><link href="http://localhost:4000/java/%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98-%EA%B3%B5%EB%8F%99%EC%B2%B4/" rel="alternate" type="text/html" title="협력하는 객체들의 공동체" /><published>2022-03-05T00:00:00+09:00</published><updated>2022-03-05T00:00:00+09:00</updated><id>http://localhost:4000/java/%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94%20%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98%20%EA%B3%B5%EB%8F%99%EC%B2%B4</id><content type="html" xml:base="http://localhost:4000/java/%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98-%EA%B3%B5%EB%8F%99%EC%B2%B4/"><![CDATA[<h3 id="객체지향이란-뭘까">객체지향이란 뭘까?</h3>
 
-<p>평소에 static 메서드의 사용 여부에 대해 많이 고민이 되는 것 같다.
-자동차 경주 게임 미션을 하면서도, 고민이 되는 경우가 있었다.
-일단, 게임에 있어서 판정을 해주는 Referee 클래스 이다.</p>
+<p>객체지향이란 실세계를 직접적이고 직관적으로 모델링할 수 있는 패러다임이라고들 한다.<br />
+현실 세계를 최대한 유사하게 모방해 소프트웨어 내부로 옮겨오는 작업이라는 것인데, 과연 이게 맞는 말일까?<br />
+철학적인 개념을 설명하는 것은 적합하나 객체 지향 분석, 설계를 설명하기에는 적합하지 않다.<br />
+객체와 사물간의 개념적 거리는 유사성을 찾기 어려울 정도로 매우 멀다.<br />
+ex) 실세계에서의 방화벽, 소프트웨어에서 방화벽</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Referee</span> <span class="o">{</span>
-	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MOVE_CRITERIA</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+<p>객체 지향의 목표는 실세계를 모방하는 것이 아니라, 새로운 세계를 창조하는 것이다.<br />
+고객과 사용자를 만족시킬 수 있는 신세계를 창조하는 것이다.<br /></p>
 
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">canCarMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">randomValue</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">randomValue</span> <span class="o">&gt;=</span> <span class="no">MOVE_CRITERIA</span><span class="o">;</span>
-	<span class="o">}</span>
+<p>그러면 객체를 현실 세계의 생명체에 비유하는 이유는 뭘까?<br />
+객체의 <strong>상태</strong>와 <strong>행위</strong>를 <strong>캡슐화</strong>하는 소프트웨어 객체의 <strong>자율성</strong>을 설명하는데 효과적이다.<br />
+또한 객체끼리 <strong>메시지</strong>를 주고받으며 목표를 달성하기 위해 <strong>협력</strong>하는 객체들의 관계를 설명하는데 적합하다.<br />
+실세계의 사물을 기반으로 객체를 식별하고 구현까지 이어가는 개념은 객체지향 설계의 핵심 사상인 <strong>연결완전성</strong>을 설명하는데 적합한 틀을 제공한다.<br /></p>
 
-	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">judgeWinner</span><span class="o">(</span><span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxPosition</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-			<span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">isPosition</span><span class="o">(</span><span class="n">maxPosition</span><span class="o">))</span>
-			<span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<p><strong>실세계의 모방은 실무적인 관점에서는 부적합하지만 객체지향이라는 용어에 담긴 기본사상을 이해하고 학습하는데는 매우 효과적이다.</strong></p>
 
-<p>고민 끝에, Referee 클래스는 유틸리티 클래스로 설계하였다.
-그때, 유틸리티 클래스 설계로 결정한 이유로는 여러가지가 있다.</p>
+<p><br /></p>
+
+<h4 id="커피숍-시스템">커피숍 시스템</h4>
+
+<p>커피를 주문하고 제조하는 과정은 <strong>역할, 책임, 협력</strong>이라는 조화를 이루며 완성된다.</p>
 
 <ul>
-  <li>여러 개의 객체가 필요가 없다는 점</li>
-  <li>인스턴스 필드가 없다는 점</li>
+  <li>손님, 캐시어, 바리스타 사이의 <strong>협력 관계</strong></li>
+  <li>주문하는 손님, 주문을 받는 캐시어, 커피를 제조하는 바리스타 <strong>모두 역할이 존재한다.</strong></li>
+  <li>손님, 캐시어, 바리스타는 협력하는 과정속에서 자신이 맡은 바 <strong>책임</strong>을 다한다.</li>
 </ul>
 
-<p>이때만 해도, 인스턴스 필드가 인스턴스의 상태 정보를 나타내는지는 몰랐다.
-인스턴스 필드를 상태 변수라고도 이야기 한다고 한다.
-무조건적이진 않겠지만, 인스턴스화 할 클래스로 만들 것인지, 유틸리티 클래스로 만들 것인지 고민이 된다면, 인스턴스 필드의 여부를 생각해보면 될 것 같다.</p>
-
-<p>다시 생각해봤을 때, Referee 클래스는 아무런 상태 변수도 없기 때문에 유틸리티 클래스로 만들어 주길 잘한 것 같다.</p>
+<p><strong>객체 지향에서는 역할, 책임, 협력이 가장 중요하다.</strong></p>
 
 <p><br /></p>
 
-<p>두번재는, 모든 로직에 대해서 조립을 해주는 Game 클래스다.</p>
+<h3 id="요청과-응답으로-구성된-협력">요청과 응답으로 구성된 협력</h3>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Game</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">WINNER_NAME_DELIMITER</span> <span class="o">=</span> <span class="s">", "</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">NEGATIVE_ERROR_MESSAGE</span> <span class="o">=</span> <span class="s">"[ERROR] 음수를 입력할 수 없습니다"</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">ERROR_CRITERIA_VALUE_ZERO</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<p>사람들은 스스로 해결하지 못하는 문제와 마주치면 지식을 알고 있거나 서비스를 제공할 수 있는 사람에게 <strong>요청</strong>한다.<br />
+하나의 문제를 해결하기 위해 다수의 사람 혹은 역할이 필요하기 때문에 한 사람에 대한 요청이 또 다른 사람에게 요청을 유발한다.</p>
 
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">();</span>
-  
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">Cars</span> <span class="n">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="nc">CarFactory</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">inputCarNames</span><span class="o">()));</span>
-        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carSet</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getCars</span><span class="o">();</span>
-        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">validateGameCount</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">inputGameCount</span><span class="o">());</span>
-        <span class="nc">OutputView</span><span class="o">.</span><span class="na">printGameResultTitle</span><span class="o">();</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">play</span><span class="o">(</span><span class="n">carSet</span><span class="o">);</span>
-            <span class="n">showResult</span><span class="o">(</span><span class="n">carSet</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="n">showWinner</span><span class="o">(</span><span class="nc">Referee</span><span class="o">.</span><span class="na">judgeWinner</span><span class="o">(</span><span class="n">carSet</span><span class="o">,</span> <span class="n">cars</span><span class="o">.</span><span class="na">getMaxPosition</span><span class="o">()));</span>
-    <span class="o">}</span>
-  
-     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">play</span><span class="o">(</span><span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
-            <span class="kt">boolean</span> <span class="n">canCarMove</span> <span class="o">=</span> <span class="nc">Referee</span><span class="o">.</span><span class="na">canCarMove</span><span class="o">(</span><span class="n">makeRandomValue</span><span class="o">());</span>
-            <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">canCarMove</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-  
-  <span class="o">....</span>
+<p><img src="https://user-images.githubusercontent.com/67885363/156815373-733114af-8bf7-4a50-a81d-291688eccdb7.png" alt="image" /></p>
+
+<p><br />
+요청을 받은 사람은 주어진 책임을 다하면서 지식이나 서비스를 제공한다.<br />
+즉, 다른 사람의 요청에 응답한다</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/156815536-a362c3b6-c03b-4478-86b3-079183b67f8a.png" alt="image" />.</p>
+
+<p><strong>요청과 응답을 통해 다른 사람과 협력하여 문제를 해결한다.</strong></p>
+
+<p><br /></p>
+
+<h3 id="역할과-책임">역할과 책임</h3>
+
+<p>사람들은 협력하는 과정 속에서 특정한 역할을 부여받는다.<br />
+역할은 협력에 참여하는 특정한 사람이 협력 안에서 차지하는 책임이나 임무를 의미한다.<br />
+역할이라는 단어는 의미적으로 책임이라는 개념을 내포한다.<br />	
+특정한 역할은 특정한 책임을 암시한다.</p>
+
+<ul>
+  <li>손님은 커피를 주문할 책임</li>
+  <li>캐시어는 주문 내용을 바리스타에게 전달할 책임, 커피가 준비됐다는 사실을 손님에게 알릴 책임</li>
+  <li>바리스타는 커피를 제조할 책임</li>
+</ul>
+
+<p>역할과 책임은 중요한 개념을 제시한다.</p>
+
+<ul>
+  <li>
+    <p><strong>여러 사람이 동일한 역할을 수행할 수 있다.</strong></p>
+
+    <ul>
+      <li>ex) 손님 입장에서 A 캐시어든 B캐시어든 주문만 받아주면 되고, 주문한 커피만 주면 된다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>역할은 대체 가능성을 의미한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>책임을 수행하는 방법은 자율적으로 선택할 수 있다.</strong></p>
+
+    <ul>
+      <li>동일한 요청을 받더라도 바리스타마다 서로 <strong>다른 방식으로 요청</strong>을 처리할 수 있다. (다른 방식들을 <strong>다형성</strong>이라고 한다.)</li>
+      <li>ex) A 바리스타는 카푸치노 거품을 이용해 무늬를 만들고, B 바리스타는 아메리카노 향을 좀더 향기롭게 만들기도 한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>한 사람이 동시에 여러 역할을 수행할 수 있다.</strong></p>
+
+    <ul>
+      <li>ex) 한 사람이 캐시어와 바리스타 역할을 동시에 수행하는 것도 가능하다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="역할-책임-협력">역할, 책임, 협력</h3>
+
+<p><strong>기능을 구현하기 위해 협력하는 객체들</strong><br />
+사람이라는 단어를 객체로, 에이전트의 요청을 메시지로, 에이전트가 요청을 처리하는 방법을 메서드로 바꾸면 객체지향이라는 문맥으로 옮겨올 수 있다.</p>
+
+<p><strong>역할과 책임을 수행하며 협력하는 객체들</strong><br />
+협력의 핵심은 특정한 책임을 수행하는 역할들 간의 <strong>연쇄적인 요청과 응답</strong>을 통해 목표를 달성하는 것이다.<br />
+목표는 더 작은 <strong>책임으로 분할</strong>되고 책임을 수행할 수 있는 <strong>역할을 가진 사람에 의해 수행</strong>된다.<br />
+협력에 참여하는 개인은 책임을 수행하기 위해 다른 사람에게 도움을 요청하기도 하며, 연쇄적인 요청과 응답으로 구성되는 협력 관계가 완성된다.</p>
+
+<p><strong>시스템은 역할과 책임을 수행하는 객체로 분할되고 시스템의 기능은 객체 간의 연쇄적인 요청과 응답의 흐름으로 구성된 협력으로 구현된다.</strong><br />
+객체 지향 설계는 객체에게 적절한 책임을 할당하는 것에서 시작된다. (객체 지향 설계 품질을 결정하는 가장 중요한 요소)<br />
+책임이 불분명한 객체는 애플리케이션의 미래 역시 불분명하게 만든다.<br />
+객체 역시 위의 사람의 역할과 유사한 특징을 가진다.</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[객체지향이란 뭘까?]]></summary></entry><entry><title type="html">람다 표현식(2)</title><link href="http://localhost:4000/java/%EB%9E%8C%EB%8B%A4-%ED%91%9C%ED%98%84%EC%8B%9D(2)/" rel="alternate" type="text/html" title="람다 표현식(2)" /><published>2022-03-04T00:00:00+09:00</published><updated>2022-03-04T00:00:00+09:00</updated><id>http://localhost:4000/java/%EB%9E%8C%EB%8B%A4%20%ED%91%9C%ED%98%84%EC%8B%9D(2)</id><content type="html" xml:base="http://localhost:4000/java/%EB%9E%8C%EB%8B%A4-%ED%91%9C%ED%98%84%EC%8B%9D(2)/"><![CDATA[<h2 id="메서드-참조">메서드 참조</h2>
+
+<p>메서드 참조를 이용하면 기존의 메서드 정의를 재활용하여 람다처럼 전달할 수 있다.</p>
+
+<p><img width="655" alt="image" src="https://user-images.githubusercontent.com/67885363/156711103-49ce275e-5a4d-47d9-9e5d-8805f6d7476e.png" /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">((</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> 
+              <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()));</span>
 </code></pre></div></div>
 
-<p>지금 다시 보니, 애매한 것 같다.
-인스턴스 필드는 없는데, 메서드들은 다 인스턴스 메서드로 선언이 되어 있다.
-모든 메서드를 static 메서드로 바꾸면, 유틸리티 클래스가 될 것 같은데,,,,
-무언가 모든 메서드를 static 메서드를 만들기엔 부담스럽다는 생각이 든다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="nl">Apple:</span><span class="o">:</span><span class="n">getWeight</span><span class="o">));</span>
+</code></pre></div></div>
 
-<p>그리고, 이 Game 클래스의 <code class="language-plaintext highlighter-rouge">play()</code>는 상태를 Car들의 position값을 변하게 해준다,
-즉, 객체의 상태를 변화시켜준다.</p>
+<p>메서드 참조는 특정 메서드만을 호출하는 람다의 축약형이다.
+메서드를 어떻게 호출하는지 설명하는 것이 아닌 ‘이 메서드를 직접 호출해’라고 명령하는 느낌이다.
+명시적으로 메서드명을 참조함으로써 가독성을 높여줄 수 있다.
+메서드명 앞에 <code class="language-plaintext highlighter-rouge">::</code>를 붙이는 방식으로 메서드 참조를 활용할 수 있다.
+<strong>하지만 실제로 메서드를 호출하는 것은 아니다.</strong>
+메서드 참조는 람다 표현식을 단지 축약한것으로 괄호는 필요가 없다.
+메서드 참조는 새로운 기능이 아니라 하나의 메서드를 참조하는 람다를 편리하게 표현할 수 있는 문법으로 간주할 수 있다.</p>
 
-<p>Car들을 관리해주는 Cars를 인스턴스 필드로 사용해서 리팩토링 해봐야겠다.</p>
+<h3 id="메서드-참조를-만드는-방법">메서드 참조를 만드는 방법</h3>
 
-<p><br /></p>
+<p>Function&lt;T,R&gt; -&gt; R apply(T t)</p>
 
-<h2 id="인스턴스-메서드">인스턴스 메서드</h2>
+<p>Predicate<T> -&gt; boolean test(T t)</T></p>
 
-<p>인스턴스의 상태를 변경하거나 상태 정보를 반환할 때 사용하는 메소드다.
-인스턴스를 생성한 후, 메세지를 보낼 수 있다.</p>
+<ul>
+  <li>정적 메서드 참조</li>
+</ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">canCarMove</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">canCarMove</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">position</span><span class="o">++;</span>
-        <span class="o">}</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">parseInt</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">NumberFormatException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">parseInt</span><span class="o">(</span><span class="n">s</span><span class="o">,</span><span class="mi">10</span><span class="o">);</span>
+    <span class="o">}</span>
+		
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">toNumbers</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">numberValues</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">numberValues</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Integer:</span><span class="o">:</span><span class="n">parseInt</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
     <span class="o">}</span>
 </code></pre></div></div>
 
+<ul>
+  <li>다양한 형식의 인스턴스 메서드 참조</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">trim</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">isLatin1</span><span class="o">()</span> <span class="o">?</span> <span class="nc">StringLatin1</span><span class="o">.</span><span class="na">trim</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+                                <span class="o">:</span> <span class="nc">StringUTF16</span><span class="o">.</span><span class="na">trim</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">ret</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="k">this</span> <span class="o">:</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">toStrings</span><span class="o">(</span><span class="nc">String</span> <span class="n">stringArray</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">stringArray</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="no">DELIMITER</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>기존 객체의 인스턴스 메서드 참조</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isContainLottoNumber</span><span class="o">(</span><span class="nc">LottoNumber</span> <span class="n">lottoNumber</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">winningLotto</span><span class="o">.</span><span class="na">isContainLottoNumber</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Result</span> <span class="nf">judge</span><span class="o">(</span><span class="nc">WinningLotto</span> <span class="n">winningLotto</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">hitCount</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">lotto</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">winningLotto:</span><span class="o">:</span><span class="n">isContainLottoNumber</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">count</span><span class="o">();</span>
+      <span class="o">...</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>비공개 헬퍼 메서드를 정의한 상황에서 유용하게 활용할 수 있다.</p>
+
+<blockquote>
+  <p>헬퍼 클래스란?</p>
+
+  <p>helper class는 일부 기능을 제공하여 도와주지만, 에플리케이션이나 클래스의 주목적으로는 사용될 수 없다고 한다. 
+정리하면 helper class는 보조적인 역할로 사용되며, 꼭 필요하지는 않다고 할 수 있다.
+하지만 조금 달리 보면 utility class와 helper class는 비슷하다고 생각할 수도 있습니다. utility class도 보조적인 역할로 사용되는데 말이죠.</p>
+
+  <p>하지만 utility class는 모든 메소드가 정적 메소드입니다.
+일반적으로 helper class는 모든 메소드가 정적 메소드이지 않으며, 여러 개의 helper class의 인스턴스가 있을 수 있습니다.</p>
+
+  <p>또한, helper class는 private로 선언하여 다른 곳에서의 접근을 막도록 하는 것이 좋습니다. 
+이는 특정 클래스를 도와주기 위해 helper class를 만든 것이지, 외부에서 접근하여 사용할 목적으로 만든 것이 아니기 때문입니다. 그리고 다른 helper class와 의존성이 생기지 않도록 해야 합니다.</p>
+</blockquote>
+
+<p>컴파일러는 람다 표현식의 형식을 검사하던 방식과 비슷한 과정으로 메서드 참조가 주어진 함수형 인터페이스와 호환하는지 확인한다.
+즉, 메서드 참조는 컨텍스트의 형식과 일치해야 한다.</p>
+
 <p><br /></p>
 
-<h2 id="클래스-메서드">클래스 메서드</h2>
+<h3 id="생성자-참조">생성자 참조</h3>
 
-<p>인스턴스의 상태와는 관련이 없다.
-인스턴스를 생성하지 않은 상태에서도 호출이 가능하다.
-클래스 메서드는 유틸리티 메서드라고 부른다.
-static이 붙은 변수나 메서드들은 JVM이 시작될 때, static 영역에 저장되고 프로그램이 끝날 때까지 사라지지 않고 메모리에 남아있다.</p>
+<p><code class="language-plaintext highlighter-rouge">ClassName::new</code>처럼 클래스명과 new 키워드를 이용해서 기존 생성자의 참조를 만들 수 있다.
+이것은 정적 메서드의 참조를 만드는 방법과 비슷하다.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">of</span><span class="o">(</span><span class="nc">String</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+<ul>
+  <li>인수가 없는 생성자</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carGenerator</span> <span class="o">=</span> <span class="nl">Car:</span><span class="o">:</span><span class="k">new</span><span class="o">;</span>
+    <span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carSupplier</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">createCarList</span><span class="o">(</span><span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carGenerator</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numberOfCar</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfCar</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">carList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">carGenerator</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">carList</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>인수가 있는 생성자</li>
+</ul>
+
+<p><img width="566" alt="image" src="https://user-images.githubusercontent.com/67885363/156728302-137292d7-52ad-4f0c-9020-544e4829610a.png" /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carGenerator</span> <span class="o">=</span> <span class="nl">Car:</span><span class="o">:</span><span class="k">new</span><span class="o">;</span>
+    <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carGenerator2</span> <span class="o">=</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">from</span><span class="o">(</span><span class="nc">String</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
         <span class="nc">String</span><span class="o">[]</span> <span class="n">arrNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span>
-        <span class="k">return</span>  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arrNames</span><span class="o">)</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arrNames</span><span class="o">)</span>
                 <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
                 <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span>
                 <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
@@ -110,537 +245,1440 @@ static이 붙은 변수나 메서드들은 JVM이 시작될 때, static 영역�
 
 <p><br /></p>
 
-<h2 id="static-메서드의-장단점">static 메서드의 장단점</h2>
+<h2 id="람다-메서드-참조-활용하기">람다, 메서드 참조 활용하기</h2>
 
-<h3 id="속도가-빨라지고-반복적인-사용에-효율적이다">속도가 빨라지고 반복적인 사용에 효율적이다.</h3>
+<p>자바 8의 List API의 sort를 이용해 사과 리스트를 정렬을 할 것인데, 객체들은 이 때 정렬 전략이 필요하다.</p>
 
-<p>메서드를 사용할 때, 객체를 생성해 줄 필요가 없으니 생성자를 호출할 필요가 없게 되고 속도가 빨라질 수밖에 없다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Comparator 객체를 인수로 받아 두 사과를 비교한다.
+객체 안에 동작을 포함시키는 방식으로 다양한 전략을 전달할 수 있는데 sort의 동작은 파라미터화된다라고 말할 수 있다.</p>
+
+<p><strong>1단계 : 코드 전달</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppleComparator</span> <span class="kd">implements</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="o">{</span> 
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">{</span> 
+    <span class="k">return</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span> 
+  <span class="o">}</span> 
+<span class="o">}</span> 
+
+<span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">new</span> <span class="nc">AppleComparator</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p><strong>2단계 : 익명 클래스 사용</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;()</span> <span class="o">{</span> 
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">{</span> 
+    <span class="k">return</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span> 
+  <span class="o">}</span> 
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>3단계 : 람다 표현식 사용</strong></p>
+
+<p>Comparator의 함수 디스크립터(T, T) -&gt; int를 사용해 람다 표현식으로 작성할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">((</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()));</span>
+
+<span class="c1">// 람다 표현식이 사용된 컨텍스트를 활용해 파라미터 형식을 추론하므로 한번 더 줄일 수 있다.</span>
+<span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">((</span><span class="n">a1</span><span class="o">,</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<p>Comparator는 Comparable 키를 추출해서 Comparator 객체로 만드는 Function 함수를 인수로 받는 정적 메서드 comparing을 포함한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="nc">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">((</span><span class="n">apple</span> <span class="n">a</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
+
+<span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="n">apple</span> <span class="o">-&gt;</span> <span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p><strong>4단계 : 메서드 참조</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="nl">Apple:</span><span class="o">:</span><span class="n">getWeight</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>코드의 의미도 더 명확해졌다.
+코드 자체로 Apple을 weight 별로 비교해서 inventory를 sort 하라는 의미를 전달할 수 있다.</p>
 
 <p><br /></p>
 
-<h3 id="객체-지향에서-멀어진다">객체 지향에서 멀어진다.</h3>
+<h2 id="람다-표현식을-조합할-수-있는-유용한-메서드">람다 표현식을 조합할 수 있는 유용한 메서드</h2>
 
-<p>static 메서드는 객체의 생명 주기와 관계없이 프로그램 시작부터 끝날 때까지 메모리에 남아있기 때문에 객체 지향이라는 키워드와는 멀어진다.
-객체 지향에서는, 객체들은 서로 관계를 맺고 메시지를 통해 정보를 교환하고 반환한다.
-정적 메서드는 객체에게 행위를 지시하는 것이 아닌 함수 호출에 불과하다.
-그리고 정적 메서드는 오버라이딩이 불가하므로 인터페이스에서는 사용할 수도 없게 된다.
-정적 메서드는 런타임 이전 컴파일시에 정적 바인딩이 이루어지기 때문에, 동적 바인딩도 불가능하다.</p>
+<p>여러 개의 람다 표현식을 조합해 복잡한 람다 표현식을 만들 수 있다.
+함수형 인터페이스가 제공하는 디폴트 메서드를 사용하면, 두 연산을 수행하거나 함수의 결과가 다른 함수의 입력이 되도록 조합할 수도 있다.</p>
 
-<p><br /></p>
+<h3 id="comparator-조합">Comparator 조합</h3>
 
-<h3 id="메모리-효율이-떨어질-수-있다">메모리 효율이 떨어질 수 있다.</h3>
+<p><strong>역정렬</strong></p>
 
-<p>런타임 중 동적으로 생성된 것들은 가비지 컬렉션의 대상이 되는데, 정적으로 할당된 static 영역은 대상이 아니다.
-static으로 할당된 영역이 커지면 가비지 컬렉션의 효율이 떨어지게 된다.
-static 영역은 프로그램이 끝날 때까지 메모리에서 내릴 수 없게 되므로 효율이 떨어질 수 있다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="nl">Apple:</span><span class="o">:</span><span class="n">getWeight</span><span class="o">).</span><span class="na">reversed</span><span class="o">());</span>
+</code></pre></div></div>
 
-<p><br />
- <br /></p>
+<p><strong>Comparator 연결</strong></p>
 
-<hr />
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="nl">Apple:</span><span class="o">:</span><span class="n">getWeight</span><span class="o">)</span> 
+               <span class="o">.</span><span class="na">reversed</span><span class="o">()</span> 
+               <span class="o">.</span><span class="na">thenComparing</span><span class="o">(</span><span class="nl">Apple:</span><span class="o">:</span><span class="n">getCountry</span><span class="o">));</span>
+</code></pre></div></div>
 
-<p>참고 <a href="https://tecoble.techcourse.co.kr/post/2020-07-16-static-method/">https://tecoble.techcourse.co.kr/post/2020-07-16-static-method/</a></p>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[static 메서드는 언제 사용해야 하나?]]></summary></entry><entry><title type="html">Java 8에서는 무슨일이 일어났는가?</title><link href="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="alternate" type="text/html" title="Java 8에서는 무슨일이 일어났는가?" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EC%9E%90%EB%B0%94%208%EC%97%90%EC%84%9C%EB%8A%94%20%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80</id><content type="html" xml:base="http://localhost:4000/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/"><![CDATA[<h1 id="자바-8-9-10-11-무슨일이-일어나고-있는가">자바 8, 9, 10, 11 무슨일이 일어나고 있는가</h1>
+<p>thenComparing은 함수로 인수로 받아 첫 번째 비교자에서 같다고 판단된 객체를 처리한다.</p>
 
-<p>자바 8은 간결한 코드, 멀티코어 프로세서의 쉬운 활용이라는 두 가지 요구사항을 기반으로 한다.<br /></p>
+<h3 id="predicate-조합">Predicate 조합</h3>
 
-<p>자바 8이 등장하기 이전의 자바 프로그램은 코어 중 하나만을 사용했다.<br />그래서 나머지 코어를 활용하려면 스레드를 사용하는 것이 좋다는 말이 있었다.<br />하지만 스레드를 사용하면 관리하기 어렵고 많은 문제가 발생할 수 있다는 단점이 있다.<br />자바 8에서는 병렬 실행을 새롭고 단순한 방식으로 접근할 수 있는 방법을 제공한다.<br /></p>
-
-<p><strong>자바 8의 새로운 기술</strong></p>
+<p>Predicate 인터페이스는 복잡한 프레디케이트를 만들 수 있도록 negate, and, or 세가지 메서드를 제공한다.</p>
 
 <ul>
-  <li>스트림 API -&gt; 병렬 연산 지원 (synchronized 키워드를 사용하지 않아도 된다.)</li>
-  <li>메서드에 코드를 전달하는 기법 -&gt; 동작 파라미터 구현 가능, 함수형 프로그래밍에서 많이 사용된다.</li>
-  <li>인터페이스의 디폴트 메서드 -&gt; 인터페이스의 구현체 클래스들을 다 수정하지 않아도 된다.</li>
+  <li>빨간 색이 아닌 사과 처럼 특정 프레디케이트를 반전시킬 때 <code class="language-plaintext highlighter-rouge">negate</code> 메서드를 사용할 수 있다.</li>
 </ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">notRedApple</span> <span class="o">=</span> <span class="n">redApple</span><span class="o">.</span><span class="na">negate</span><span class="o">();</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">and</code> 메서드를 이용해 빨간색이면서 무거운 사과를 선택하도록 람다를 조합할 수도 있다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nc">RedHeavyApple</span> <span class="o">=</span> <span class="n">redApple</span><span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">apple</span> <span class="o">-&gt;</span> <span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">or</code> 메서드를 이용해서 빨간색이면서 무거운 사과 또는 그냥 녹색사과 등의 조건을 만들 수 있다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nc">RedHeavyOrGreenApple</span> <span class="o">=</span> 
+  <span class="n">redApple</span><span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">apple</span> <span class="o">-&gt;</span> <span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">)</span> 
+  				<span class="o">.</span><span class="na">or</span><span class="o">(</span><span class="n">apple</span> <span class="o">-&gt;</span> <span class="no">GREEN</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<h3 id="function-조합">Function 조합</h3>
+
+<p>Function 인터페이스는 Function 인터페이스를 반환하는 andThen, compose 두 가지 디폴트 메서드를 제공한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">andThen</code> 메서드는 주어진 함수를 먼저 적용한 결과를 다른 함수의 입력으로 전달하는 함수를 반환한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> 
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span> 
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">andThen</span><span class="o">(</span><span class="n">g</span><span class="o">);</span> <span class="c1">//g(f(x))</span>
+
+<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">// 4를 반환</span>
+</code></pre></div></div>
+
+<ul>
+  <li>compose 메서드는 인수로 주어진 함수를 먼저 실행한 다음 그 결과를 외부 함수의 인수로 제공한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> 
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span> 
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="n">g</span><span class="o">);</span> <span class="c1">//f(g(x)) </span>
+
+<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">// 3을 반환</span>
+</code></pre></div></div>
+
+<p>여러 유틸리티 메서드를 조합해 다양한 변환 파이프라인을 만들 수 있다.
+헤더를 추가한 다음, 철자 검사를 하고, 마지막에 푸터를 추가하는 예이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">addHeader</span> <span class="o">=</span> <span class="nl">Letter:</span><span class="o">:</span><span class="n">addHeader</span><span class="o">;</span> 
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">transFormationPipeline</span> <span class="o">=</span> 
+  <span class="n">addHeader</span> <span class="o">.</span><span class="na">andThen</span><span class="o">(</span><span class="nl">Letter:</span><span class="o">:</span><span class="n">checkSpelling</span><span class="o">)</span> 
+            <span class="o">.</span><span class="na">andThen</span><span class="o">(</span><span class="nl">Letter:</span><span class="o">:</span><span class="n">addFooter</span><span class="o">);</span>
+</code></pre></div></div>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[메서드 참조]]></summary></entry><entry><title type="html">REST웹의 아키텍처 스타일</title><link href="http://localhost:4000/web/REST%EC%9B%B9%EC%9D%98-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%8A%A4%ED%83%80%EC%9D%BC/" rel="alternate" type="text/html" title="REST웹의 아키텍처 스타일" /><published>2022-03-03T00:00:00+09:00</published><updated>2022-03-03T00:00:00+09:00</updated><id>http://localhost:4000/web/REST%EC%9B%B9%EC%9D%98%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98%20%EC%8A%A4%ED%83%80%EC%9D%BC</id><content type="html" xml:base="http://localhost:4000/web/REST%EC%9B%B9%EC%9D%98-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%8A%A4%ED%83%80%EC%9D%BC/"><![CDATA[<h2 id="아키텍처-스타일의-중요성">아키텍처 스타일의 중요성</h2>
+
+<p>REST는 웹의 아키텍처 스타일이다.
+아키텍처 스타일은 아키텍처 패턴이라고도 하며, 복수의 아키텍처의 공통된 성질, 양식 등을 가리키는 말이다.
+아키텍처 스타일에는 MVC와 파이프 앤 필터, 이벤트 시스템 등이 있다.</p>
+
+<p>디자인 패턴은 마이크로 아키텍처 패턴이라고도 칭하며, 아키텍처 스타일보다 입도가 작은 클래스 등의 설게양식을 가리킨다.
+디자인과 디자인 패턴이 다르듯, 아키텍처와 아키텍처 스타일은 별개다.</p>
+
+<p>실제 시스템은 구체적인 아키텍처를 가지고 있고, 아키텍처를 설계할 때 마구잡이로 만드는 것이 아닌 아키텍처 스타일을 적용한다.
+시스템의 아키텍처를 결정할 때 나침반이 되는 것이 아키텍처 스타일이다.</p>
 
 <p><br /></p>
 
-<h2 id="자바-함수">자바 함수</h2>
+<h2 id="아키텍처-스타일로서의-rest">아키텍처 스타일로서의 REST</h2>
 
-<p>프로그래밍 언어에서 함수라는 용어는 메서드, 특히 정적 메서드와 같은 의미로 사용된다.<br />자바 8에서는 함수를 새로운 값의 형식으로 추가했다.<br />이는 멀티코어에서 병렬 프로그래밍을 활용할 수 있는 스트림과 연계될 수 있도록 함수를 만들었기 때문이다.</p>
+<p>REST는 네트워크 시스템의 아키텍처 스타일이다.
+네트워크 시스템의 아키텍처 스타일로서 가장 유명한 것은 <code class="language-plaintext highlighter-rouge">클라이언트/서버</code>다.
+웹도 <code class="language-plaintext highlighter-rouge">클라이언트/서버</code>다.</p>
 
-<ul>
-  <li>자바 프로그램에서의 조작할 수 있는 값 -&gt; primitive type과 객체의 값<br />ex) 42(int), “abc”(String), new HashMap()&lt;Integer, String&gt;</li>
-</ul>
+<p>웹의 아키텍처 스타일은 REST이기도 하지만, 클라이언트/서버이기도 하다. 이게 무슨 말인가?
+사실은 REST는 클라이언트 서버 구조에서 파생된 아키텍처 스타일이다.
+순수한 클라이언트/서버 아키텍처 스타일에 몇 가지 제약을 더해가면, REST라는 아키텍처 스타일이 된다.</p>
 
-<p><strong>프로그래밍 언어의 핵심은 값을 바꾸는 것이다.</strong><br />전통적으로 프로그래밍 언어에서는 조작할 수 있는 값을 일급값 또는 일급시민이라고 부른다.</p>
+<p>제약은 아키텍터 스타일에 있어서 중요한 개념이다.
+일반적으로 소프트웨어 아키텍처는 복수의 컴포넌트를 조합해 구현하는데, 각각의 컴포넌트가 따로 움직여서는 동작하지 않고, 각 컴포넌트에 제약을 부과해 간다. 그 결과, 각 컴포넌트가 협력하면서 동작하게 된다.</p>
 
-<p>또는 다양한 구조체(메서드, 클래스)가 값의 구조를 표현하는데 도움이 될 수 있다.<br />하지만 프로그램을 실행하는 동안 이러한 모든 구조체를 자유롭게 전달할 수는 없다.<br />이렇게 전달할 수 없는 구조체는 이급 시민이다. ex) 메서드, 클래스 -&gt; 그 자체로 값이 될 수 없다.</p>
-
-<p>메서드를 일급 시민으로 만들면 프로그래밍에 유용하게 활용할 수 있다. (자바8에서 이급 시민을 일급 시민으로 바꿀 수 있는 기능 추가)</p>
+<p>아키텍처 스타일은 특정 구현이나 아키텍처가 아니다.
+웹의 아키텍처와 구현은 REST 아키텍처 스타일을 따르고 있지만, 웹 이외의 아키텍처와 구현도 생각해 볼 수 있다.
+구현에서 추상도를 한 단계 올린 것이 아키텍처 스타일이다.
+아키텍처에서 추상도를 한 단계 더 올린 것이 아키텍처 스타일이다.</p>
 
 <p><br /></p>
 
-<h3 id="메서드와-람다를-일급-시민으로">메서드와 람다를 일급 시민으로</h3>
+<h2 id="리소스">리소스</h2>
 
-<p><strong>메서드 참조</strong></p>
+<p>REST에 있어서 중요한 개념의 하나로 리소스가 있다.
+REST의 해설에 앞서 리소스에 대해 설명을 하면, 일기예보, 사진, 논문 등 모두 리소스다.
+웹상에는 이 밖에도 다양한 리소스가 존재한다.
+리소스를 한마디로 설명하면, 웹상에 존재하는 이름을 가진 모든 정보가 된다.
+사물의 이름, 명사에는 그 자신과 다른 대상을 구별하여 가리키는 역할이 있다.
+리소스의 이름은 어떤 리소스를 다른 리소스와 구별하기 위한 것으로 중복이 되서는 안된다.</p>
 
 <ul>
-  <li>메서드 참조 사용하기 전</li>
+  <li>리소스의 이름이란 URI를 말한다.</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">File</span><span class="o">[]</span> <span class="n">hiddenFiles</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="s">","</span><span class="o">).</span><span class="na">listFiles</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileFilter</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">accept</span><span class="o">(</span><span class="nc">File</span> <span class="n">pathname</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">pathname</span><span class="o">.</span><span class="na">isHidden</span><span class="o">();</span>
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://mentorbooks.dothome.co.kr/IT/4864
+</code></pre></div></div>
+
+<p>리소스란 웹상의 정보이고, 전 세계의 리소스는 각각 URI로 의미 있는 이름을 가진다.
+URI를 이용함으로써, 프로그램은 리소스가 표현하는 정보에 접근할 수 있다.</p>
+
+<ul>
+  <li>리소스의 어드레스 가능성</li>
+</ul>
+
+<p>웹 URI 발명 이전에는 큰 파일을 어딘가의 서버에 저장해 두고 그 장소를 메일로 알려 줄 경우, 내용으로 쓸 수 밖에 없었다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/156796359-b87d6a5c-8279-45ba-93db-f28e146f464f.png" alt="image" /></p>
+
+<p>URI가 있는 현재는 특정 파일에 접근하는 방법을 일일히 설명할 필요가 없다.
+단순히 <code class="language-plaintext highlighter-rouge">ftp://example.com/public/data/sample_file.gz</code>라는 URI를 적어 액세스 하도록 하면 충분하다.</p>
+
+<ul>
+  <li>프로그램으로 해석해서 파일을 다운로드 하는 것은 아주 어려운 작업
+    <ul>
+      <li>메일에서 FTP 서버와 로그인 정보, 서버 내의 디렉터리 구조를 추출하지 않으면 안 되기 때문</li>
+    </ul>
+  </li>
+  <li>URI는 구조를 가지고 있기 때문에 프로그램에서 간단하게 처리할 수 있다.</li>
+  <li>URI가 지니고 있는 리소스를 간단히 가리킬 수 있는 성질을 가리켜 어드레스 가능성이라고 부른다.
+    <ul>
+      <li>리소스를 어드레스 가능한 상태, 즉 제대로 이름이 붙어 있고 적절한 수단으로 접근할 수 있는 상태로 만들어야된다.</li>
+    </ul>
+  </li>
+  <li>복수의 URI를 가진 리소스</li>
+</ul>
+
+<p>1개의 리소스는 복수의 URI를 가질 수 있다.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://weather.example.com/seoul/today
+http://weather.example.com/seoul/2011-01-01
+</code></pre></div></div>
+
+<p>2011년 1월 1일 시점에선 이 2개의 URI는 같은 리소스를 가리키지만, 각 URI의 의미는 다르다.
+하나의 리소스에 URI를 여러 개 붙여 두면, 클라이언트가 리소스에 접근하기 쉬워진다.
+그 반면, 어느 것이 정식 URI인지 알기 힘들게 되는 결점도 생긴다.</p>
+
+<ul>
+  <li>리소스의 표현과 상태</li>
+</ul>
+
+<p>리소스는 웹상에 존재하는 정보라는 추상적인 개념이다.
+서버와 클라이언트 간에 실제로 리소스를 주고 받을 때는 어떤 구체적인 데이터를 서로 송신한다.
+서버와 클라이언트 사이에 주고받는 데이터를 <code class="language-plaintext highlighter-rouge">Resource Representation</code>이라고 부른다.
+하나의 리소스는 복수의 표현을 가질 수 있다. ex) 일기예보 HTML, PDF, TEXT 등
+복수 리소스에 개별 URI를 부여해도 되고, HTTP 구조를 이용해 하나의 URI로 복수 표현을 반환할 수 있다.
+리소스는 상태라는 것이 있는데, 리소스의 상태가 변하면 그 표현도 변한다. ex) 일기예보 맑음 -&gt; 흐림</p>
+
+<p><br /></p>
+
+<h2 id="스타일을-조합혀여-rest를-구성한다">스타일을 조합혀여 REST를 구성한다.</h2>
+
+<p>REST는 복수의 아키텍처 스타일을 조합해 구축한 복합 아키텍처 스타일이다.
+클라이언트/서버 아키텍처 스타일부터 다른 제약을 부과하면서, REST를 구축해 나가보자.</p>
+
+<h3 id="클라이언트서버">클라이언트/서버</h3>
+
+<p>웹은 HTTP라는 프로토콜을 이용해 클라이언트와 서버가 서로 통신하는 클라이언트/아키텍처 스타일을 채용하고 있다.
+클라이언트가 서버에 요청을 보내면, 서버는 클라이언트에 대해 응답을 돌려준다.
+장점으로는 단일 컴퓨터 상에서 모든 것을 처리하는 것이 아니라, 클라이언트와 서버로 분리해서 처리할 수 있다는 것이다.
+유저 인터페이스는 클라이언트에서 담당하기 때문에 서버는 데이터 스토리지로서의 기능만 제공하면 되고, 유저 인터페이스는 휴대전화 pc등 멀티 플랫폼으로 구성할 수 있다.</p>
+
+<h3 id="스테이트리스-서버">스테이트리스 서버</h3>
+
+<p>클라이언트/서버에 최초로 추가한 아키텍처 스타일은 스테이트리스 서버다.
+스테이트리스란, 클라이언트의 애플리케이션 상태를 서버에서 관리하지 않는다는 것을 의미한다.
+서버가 애플리케이션 상태를 가지지 않게 되면, 서버 측의 구현을 간략화 할 수 있다는 장점이 있다.
+클라이언트로부터 요청에 응답한 뒤 바로 서버의 자원을 해제할 수 있다.
+스테이트리스가 아닌 웹 서비스, 웹 API 중에 대표적인 것은 Cookie를 사용한 세션 관리다.
+REST 기준으로 Cookie를 사용한 세션 관리는 잘못된 확장이지만, Cookie를 사용한 폼 인증을 그만둘 수도 없다.
+Cookie는 스테이트리스 서버의 이점을 버린다는 것을 알고 이용해야 한다.</p>
+
+<h3 id="캐시">캐시</h3>
+
+<p>캐시란, 리소스의 신선도에 기초해, 한번 가져온 리소스를 클라이언트 쪽에서 돌려쓰는 방식이다.
+캐시의 장점은 서버와 클라이언트 사이의 통신량을 줄여 네트워크 대역의 이용과 처리시간을 축소하고,  효율적으로 처리할 수 있다.
+하지만, 오래된 캐시를 이용해 정보의 신뢰성이 떨어질 가능성도 있다.</p>
+
+<h3 id="유니폼-인터페이스">유니폼 인터페이스</h3>
+
+<p>유니폼 인터페이스는 URI로 지정한 리소스에 대한 조작을 통일되고 한정적인 인터페이스로 수행하는 아키텍처 스타일을 말한다.
+HTTP 1.1에서는 GET과 POST 등 8개의 메서드만 정의되어 있는데 메서드가 8개로 고정되어 확장할 수 없는 것은 인터페이스의 유연성에 제약을 가함으로써 전체적인 아키텍처가 간결해진다.
+또한 인터페이스를 통일하면서 클라이언트와 서버 구현의 중립성이 향상된다.
+유니폼 인터페이스는 REST를 가장 특징짓는 아키텍처 스타일이다.</p>
+
+<h3 id="계층화-시스템">계층화 시스템</h3>
+
+<p>유니폼 인터페이스의 이점 중, 시스템 전체를 계층화하기 쉽다는 점을 들 수 있다.
+예를 들어, 웹 서비스에서는 서버와 클라이언트 간의 로드 밸런서를 설치해 부하를 분산시키거나, 프록시를 설치해 엑세스를 제어한다.
+서버나 프록시 모두 동일한 인터페이스로 접속할 수 있기 때문에, 접속할 곳이 서버에서 프록시로 바뀐 것을 신경 쓸 필요가 없다.
+이것은 서버와 프록시 등 각 컴포넌트 간의 인터페이스를 HTTP로 통일하고 있기에 실현될 수 있었다.
+또한 HTTP 인터페이스를 구현하지 않는 시스템에서도 웹 어플리케이션 서버를 끼워 넣어 HTTP의 인터페이스를 가지게 함으로써, 브라우저 등의 클라이언트와 접속할 수 있게 되었다.
+이와 같이 시스템을 몇 개의 계층으로 분리하는 아키텍처 스타일을 계층화 시스템이라고 한다.</p>
+
+<h3 id="코드-온-디맨드">코드 온 디맨드</h3>
+
+<p>코드 온 디맨드는 프로그램 코드를 서버에서 다운받아 클라이언트에서 실행하는 아키텍처 스타일이다.
+코드 온 디맨드의 장점은 클라이언트를 차후에 확장할 수 있다는 것이다. 미리 준비해 둔 기능뿐만 아니라, 새로운 기능을 계속 추가할 수 있다.
+하지만 네트워크 통시에서의 프로토콜 가시성이 저하된다.
+HTTP라는 애플리케이션 프로토콜에 따라 통신하고 있는 동안은 통신의 의미와 접근할 리소스가 병백하다. 
+그러나 코드 온 디맨드로 프로그램을 다운로드해 클라이언트에서 실행해 버리면 애플리케이션 프로토콜 가시성은 저하된다.</p>
+
+<h3 id="rest--ulcodcss">REST = ULCODC$SS</h3>
+
+<p>이 아키텍처 스타일에 필딩은 REST라고 이름 붙였다.
+REST란 다시 말해, 유니폼/계층화/코드 온 디맨드/ 클라이언트/캐시/스테이트리스 서버 6가지를 조합한 아키텍처 스타일을 가리키는 것이다.
+REST는 아키텍처 스타일이므로 실제로 시스템을 설계할 때는 그 시스템의 아키텍처를 만들어야 한다.
+다만, REST 스타일 중 몇가지를 제외하더라도 상관없다.
+이상을 염두에 두면서 실제로 동작하고 가치를 제공할 수 있는 시스템을 만드는 것이 중요하다.
+그리고 REST 스타일을 제외해야하는 경우네는 다른 아키텍처 스타일을 사용하면 된다. ex) P2P</p>
+
+<p><br /></p>
+
+<h2 id="rest의-2가지-측면">REST의 2가지 측면</h2>
+
+<h3 id="rest와-하이퍼미디어">REST와 하이퍼미디어</h3>
+
+<p>우리는 웹을 사용할 때, 링크를 따라가면서 다양한 리소스에 접근한다.
+하이퍼 미디어의 기본 기능인 링크를 따라가는 작업을 몇 번 거치면서 전체적으로 소셜 북마크라는 하나의 애플리케이션이 실현된다.
+웹이 가진 이 특징을 REST에서는 애플리케이션 상태 엔진으로서의 하이퍼미디어라고 한다.
+애플리케이션 상태는 하이퍼미디어의 링크를 따라가는 작업에 의해 변화한다.
+하이퍼미디어를 이용한 애플리케이션에서는 리소스의 URI만 알면 어떤 애플리케이션이 제공하고 있는 리소스를 다른 애플리케이션에서도 간단히 재사용할 수 있다는 장점이 있다.
+리소스를 링크로 연결해 하나의 애플리케이션을 구성한다는 개념은 REST의 근간을 이루는 사상이다.
+이 개념은 접속성이라고 불린다.</p>
+
+<h3 id="rest와-분산시스템">REST와 분산시스템</h3>
+
+<p>RPC와 CORBA, DCOM 등의 분산 오브젝트에서는 함수나 메서드 단위로 서버 쪽의 처리를 호출한다.
+네트워크를 통한 함수 호출은 동일 프로세스 내의 함수 호출과는 비교되지 않을 만큼 오버헤드가 심하기 때문에 시스템 전체 성능의 저하를 가져온다.
+인터페이스의 입도를 크게 해 오버헤드를 줄일 수 있지만, RPC와 분산 오브젝트는 서버마다 다른 인터페이스를 가지며, 개별 인터페이스는 프로그램 라이브러리의 인터페이스를 기반으로 개발하는 겨우가 많기 때문에 구현하기 쉽지 않다.
+일반적으로 라이브러리에 좋다는 API는 네트워크로 호출하기에 지나치게 작은 입도다.
+그에 비해 REST에 기초한 웹 서비스에서는 링크를 이용해 애플리케이션을 실행한다.
+리소스는 의미를 가진 하나의 데이터로 RPC 함수에 의해 주고받는 데이터보다 입도가 크다.
+그러므로 링크를 따라 애플리케이션의 상태를 변화시키는 편이 전체적인 성능 저하를 억제할 수 있다.
+또한 RPC와 분산 시스템에서는 기능을 추가할 때마다 메서드의 인수와 반환값이 바뀌어 API 호환성이 상실되기 때문에 기존의 클라이언트를 모두 동시에 변경해야 된다. (웹과 같은 대규모 시스템에서 비현실적)
+그에 반해, REST에 기초한 웹에서는 유니폼 인터페이스에 의해 인터페이스가 고정되어 있어 호환성 문제는 발생하지 않는다.
+HTTP 메서드는 항상 고정되어 있어, HTTP를 구현한 클라이언트라면 동일하게 접속할 수 있다.
+그리고 HTTP에서는 인터페이스의 하위 호환성을 보증하고 있다.</p>
+
+<p><br /></p>
+
+<h2 id="rest의-의미">REST의 의미</h2>
+
+<p>REST는 웹 전체의 아키텍처 스타일이다. 웹은 REST라는 분산 네트워크 시스템을 위한 이론이 있었기에 이만큼 성공할 수 있었다.
+우리들이 만드는 웹 서비스나 웹 API는 웹을 구성하는 일부분으로, 개별 웹 서비스와 웹 API가 RESTful이 되면, 웹은 전체적으로 좋아진다.</p>]]></content><author><name>kun</name></author><category term="web" /><summary type="html"><![CDATA[아키텍처 스타일의 중요성]]></summary></entry><entry><title type="html">람다 표현식</title><link href="http://localhost:4000/java/%EB%9E%8C%EB%8B%A4-%ED%91%9C%ED%98%84%EC%8B%9D/" rel="alternate" type="text/html" title="람다 표현식" /><published>2022-02-27T00:00:00+09:00</published><updated>2022-02-27T00:00:00+09:00</updated><id>http://localhost:4000/java/%EB%9E%8C%EB%8B%A4%20%ED%91%9C%ED%98%84%EC%8B%9D</id><content type="html" xml:base="http://localhost:4000/java/%EB%9E%8C%EB%8B%A4-%ED%91%9C%ED%98%84%EC%8B%9D/"><![CDATA[<h2 id="람다-표현식">람다 표현식</h2>
+
+<p>익명 클래스로 다양한 동작을 구현할 수 있지만 만족할 만큼 코드가 깔끔하지는 않았다.
+깔끔하지 않은 코드는 동작 파라미터를 실전에 적용하는 것을 막는 요소다.
+람다 표현식은 익명 클래스처럼 이름이 없는 함수면서 메서드를 인수로 전달할 수 있으므로 람다와 익명클래스는 비슷한 개념이다.</p>
+
+<h3 id="람다란-무엇인가">람다란 무엇인가?</h3>
+
+<p>람다 표현식은 메서드로 전달할 수 있는 익명 함수를 단순화한 것이라고 할 수 있다.
+람다 표현식은 이름은 없지만, 파라미터 리스트, 바디, 반환 형식, 발생할 수 있는 예외 리스트는 가질 수 있다.</p>
+
+<ul>
+  <li>익명
+보통의 메서드와 달리 이름이 없으므로 익명이라 표현한다. 구현해야 할 코드에 대한 걱정거리가 줄어든다.</li>
+  <li>함수
+람다는 메서드처럼 특정 클래스에 종속되지 않으므로 함수라고 부른다. 하지만 메서드처럼 파라미터 리스트, 바디, 반환 형식. 가능한 예외 리스트를 포함한다.</li>
+  <li>전달
+람다 표현식을 메서드 인수로 전달하거나 변수로 저장할 수 있다.</li>
+  <li>간결성
+익명 클래스처럼 많은 자질구레한 코드를 구현할 필요가 없다.</li>
+</ul>
+
+<p>람다를 이용하면 간결한 방식으로 코드를 전달할 수가 있다.
+람다가 기술적으로 자바 8 이전의 자바로 할 수 없었던 일을 제공하는 것은 아니다.
+익명 클래스처럼 판에 박힌 코드를 구현할 필요 없이 람다 표현식을 이용하면 동작 파라미터 형식의 코드를 더 쉽게 구현할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* 람다 파라미터  | 화살표 |             람다 바디               */</span>
+<span class="o">(</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
+</code></pre></div></div>
+
+<ul>
+  <li>파라미터 리스트
+Comparator의 compare 메서드 파라미터</li>
+  <li>화살표
+화살표는 람다의 파라미터 리스트와 바디를 구분한다.</li>
+  <li>람다 바디
+두 사과의 무게를 비교한다. 람다의 반환값에 해당하는 표현식이다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-</span> <span class="n">표현식</span> <span class="n">스타일</span>
+<span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">expression</span>
+
+<span class="o">-</span> <span class="n">블록</span> <span class="n">스타일</span>
+<span class="o">(</span><span class="n">parameters</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="n">statements</span><span class="o">;</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="어디에-어떻게-람다를-사용할까">어디에 어떻게 람다를 사용할까?</h3>
+
+<p><strong>함수형 인터페이스</strong></p>
+
+<p>그래서 정확히 어디에서 람다를 사용할 수 있다는 건가?
+함수형 인터페이스라는 문맥에서 람다 표현식을 사용할 수 있다.
+간단히 말해 함수형 인터페이스는 정확히 하나의 추상 메서드를 지정하는 인터페이스다.
+Comparator, Runnable 같은 것들이 함수형 인터페이스다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kt">boolean</span> <span class="nf">test</span> <span class="o">(</span><span class="no">T</span> <span class="n">t</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>람다 표현식으로 함수형 인터페이스의 추상 메서드 구현을 직접 전달할 수 있으므로 전체 표현식을 함수형 인터페이스의 인스턴스로 취급할 수 있다.
+함수형 인터페이스보다는 덜 깔끔하지만 익명 내부 클래스로도 같은 기능을 구현할 수 있다.</p>
+
+<p><strong>함수형 디스크립터</strong></p>
+
+<p>함수형 인터페이스의 추상 메서드 시그니처는 람다 표현식의 시그니처를 가리킨다.
+람다 표현식의 시그니처를 서술하는 메서드를 함수 디스크립터라고 부른다.
+예를 들어 Runnable 인터페이스의 유일한 추상 메서드 run은 인수와 반환값이 없으므로 Runnable 인터페이스는 인수와 반환값이 없는 시그니처로 생각할 수 있다.</p>
+
+<p>람다 표현식은 변수에 할당하거나 함수형 인터페이스를 인수로 받는 메서드로 전달할 수 있으며, 함수형 인터페이스의 추상 메서드와 같은 시그니처를 갖는다는 사실을 기억하는 것으로 충분하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">process</span><span class="o">(</span><span class="nc">Runnable</span> <span class="n">r</span><span class="o">){</span>
+  <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="n">process</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"This is awesome!!"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>자바 언어 명세에서는 void를 반환하는 메서드 호출과 관련한 특별한 규칙을 정하고 있기 때문에, 한 개의 void 메서드 호출은 중괄호로 감쌀 필요가 없다.
+왜 함수형 인터페이스를 인수로 받는 메서드에만 람다 표현식을 사용할 수 있을까? 라는 의문으로 시작해서 자바에 함수 형식을 추가하는 방법도 대안으로 고려했지만 언어 설계자들은 언어를 더 복잡하게 만들지 않는 현재 방법을 선택했다.</p>
+
+<p><br /></p>
+
+<h3 id="람다-활용--실행-어라운드-패턴">람다 활용 : 실행 어라운드 패턴</h3>
+
+<p>자원 처리에 사용하는 순환 패턴은 자원은 열고, 처리한 다음에, 자원을 닫는 순서로 이루어진다.
+설정과 정리 과정은 대부분 비슷하다.
+실제 자원을 처리하는 코드를 설정과 정리 두 과정이 둘러싸는 형태를 갖는다.</p>
+
+<p><strong>1단계 : 동작 파라미터화를 기억하라</strong></p>
+
+<p>현재 코드는 파일에서 한 번에 한 줄만 읽을 수 있다.
+한 번에 두 줄을 읽거나 가장 자주 사용되는 단어를 반환하려면 어떻게 해야 할까?
+기존의 설정, 정리 과정은 재사용하고 processFile 메서드만 다른 동작을 수행하도록 명령할 수 있다면 좋을 것이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">String</span> <span class="nf">processFile</span><span class="o">()</span> <span class="k">throw</span> <span class="nc">IOException</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">(</span>
+      <span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileReader</span><span class="o">(</span><span class="s">"test.txt"</span><span class="o">)))</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span> <span class="c1">// 실제 작업을 수행</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>processFile의 동작을 파라미터화하는 것이다. processFile 메서드가 BufferedReader를 이용해서 다른 동작을 수행할 수 있도록 processFile 메서드로 동작을 전달해야 한다.
+람다를 이용해서 동작을 전달할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">processFile</span><span class="o">((</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">)</span> <span class="o">-&gt;</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">()</span> <span class="o">+</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p><strong>2단계 : 함수형 인터페이스를 이용해서 동작 전달</strong></p>
+
+<p>함수형 인터페이스 자리에 람다를 사용할 수 있다.
+따라서 BufferedReader -&gt; String과 IOException을 던질 수 있는 시그니처와 일치하는 함수형 인터페이스를 만들어야 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BufferedReaderProcessor</span> <span class="o">{</span>
+  <span class="nc">String</span> <span class="nf">process</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">b</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">processFile</span><span class="o">(</span><span class="nc">BufferedReaderProcessor</span> <span class="n">p</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+  <span class="o">....</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>3단계 : 동작 실행</strong></p>
+
+<p>이제 BufferedReaderProcessor에 정의된 process 메서드의 시그니처 (BufferedReader -&gt; String)와 일치하는 람다를 전달할 수 있다.
+람다의 코드가 processFile 내부에서 어떻게 실행되는지 기억하고 있는가?
+람다 표현식으로 함수형 인터페이스의 추상 메서드 구현을 직접 전달할 수 있으며 전달된 코드는 함수형 인터페이스의 인스턴스로 전달된 코드와 같은 방식으로 처리한다.
+따라서 processFile 바디 내에서 BufferedReaderProcessor 객체의 process를 호출할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">String</span> <span class="nf">processFile</span><span class="o">(</span><span class="nc">BufferedReaderProcessor</span> <span class="n">p</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+  <span class="k">try</span> <span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileReader</span><span class="o">(</span><span class="s">"data.txt"</span><span class="o">)))</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">br</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>4단계 : 람다 전달</strong></p>
+
+<p>이제 람다를 이용해서 다양한 동작을 processFile 메서드로 전달할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">oneLine</span> <span class="o">=</span> <span class="n">processFile</span><span class="o">((</span><span class="nc">BufferedReader</span> <span class="n">br</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+
+<span class="nc">String</span> <span class="n">twoLines</span> <span class="o">=</span> <span class="n">processFile</span><span class="o">((</span><span class="nc">BufferedReader</span> <span class="n">br</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">()</span> <span class="o">+</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>processFile 메서드를 더 유연하게 만드는 과정을 보여준다.</p>
+
+<p><br /></p>
+
+<h3 id="함수형-인터페이스-사용">함수형 인터페이스 사용</h3>
+
+<p>함수형 인터페이스의 추상 메서드는 람다 표현식의 시그니처를 묘사한다.
+함수형 인터페이스의 추상 메서드 시그니처를 함수 디스크립터라고 한다.
+다양한 람다 표현식을 사용하려면 공통의 함수 디스크립터를 기술하는 함수형 인터페이스 집합이 필요하다.</p>
+
+<p><strong>Predicate</strong></p>
+
+<p>‘java.util.function.Predicate<T>' 인터페이스는 test라는 추상 메서드를 정의하며 test는 제네릭 형식 T의 객체를 인수로 받아 boolean을 반환한다.
+우리가 만들었떤 인터페이스와 같은 형태인데 따로 정의할 필요 없이 바로 사용할 수 있다.
+T 형식의 객체를 사용하는 불리언 표현식이 필요한 상황에서 Predicate 인터페이스를 사용할 수 있다.</T></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">filter</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+  <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+  <span class="k">for</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span> <span class="o">:</span> <span class="n">list</span><span class="o">){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">t</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">results</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="n">results</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nonEmptyStringPredicate</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">s</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">();</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nonEmpty</span> <span class="o">=</span> <span class="n">filter</span><span class="o">(</span><span class="n">listOfStrings</span><span class="o">,</span> <span class="n">nonEmptyStringPredicate</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>Consumer</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">java.util.function.Consumer&lt;T&gt;</code> 인터페이스는 제네릭 형식 T 객체를 받아서 void를 반환하는 accept라는 추상 메서드를 정의한다. T 형식의 객체를 인수로 받아서 어떤 동작을 수행하고 싶을 때 Consumer 인터페이스를 사용할 수 있다.
+예를 들어 Integer 리스트를 인수로 받아서 각 항목에 어떤 동작을 수행하는 forEach 메서드를 정의할 때 Consumer를 활용할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Consumer</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">forEach</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="nc">Consumer</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">){</span>
+  <span class="k">for</span><span class="o">(</span><span class="no">T</span> <span class="nl">t:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">c</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">forEach</span><span class="o">(</span>
+	<span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">),</span>
+  <span class="o">(</span><span class="nc">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>Function</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">java.util.function.Function&lt;T,R&gt;</code> 인터페이스는 제네릭 형식 T를 인수로 받아서 제네릭 형식 R 객체를 반환하는 추상 메서드 apply를 정의한다.
+입력을 출력으로 매핑하는 람다를 정의할 때 Function 인터페이스를 활용할 수 있다.
+다음은 String 리스트를 인수로 받아 각 String의 길이를 포함하는 Integer 리스트로 변환하는 map 메서드를 정의하는 예제다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="no">R</span> <span class="nf">apply</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">,</span><span class="no">R</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">R</span><span class="o">&gt;</span> <span class="nf">map</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">)</span> <span class="o">{</span>
+  <span class="nc">List</span><span class="o">&lt;</span><span class="no">R</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+  <span class="k">for</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span> <span class="o">:</span> <span class="n">list</span><span class="o">){</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">f</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">t</span><span class="o">));</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">map</span><span class="o">(</span>
+	<span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"lambdas"</span><span class="o">,</span> <span class="s">"in"</span><span class="o">,</span> <span class="s">"action"</span><span class="o">),</span>
+  <span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>기본형 특화</strong></p>
+
+<p>자바의 모든 형식은 참조형(Byte, Integer …) 아니면 기본형(int, double, byte)에 해당한다.
+하지만 제네릭 파라미터에는 참조형만 사용할 수 있다.
+제네릭의 내부 구현 때문에 어쩔 수 없는 일이다.
+자바에서는 기본형을 참조형으로 변환하는 기능을 제공한다. 이 기능을 박싱이라고 하고, 참조형을 기본형으로 변환하는 반대 동작을 언박싱이라고 한다.
+또한 프로그래머가 편리하게 코드를 구현할 수 있도록 박싱과 언박싱이 자동으로 이루어지는 오토박싱이라는 기능도 제공한다.
+하지만 이런 변환 과정은 비용이 소모된다.
+박싱한 값은 기본형을 감싸는 래퍼며 힙에 저장된다. 따라서 박싱한 값은 메모리를 더 소모하며 기본형을 가져올 때도 메모리를 탐색하는 과정이 필요하다.
+자바 8에서는 기본형을 입출력으로 사용하는 상황에서 오토박싱 동작을 피할 수 있도록 특별한 버전의 함수형 인터페이스를 제공한다.
+IntPredicate는 1000이라는 값을 박싱하지 않지만, Predicate<Integer>는 1000이라는 값을 Integer 객체로 박싱한다.
+일반적으로 특정 형식을 입력으로 받는 합수형 인터페이스의 이름 앞에는 앞에 형식명이 붙게 되고, Function인터페이스는 다양한 출력 형식 파라미터를 제공한다.</Integer></p>
+
+<p><br /></p>
+
+<h3 id="형식-검사-형식-추론-제약">형식 검사, 형식 추론, 제약</h3>
+
+<p>람다로 함수형 인터페이스의 인스턴스를 만들 수 있다고 언급했다.
+람다 표현식 자체에는 람다가 어떤 함수형 인터페이스를 구현하는지의 정보가 포함되어 있지 않기 때문에, 람다 표현식을 더 제대로 이해하려면 람다의 실제 형식을 파악해야 한다.</p>
+
+<p><strong>형식 검사</strong></p>
+
+<p>람다가 사용되는 컨텍스트를 이용해서 람다의 형식을 추론할 수 있다.
+어떤 컨텍스트에서 기대되는 람다 표현식을 형식을 <strong>대상 형식</strong>이라고 부른다.</p>
+
+<p>람다 표현식의 형식 검사 과정의 재구성</p>
+
+<ul>
+  <li>람다가 사용된 컨텍스트는 무엇인가? filter 메서드의 선언을 확인한다.</li>
+  <li>filter 메서드는 두 번째 파라미터로 Predicate<Apple> 형식을 기대한다.</Apple></li>
+  <li>Predicate<Apple>은 test라는 한 개의 추상메서드를 정의하는 함수형 인터페이스다.</Apple></li>
+  <li>test 메서드는 Apple을 받아 boolean을 반환하는 함수 디스크립터를 묘사한다.</li>
+  <li>filter 메서드로 전달된 인수는 이와 같은 요구사항을 만족해야 한다.</li>
+</ul>
+
+<p><strong>같은 람다, 다른 함수형 인터페이스</strong></p>
+
+<p>대상 형식이라는 특징 때문에 같은 람다 표현식이더라도 호환되는 추상 메서드를 가진 다른 함수형 인터페이스로 사용될 수 있다.</p>
+
+<p><strong>다이아몬드 연산자</strong></p>
+
+<p>자바 7에서도 다이아몬드 연산자로 컨텍스트에 따른 제네릭 형식을 추론할 수 있었다.
+주어진 클래스 인스턴스 표현식을 두 개 이상의 다양한 컨텍스트에 사용할 수 있다.
+이때 인스턴스 표현식의 형식 인수는 컨텍스트에 의해 추론된다.</p>
+
+<p><strong>특별한  void 호환 규칙</strong></p>
+
+<p>람다의 바디에 일반 표현식이 있으면 void를 반환하는 함수 디스크립터와 호환된다.</p>
+
+<p>할당문 콘텍스트, 메서드 호출 컨텍스트(파라미터, 반환값), 형변환 컨텍스트 등으로 람다 표현식의 형식을 추론할 수 있다.</p>
+
+<p><strong>형식 추론</strong></p>
+
+<p>자바 컴파일러는 람다 표현식이 사용된 컨텍스트를 이용해서 람다 표현식과 관련된 함수형 인터페이스를 추론한다.
+즉 대상형 식을 이용해서 함수 디스크립터를 알 수 있으므로 컴파일러는 람다의 시그니처도 추론할 수 있다.
+결과적으로 컴파일러는 람다 표현식의 파라미터 형식에 접근할 수 있으므로 람다 문법에서 이를 생략할 수 있다.
+상황에 따라 명시적으로 형식을 포함하는 것이 좋을 때도 있고 형식을 배제하는 것이 가독성을 향상시킬 때도 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">greenApples</span> <span class="o">=</span> <span class="n">filter</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="n">apple</span> <span class="o">-&gt;</span> <span class="no">GREEN</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">()));</span>
+
+<span class="c1">// 형식을 추론하고있지않음</span>
+<span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
+<span class="c1">// type을 생략하여 형식을 추론</span>
+<span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="n">a1</span><span class="o">,</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="지역-변수-사용">지역 변수 사용</h3>
+
+<p>람다 표현식은 인수를 자신의 바디 안에서만 사용했다.
+하지만 람다 표현식에서는 익명 함수가 하는 것처럼 자유 변수를 활용할 수 있다.
+이와 같은 동작을 람다 캡처링이라고 부른다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">portNumber</span> <span class="o">=</span> <span class="mi">1337</span><span class="o">;</span>
+<span class="nc">Runnable</span> <span class="n">r</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">portNumber</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>하지만 자유 변수에도 약간의 제약이 있다.
+람다는 인스턴스 변수와 정적 변수를 자유롭게 캡처 할 수 있다.
+하지만 그러려면 지역 변수는 명시적으로 final로 선언되어 있어야 하거나, 실질적으로 final로 선언된 변수와 똑같이 사용되어야 한다.
+즉, 람다 표현식은 한 번만 할당할 수 있는 지역변수를 캡처할 수 있다.</p>
+
+<p><strong>지역 변수의 제약</strong></p>
+
+<p>인스턴스 변수는 힙에 저장되는 반면 지역 변수는 스택에 위치한다.
+람다에서 지역 변수에 바로 접근할 수 있다는 가정하에 람다가 스레드에서 실행된다면 변수를 할당한 스레드가 사라져서 변수 할당이 해제되었는데도 람다를 실행하는 스레드에서는 해당 변수에 접근하려 할 수 있다.
+따라서 자바 구현에서는 원래 변수에 접근을 허용하는 것이 아니라 자유 지역 변수의 복사본을 제공한다.
+따라서 복사본의 값이 바뀌지 않아야 하므로 지역 변수에는 한 번만 값을 할당해야 한다는 제약이 생긴 것이다.</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[람다 표현식]]></summary></entry><entry><title type="html">웹의 역사</title><link href="http://localhost:4000/web/%EC%9B%B9%EC%9D%98-%EC%97%AD%EC%82%AC/" rel="alternate" type="text/html" title="웹의 역사" /><published>2022-02-26T00:00:00+09:00</published><updated>2022-02-26T00:00:00+09:00</updated><id>http://localhost:4000/web/%EC%9B%B9%EC%9D%98%20%EC%97%AD%EC%82%AC</id><content type="html" xml:base="http://localhost:4000/web/%EC%9B%B9%EC%9D%98-%EC%97%AD%EC%82%AC/"><![CDATA[<h2 id="웹의-역사">웹의 역사</h2>
+
+<h3 id="웹-이전의-인터넷">웹 이전의 인터넷</h3>
+
+<p>초기의 인터네에는 웹이 없었다.
+인터넷의 기원은 1969년에 구축된 ARPANET 까지 거슬러 올라간다.
+ARPANET은 Advanced Research Project Agency에서 구축한 컴퓨터 네트워크다.
+ARPANET은 미국 내 대학과 연구기관 사이를 고속 회선으로 접속하고, 전 미국을 연결하는 네트워크로서 서서히 성장해갔다.
+웹 이전의 역사는 브라이언 캐니핸이 이시다 교수에게 보낸 전자메일에서 엿 볼수 있는데, 메일의 내용은 일본어임에도 모든 문자가 영문자와 숫자로 되어있다.
+그리고 당시의 네트워크는 리얼 타임으로 상대와 통신하는 TCP/IP 뿐만 아니라, 패킷 릴레이 방식의 UUCP에 의한 전송도 존재했었기 때문에 메일이 도달하기까지 지연이 있었다.
+즉, 요즘처럼 메일을 보내면 바로 상대방이 받아볼 수 있는 것이 아니었다.
+인터넷 애플리케이션은 전자메일 이외에도 많이 생겨났다. 
+여러 사람들이 참가할 수 있는 포럼 형태의 넷 뉴스, 파일 교환을 위한 File Transfer Protocol, UNIX 호스트에 원격접속하기 위한 Telnet, 콘텐츠를 간단히 공개하기 위한 Gopher 등이 있다.</p>
+
+<p><br /></p>
+
+<h3 id="웹-이전의-하이퍼미디어">웹 이전의 하이퍼미디어</h3>
+
+<p><strong>Memex - 하이퍼미디어의 기원</strong>
+하이퍼미디어의 기원은 ARPANET의 탄생보다 더 거슬로 올라간 1945년에 미국의 연구자 버니바 부시가 발표한 Memex라는 정보 검색 시스템에 대한 노문이라고 한다.
+Memex는 실재하는 시스템이 아닌 구상이었지만, 전기적으로 접속한 책과 파일을 서로 링크하고 링크를 따라서 차례로 표시하는 현재의 웹을 예상할 수 있는 시스템이었다.
+이 Memex 구상에는 하이퍼미디어라는 단어조차 등장하지 않았지만 많은 연구자들에게 영향을 끼쳤다.</p>
+
+<h3 id="xanadu---하이퍼미디어라는-단어의-탄생">Xanadu - 하이퍼미디어라는 단어의 탄생</h3>
+
+<p>부시의 Memex 구상에 영향을 받았던 연구자 중에 테드 넬슨이 있었다.
+넬슨은 1965년에 하이퍼텍스트와 하이퍼미디어라는 말을 잇달아 고안했다.
+하이퍼텍스트가 문자 정보 중심의 문서를 상호 링크시키는 개념임에 반해, 하이퍼미디어는 그 사고를 확장하여 음성과 동영상 등 다양한 미디어를 상호 링크시킨 개념이다.
+넬슨은 이 단어들을 고안함과 동시에 현재의 웹을 더욱 진화시킨 기능을 가진 이상적인 하이퍼미디어 Xanadu를 구상하고 개발하기 시작했다.
+그러나 Xandu의 개발은 고기능으로 인한 복잡성으로 실패하고 말았다.</p>
+
+<h3 id="hypercard---최초의-실용적인-하이퍼미디어">HyperCard - 최초의 실용적인 하이퍼미디어</h3>
+
+<p>웹 이전에 성공을 거둔 하이퍼미디어는 Bill Atksinson이 1987년에 Apple에서 개발한 HyperCard가 있다. 
+HyperCard에는 네트워크를 통해 데이터를 주고받는 기능조차 없었지만, 카드라고 불리는 문서를 단위로 상호 링크하고, 스크립트 언어 HyperTalk에 의한  프로그램을 실행할 수 있는 말하자면, Stand-alone 방식의 웹 서비스였다.
+HyperCard는 성공을 거두었고, 많은 게임과 애플리케이션들이 개발되었다.</p>
+
+<h3 id="웹-이전의-하이퍼미디어의-문제점">웹 이전의 하이퍼미디어의 문제점</h3>
+
+<p>지금까지 가장 많이 보급된 하이퍼미디어의 구현은 웹이다. 웹 상의 문서는 모두가 링크에 의해 서로 연결되어 있다.
+링크가 웹에 필수불가결한 기본 기술이라는 사실은 Google의 페이지랭크와 트랙백과 같은 기술이 링크를 전제로 설계되어 있다는 점에서 명확히 알 수 있다.
+다만, 넬슨 등 예전의 하이퍼미디어 추진자들의 시각으로 볼 때, 웹은 불완전한 하이퍼미디어로 비춰질 것이다.
+그 이유는 웹이 단방향 링크밖에 지원하고 있지 않고, 링크가 끊어질 가능성이 있으며, 버전 관리와 트랜스클루전 기능이 없는 것 등이다.
+하지만, 현실에서는 그 보급율로 볼 때 웹이 가장 성공한 하이퍼미디어라는 점은 의심할 여지가 없다.
+웹의 성공을 가져온 원인은 최소한의 링크 기능만을 갖추고 있었다는 점이다.
+반대로 웹 이전의 하이퍼미디어의 최대 문제점은 그 복잡성에 있었다고 할 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="웹-이전의-분산-시스템">웹 이전의 분산 시스템</h3>
+
+<p><strong>중앙 집중형 시스템과 분산 시스템</strong></p>
+
+<p>가장 최초의 컴퓨터는 과학기술계산 등의 전용 목적으로 만들어졌다.
+그러던 것이 1960년대에 메인 프레임이 개발되면서 한 대의 컴퓨터를 여러 목적으로 이용될 수 있게 되었다.
+이 당시 컴퓨터의 이용형태는 단말기로 호스트 컴퓨터에 접속하여 호스트 컴퓨터에서 집중해서 처리하는 방식이었다.
+1970년대 이후, 컴퓨터의 다운사이징이 진행되면서 컴퓨터들이 소형화되고 성능은 향상됨에 따라 복수의 컴퓨터를 조합하여 처리를 분산시킴으로서 전체적인 성능을 향상시킬 수 있는 방법들이 등장했다.</p>
+
+<p><strong>RPC - 다른 컴퓨터의 기능을 이용하기</strong></p>
+
+<p>분산 시스템을 실현하기 위해서는 각 서버가 제공하는 기능을 다른 서버와 클라이언트에서 호출할 수 있어야 한다.
+RPC는 분산 시스템을 실현하기 위한 기술 중 하나이다.
+RPC를 이용하면 원격 서버에서 실행하고 있는 프로그램을 클라이언트 쪽으로 호출할 수 있다.
+유명한 RPC 시스템으로는 Sun Microsystems의 SunRPC와 아폴로, IBM과 DEC가 공동 개발한 DCE가 있다.
+RPC 시스템이 개발되던 1980년대 후반은 UNIX 전쟁이라고 불리는 UNIX 벤더의 의한 표준화 경쟁이 치열하던 시대로, 모두 자사의 분산 시스템 기술을 표준으로 하기 위해 열심이었다.</p>
+
+<p><strong>CORBA, DCOM - 분산 오브젝트로의 진화</strong></p>
+
+<p>RPC는 이름 그대로 리모트 프로시저, 즉 함수를 호출하는 구조이다. 다만, 현대적인 프로그래밍 언어들은 거의 모두가 객체지향 기능을 갖추고 있다.
+그래서 단순한 함수 호출이 아니라, 오브젝트 자체를 원격으로 배치하는 분산 오브젝트라고 불리는 기술이 고안되었다.
+분산 오브젝트의 대표적인 예는 CORBA이다.
+Microsoft는 CORBA에 대항해서 DCOM을 개발했다.
+CORBA와 DCOM은 Interface Definition Language로 오브젝트의 메서드를 정의하고, 구현은 네트워크를 경유해 시리얼라이즈 된 메시지를 교환하는 점이 RPC와 동일하다.
+단, 범용적인 오브젝트 기능을 실현하려고 했기 때문에 매우 복잡한 스펙을 가지게 되었다. 또한 CORBA와 DCOM 은 호환성이 없어서 서로의 시스템이 접속할 수 없다는 문제점이 있었다.</p>
+
+<p><strong>웹 이전의 분산 시스템의 문제점</strong>
+RPC는 지금도 Network File System 같은 분산 시스템을 구현하는데 사용되고 있다.
+하지만 RPC가 현실적으로 동작하는 것은 통신상대가 어느 정도 정해져 있는 인트라넷 환경까지로 좀 더 복잡한 이기종 분산 환경으로 확장되지 않는다.
+확장 되지 않는 이유로는 RPC 시스템에 몇몇의 문제가 있었기 때문이다.</p>
+
+<ul>
+  <li>
+    <p>성능열화의 문제</p>
+
+    <p>네트워크를 경유한 함수의 호출은 동일 프로세스 내에서 함수를 호출하는 데 비해 몇 배나 시간이 걸린다.
+또한, 일반적으로 함수의 입도가 작아 목적을 달성하기 위해선 여러 번 호출하지 않으면 안 되고, 네트워크의 오버헤드가 호출하는 회수만큼 걸린다.</p>
+  </li>
+  <li>
+    <p>데이터형 변환의 문제
+프로그래밍 언어마다 지원하는 데이터형이 다르기 때문에 복수의 언어가 혼재하는 환경에서는 데이터형 변환 시 문제가 발생한다.</p>
+  </li>
+  <li>
+    <p>인터페이스 버전업 시 호환성 문제
+기능을 추가하면서 서버의 인터페이스가 변경된 경우, 구 클라이언트에 대해 하위 호환성을 가질 수 없다.</p>
+  </li>
+  <li>
+    <p>부하 분산의 문제
+일반적으로 RPC 기반의 시스템은 서버 상에 클라이언트의 애플리케이션 상태를 가지고 있다.
+그렇기 때문에 서버끼리 애플리케이션 상태를 공유하지 않으면 안 되며, 다수의 서버에서 부하를 분산하는 것이 어려워진다.</p>
+  </li>
+</ul>
+
+<p>이렇게 웹 이전의 분산 시스템은 하드웨어든 소프트웨어든 한정된 수로 균일한 클라이언트를 전제로 했다.
+이런 방식으로는 전 세계적인 규모로 동작하는 시스템이 될 수 없었고, 대규모 분산 시스템에 필요한 것은 무엇인지는 웹에 의해서 명확해진다.</p>
+
+<p><br /></p>
+
+<h3 id="웹의-탄생">웹의 탄생</h3>
+
+<p>지금까지 살펴본 것처럼 1980년대까지 하이퍼미디어에 대한 구상이 생겨나고 인터넷이 등장하면서 복수의 컴퓨터를 연결한 분산 시스템이 구축되었다.
+1990년 11월 12일, 스위스의 CERN이라는 국제 연구소에서 근무하던 팀 버너스-리가 하이퍼미디어를 이용한 인터넷 기반의 분산정보관리 시스템이라는 웹 제안서를 썼다.
+버너스-리는  첫 버전의 서버와 브라우저를 완성시켰고 웹은 전 세계로 서서히 보급되기 시작했다.
+당시의 인터넷은 주로 기업과 대학 연구소가 이용하고 있었는데, 그들은 점차 무상으로 공개된 서버와 브라우저를 시험 삼아 사용하게 되었고 콘텐츠를 공개하기 시작했다.
+웹의 보급을 단번에 앞당긴 것이 1993년 일리노이 대학의 NCSA가 공개한 브라우저 Mosaic 이다. 
+그전가지의 브라우저가 브라우저 자체로는 문자정보밖에 다루지 못했던 것에 비해, Mosaic은 본문에 인라인으로 이미지를 혼재시킬 수 있다.
+Mosaic은 Internet Explore나 FireFox 같은 현재의 브라우저의 원류가 되었다.</p>
+
+<p><strong>하이퍼미디어로서의 웹</strong></p>
+
+<p>웹은 인터넷을 이용한 하이퍼미디어로서 설계되었다.
+웹 이전의 하이퍼미디어와 가장 큰 차이점으로는 인터넷을 이용하기 때문에 불특정 다수의 정보를 서로 링크시킬 수 있고, 시스템을 대규모화하기 쉽다는 중요한 이점을 가지고 있다.
+반면, 정보의 집중적인 관리가 어려워지고 링크가 끊어지기 쉽다는 결점도 가지고 있다.
+그리고 웹이 구현하고 있는 링크는 심플한 단방향 링크뿐이라는 점도 특징이다.
+웹에서는 바루엊에 표시하거나 링크를 클릭하면 새로운 웹페이지로 이동한다. 하지만, 원래 링크의 개념은 외부에서 링크를 지정하는 확장 링크의 개념도 존재했다.
+웹에 복잡한 링크 구조를 도입하려는 움직임도 있었지만, 결국은 심플한 단방향 링크만 사용되고 있다.
+사용자에게 있어서 이해하기 쉽고 구현이 간단한 링크였기 때문에 웹이 여기까지 보급되었다고 할 수 있다.s</p>
+
+<p><strong>분산 시스템으로서의 웹</strong></p>
+
+<p>RPC는 폐쇄된 네트워크 환경에서 미리 상정한 숫자와 종류의 클라이언트를 상대로 서비스를 제공하는 시스템으로는 뛰어난다.
+거꾸로 말하면, 개방된 네트워크 환경에서 불특정 다수의 클라이언트에 대해 서비스를 제공하는 시스템으로는 어울리지 않는다.
+개방형이고 불특정 다수를 상대로 하는 시스템이 바로 웹이다.
+웹에서는 전 세계의 유저들이 전 세계의 웹 서비스를 이용할 수 있다.
+각 유저의 컴퓨터 환경은 특정한 OS와 하드웨어로 통일되어 있지 않으며, 다양한 브라우저와 디바이스를 통해 하나의 웹 서비스를 접근할 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="웹의-표준화">웹의 표준화</h3>
+
+<p>Mosaic에 의해 보급된 웹에는 다양한 플레이어가 추가되었다.
+학술적인 콘첸츠뿐만 아니라, 뉴스와 오락 미디어의 참여, 쇼핑 사이트의 등장 등 1990년대 중후반에 걸쳐 동시다발적으로 일어났다.</p>
+
+<p><strong>웹의 스펙 책정</strong></p>
+
+<p>이런 상황 속에서 웹을 구성하는 기술, HTTP와 URI, HTML에 대한 표준화가 요구되었다.
+이들은 각 회사의 서버, 클라이언트 사이에서 이용되어야 하고 상호 운용성이 요구되었기 때문이다.
+웹 이전의 인터넷 표준은 모두 IETF의 RFC로 정해왔다. 실제로 HTTP, URI 그리고 버전2까지의 HTML은 RFC로 정의되어 있따.
+그러나 웹이 너무나 급속하게 보급되어 버렸기 때문에 IETF에서의 스펙 책정이 따라가질 못하고, 각 기업의 구현은 제각각이라 상호운용성이 결여되는 상태가 발생하게 되었다.
+이러한 문제를 해결하기 위해, 웹 기술을 구현하고 있는 베넏들이 모여 표준화를 수행하는 단체로 World Wide Web Consortium를 설립한다.
+w3c에서는 html, xml, uri, css, http 등의 표준화 작업이 이루어졌고, 당시의 상황을 브라우저 전쟁이라고도 부른다.
+Negtscape Navigator와 Internet Explorer가 독자적인 확장을 반복한 끝에 양쪽 진영의 HTML과 css의 렌더링 결과가 큭레 차이가 나게 되고, 개발자들은 브라우저 별로 대응해야만 하는 사태에 이르게 되었다. 이런 상황은 오랜 시간이 지나면서 서서히 해결되었지만, 현재에도 문제는 남아있다.
+웹이 여기까지 확장성을 가지고 동작하고 있는 것은 서버와 브라우저를 구현한 경험과 HTTP나 URI의 스펙이 책정되는 과정에 설계적으로 올바른 선택이 이어져온 결과다.</p>
+
+<p><strong>REST 탄생</strong></p>
+
+<p>웹의 아키텍처를 결정한 중요한 인물로는 로이 필딩이라고 한다.
+그는  Apache httpd &amp; libwww-perl등 각종 소프트웨어의 구현에 관여해 왔다.
+필딩은 이 구현 경험을 바탕으로 버너스-리 그룹과 함께 HTTP 1.0과 HTTP 1.1의 스펙을 제정하는데 관여했다.
+HTTP의 스펙을 책정하는 시기에 필딩은 대학원생이기도 했기 때문에, 자신의 연구과제로 웹이 왜 이렇게 성공했는지, 왜 이정도의 대규모 시스템이 성립된것인지에 대해 소프트웨어 아키텍처의 관점에서 분석하고 하나의 아키텍처 스타일로 정리했다.
+2000년, 그는 이 아키텍처 스타일을 REST라 이름을 붙이고, 박사학위 논문으로 제출했다.
+REST라는 이름은 HTTP의 약자에서 힌트를 얻었다. 즉 HTTP는 원래 하이퍼텍스트를 전송하기 위한 프로토콜이었지만, 실제로는 하이퍼텍스트 이외의 리소스 상태의 표현들을 전송하고 있다고 필딩은 주장했다. 
+그렇기 때문에 Representational State Transfer라고 이름 붙였던 것이다.</p>
+
+<h3 id="다양한-하이퍼미디어-포맷의-탄생">다양한 하이퍼미디어 포맷의 탄생</h3>
+
+<p>초기 웹에서는 HTML이 유일한 하이퍼미디어 포맷이었다.
+하지만, 웹이 보급됨에 따라 HTML만으로는 대응할 수 없는 다양한 요구가 생겨나기 시작해, 새로운 하이퍼미디어 포맷들이 탄생했다.
+예를 들어, HTML의 구조는 그대로 유지한 채, HTML에 다양한 의미를 가지게 할 수 있는 기술로서 microformats가 등장했다.
+또한 웹페이지의 새로운 정보를 서버에서 발송하고, 전용 프로그램으로 그것을 체그하기 위한 용도로 RSS가 제안되었다.
+그러나 RSS 는 복수의 버전이 난립해 혼란스러웠던 탓ㅊ에 최종적으로는 IETF에서 Atom이 표준화되었다.
+Html과 Atom은 xml을 베이스로 한 구조화 문서용 마크업 언어이기 때문에 데이터 기술을 위한 표기가 너무 중복되었고, 그래서 좀 더 단순한 데이터 포맷이 몇 가지 제안되었고, 그중에서 사실상 표준이 된 것이 JSON이다.</p>
+
+<p><br /></p>
+
+<h3 id="웹-api를-둘러싼-논의">웹 API를 둘러싼 논의</h3>
+
+<p>초기의 웹은 학술논문 교환에 이용되어서 주로 사람이 문서를 읽기 위한 시스템이었는데, 웹의 용도가 다양화되면서 프로그램을 자동화 처리를 하고자 하는 요구가 생겨나기 시작했다.
+1990년대 후반부터 2000년대 전반에 걸쳐 프로그램으로 조작이 가능한 웹 API에 대한 논의가 일어났다.</p>
+
+<p><strong>SOAP와 WS-</strong></p>
+
+<p>1990년대 후반, 웹은 상업적인 성공을 거두고 버블을 맞이하게 되었다. 
+웹 기술을 사용하는 것이 트렌드가 되었따.
+HTTP 1.1을 책정하는 필딩의 그룹과는 별개로, 다양한 배경을 가진 그룹들이 웹을 프로그램에서 이용할 수 있도록 하기 위해 확장을 시도했다.
+그 중에서 큰 세력을 가지고 있던 것이 RPC/분산 오브젝트 그룹이다.
+그들은 과거에 CORBA와 DCOM 같은 분산 오브젝트로 자사의 기술을 디팩토 스탠더드로 마들기 위해 표준화 경쟁을 벌인 적이 있다.
+그것들은 거의 성공하지 못했지만, 같은 방법론으로 웹상의 분산 오브젝트를 구현하려고 했다.</p>
+
+<p>RFC/분산 오브젝트 그룹의 움직임 중에서 가장 기본적인 프로토콜은 SOAP이다.
+SOAP은 http를 애플리케이션 프로토콜이 아닌 트랜스포트 프로토콜로 다루고, HTTP 상에서 독자적으로 메시지를 전송한다.
+SOAP은 Microsoft가 w3c에 제안하고, IBM과 그 밖의 벤더를 끌어들여 표준화가 시작되었다.
+SOAP는 메시지 전송 방법만을 규정한 스펙이기 때문에 실제로 시스템을 구축할 때는 SOAP 상에 서비스 별로 프로토콜을 정의하지 않으면 안된다.
+이것들을 각 벤더마다 제각기 정의하게 되면 이전의 분산 시스템의 전철을 밟는 셈이었기 때문에 ws-security, ws- transaction 등 ws- 라고 불리는 주변 스펙들이 w3c와 oasis에 제안되었다.
+하지만 여러 비슷비슷한 스펙이 어려 개가 난립했기 때문에, 결국 표준화 경쟁을 불러일으켰다.</p>
+
+<p><strong>SOAP 대 REST</strong></p>
+
+<p>이런 SOAP와 ws-를 둘러싼 혼란 속에서 당시 W3C의 메일링 리스트에서는 프로그램에서도 이용 가능한 웹의 아키텍처에 대해서 활발히 논의되었다.
+이 논쟁에는 필딩도 적극적으로 관여했다.
+그는 직접 만든 REST의 이론을 바탕으로 대기업들이 추진하는 SOAP 기반의 기술을 부정하고, 웹이 웹다울 수 있는 아키텍처로서 REST를 권장했다.
+필딩이 SOAP의 잘못된 점을 아무리 지적햇도 soap 스펙의 책정 작업은 W3C에서 계속 진행되었다.
+하지만, 필딩의 의견을 지지하는 사람들이 서서히 나타났다. 그 대표격이라고 할 수 있는 사람이 마크베이커와 폴 프레스코드이다.
+베이커는 분산 오브젝트 엔지니어로, 웹 이전부터 분산 오브젝트 기술에 관여하고 있었다.
+프레스코드는 XML/구조화 문서 엔지니어다. 이렇게 기술적 배경이 다른 두사람이 웹을 통해 REST를 만났고, 다양한 미디어를 통해 함께 REST를 선전했다.</p>
+
+<p><strong>REST의 오해와 보급</strong></p>
+
+<p>SOAP와 REST에 관한 논쟁은 2000년대 전후부터 시작되어 2003년 정도가 정점이었다.
+2000년 당시는 Google이 검색엔진으로서 겨우 일정한 지위를 가지기 시작할 무렵으로, 현재와 같은 각종 웹 API는 존재하지 않았다.
+REST의 보급이 탄력을 받기 시작한 것은 2002년에 등장한 Amazon 웹 서비스다.
+Amazon은 자신들이 취급하는 서적과 그 밖의 상품들의 정보를 웹을 통해 프로그램으로 취급할 수 있도록 했다.
+그 때 Amazon은 SOAP를 이용한 형식과 특정 URI와 HTTP로 GET하는 형식의 2가지를 준비했다.
+기술적으로 정확한 것은 아니지만, 후자를 편의상 REST 형식이라고 불렀다.
+Amazon의 웹 API는 그 정보의 유용성과 편리한 사용법에 힘입어 순식간에 보급되었다.
+그리고 SOAP와 REST의 이용 비율이 20대 80이라고 보고 되자, SOAP 대 REST의 논쟁에 불이 붙었다.
+REST를 부정하는 사람들의 주장은 Amazon처럼 보안이 필요없는 간단한 웹 API에서는 URI를 GET하기만 하는 단순한 방식이 이용될 수 있지만 기간 시스템 같은 트랜잭션과 신뢰성이 필요한 곳에는 REST의 기능은 불충분하다는 것이었다.
+REST 대 SOAP의 논쟁은 열기를 더하고 REST는 http와 URI 만으로 기간 시스템을 만들 수 있냐? REST는 장난감이다라고 멸시까지 했다.
+하지만 결과적으로 REST측이 승리했고 웹 2.0 흐름 속에서 Google과 Amazon 같은 기업들은 REST 형식의 웹 API를 제공하기 시작했다.
+웹 2.0에서 중요했던 것은 매쉬업이다. 매쉬업이란 여러 가지 웹 API가 제공하는 정보를 조합해 하나의 애플리케이션을 실현하는 방법을 말한다.
+매쉬업에서는 가벼움이 요구되었기 때문에, 웹 API가 제공하는 리소스를 HTTP와 URI로 간단히 조작할 수 있는 REST 스타일 쪽이 받아들여졌던 것이다.</p>
+
+<p><strong>SOAP와 WS- 패인</strong></p>
+
+<p>첫째는 기술적인 이유다.
+SOAP와 WS-는  RPC/분산 오브젝트가 가지고 있던 기술적인 문제점을 그대로 가지고 있는데다 스펙들마저 복잡해저 버렸다.
+예를 들어, 벤더 간 인터페이스 호환성의 결여, 복잡한 프로토콜 스택, 네트워크를 통한 인터페이스 호출에 의한 오버헤드 등이다.</p>
+
+<p>둘째는 정치적인 이유다.
+SOAP와 WS- 의 표준화 작업은 W3C와 OASIS에서 수행했다.
+여기서의 표준화 작업은 각 벤더가 드래프트를 가지고 오면, 그 차이를 조정하는 식으로 이루어졌다.
+하지만 많은 벤더들이 SOAP 자체도 표준으로 확정되기도 전에 구현을 추진했기 때문에 동일한 SOAP와 WS-라도 해석에 차이가 생겼고 호환성이 결여되었다.</p>
+
+<p><br /></p>
+
+<h3 id="모든-것은-웹으로">모든 것은 웹으로</h3>
+
+<p>REST가 보급되면서 웹은 인터넷을 통째로 집어 삼키기 시작했다.
+그때까지는 별도의 프로토콜을 사용하던 메일과 넷 뉴스의 경우 백엔드에서 동작하고 있는 프로토콜은 변화하지 않았지만, 적어도 유저 인터페이스는 웹으로 통일하기 시작했고 엔드 유저는 웹만을 인식하게 되었다.
+이런 배경에는 Ajax와 Comet 등의 기술적 돌파구가 있다.
+이 기술들에 의해서, 그전까지 있을 수 없었던 사용자 인터페이스와 편의성이 웹의 장접과 맞물려 계속 실현되었다.
+예를 들어 예전의 맵 소프트는 맵 데이터를 로컬 하드디스크에 설치해 이용했었다. 
+하지만 이 방식으로는 한 대의 PC에 인스톨 한 데이터밖에는 다룰 수 없다.
+그에 비해, 현재의 맵 서비스는 전 세계의 위성사진과 지도를 언제라도 최신 상태로 이용할 수 있다.
+이것은 서버 측에서 맵 데이터를 모아서 보관하고, 필요에 따라 웹을 통해 다운로드하는 방식이기 때문에 실현될 수 있는 것이다.
+현재 우리들이 이용하고 있는 소프트웨어의 많은 부분이 웹을 전제로 하고 있고 모든 소프트웨어와 데이터들이 계속해서 웹으로 구현되면서 웹의 중요성은 날로 커지고 있다.</p>]]></content><author><name>kun</name></author><category term="web" /><summary type="html"><![CDATA[웹의 역사]]></summary></entry><entry><title type="html">싱글턴 패턴</title><link href="http://localhost:4000/java/til/%EC%8B%B1%EA%B8%80%ED%84%B4-%ED%8C%A8%ED%84%B4/" rel="alternate" type="text/html" title="싱글턴 패턴" /><published>2022-02-24T00:00:00+09:00</published><updated>2022-02-24T00:00:00+09:00</updated><id>http://localhost:4000/java/til/%EC%8B%B1%EA%B8%80%ED%84%B4%20%ED%8C%A8%ED%84%B4</id><content type="html" xml:base="http://localhost:4000/java/til/%EC%8B%B1%EA%B8%80%ED%84%B4-%ED%8C%A8%ED%84%B4/"><![CDATA[<h2 id="view는-유틸리티-클래스로-싱글턴-패턴으로">View는 유틸리티 클래스로? 싱글턴 패턴으로?</h2>
+
+<p>상태가 없는 클래스들은 모든 메서드를 static 으로 선언하여 유틸리티 클래스로 만들어준다.<br />
+하지만 static 메서드가 많아 지게 되면 메모리 측면에서 안 좋아진다.<br />
+static 메서드들은 프로그램이 종료할 때까지 static영역에 남아있다.</p>
+
+<p>하지만 상태가 없다고 유틸리티 클래스로 만들기는 무리다.
+Controller도 무상태 객체이고 static은 객체 지향 보다는 절차 지향에 가까운 키워드라고 한다.</p>
+
+<p>유틸리티 성격은 아닌데 인스턴스로 여러번 생성되기엔 성격이 적절하지 않을 때, 싱글턴 패턴을 사용해서 인스턴스 생성을 제한할 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="싱글턴-패턴">싱글턴 패턴</h3>
+
+<p>싱글턴 패턴이란 객체의 인스턴스가 오직 1개만 생성 되는 패턴을 의미한다.
+싱글턴 패턴의 이점은 메모리 측면이 있다.
+최초 한번의 new 연산자를 통해서 고정된 메모리 영역을 사용하기 때문에 해당 객체에 접근할 때 메모리 낭비를 방지할 수 있다.
+그리고 이미 생성된 인스턴스를 활용하면서 속도 측면에서도 이점이 있다.</p>
+
+<p>싱글턴 패턴은 데이터 공유가 쉽다. 싱글톤 인스턴스는 전역으로 사용되기 때문에 다른 클래스 인스턴스들이 접근하여 사용할 수 있다.
+하지만 여러 클래스의 인스턴스에서 싱글톤 인스턴스의 데이터에 동시에 접근하게 되면 동시성 문제가 발생할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">view</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">utils.InputValidator</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.stream.Collectors</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputView</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PURCHASE_AMOUNT_INPUT_MESSAGE</span> <span class="o">=</span> <span class="s">"구입금액을 입력해 주세요."</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">WINNING_NUMBER_INPUT_MESSAGE</span> <span class="o">=</span> <span class="s">"지난 주 당첨 번호를 입력해 주세요."</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">BONUS_BALL_INPUT_MESSAGE</span> <span class="o">=</span> <span class="s">"보너스 볼을 입력해 주세요."</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">DELIMITER</span> <span class="o">=</span> <span class="s">","</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Scanner</span> <span class="n">scanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+
+    <span class="kd">private</span> <span class="nf">InputView</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">InputView</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">inputView</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="nf">input</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+        <span class="nc">InputValidator</span><span class="o">.</span><span class="na">validateNull</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="nc">InputValidator</span><span class="o">.</span><span class="na">validateEmpty</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">input</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">inputPurchaseAmount</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">PURCHASE_AMOUNT_INPUT_MESSAGE</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">inputWinningNumber</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">WINNING_NUMBER_INPUT_MESSAGE</span><span class="o">);</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">numberValues</span> <span class="o">=</span> <span class="n">toStrings</span><span class="o">(</span><span class="n">input</span><span class="o">());</span>
+        <span class="k">return</span> <span class="nf">toNumbers</span><span class="o">(</span><span class="n">numberValues</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">toStrings</span><span class="o">(</span><span class="nc">String</span> <span class="n">stringArray</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">stringArray</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="no">DELIMITER</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">toNumbers</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">numberValues</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">numberValues</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Integer:</span><span class="o">:</span><span class="n">parseInt</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">inputBonusBall</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">BONUS_BALL_INPUT_MESSAGE</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="nc">InputView</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+        <span class="nc">OutputView</span> <span class="n">outputView</span> <span class="o">=</span> <span class="nc">OutputView</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+        <span class="nc">LottoController</span> <span class="n">lottoController</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoController</span><span class="o">();</span>
+
+        <span class="nc">LottosDto</span> <span class="n">lottosDto</span> <span class="o">=</span> <span class="n">lottoController</span><span class="o">.</span><span class="na">purchase</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">inputPurchaseAmount</span><span class="o">());</span>
+        <span class="n">outputView</span><span class="o">.</span><span class="na">printPurchasedLotto</span><span class="o">(</span><span class="n">lottosDto</span><span class="o">);</span>
+
+        <span class="n">lottoController</span><span class="o">.</span><span class="na">determineWinningNumber</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">inputWinningNumber</span><span class="o">(),</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputBonusBall</span><span class="o">());</span>
+
+        <span class="n">outputView</span><span class="o">.</span><span class="na">printResult</span><span class="o">(</span><span class="n">lottoController</span><span class="o">.</span><span class="na">makeResult</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[View는 유틸리티 클래스로? 싱글턴 패턴으로?]]></summary></entry><entry><title type="html">Enum이란?</title><link href="http://localhost:4000/java/Enum%EC%9D%B4%EB%9E%80/" rel="alternate" type="text/html" title="Enum이란?" /><published>2022-02-23T00:00:00+09:00</published><updated>2022-02-23T00:00:00+09:00</updated><id>http://localhost:4000/java/Enum%EC%9D%B4%EB%9E%80</id><content type="html" xml:base="http://localhost:4000/java/Enum%EC%9D%B4%EB%9E%80/"><![CDATA[]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">캐싱 기법</title><link href="http://localhost:4000/java/til/%EC%BA%90%EC%8B%B1-%EA%B8%B0%EB%B2%95/" rel="alternate" type="text/html" title="캐싱 기법" /><published>2022-02-22T00:00:00+09:00</published><updated>2022-02-22T00:00:00+09:00</updated><id>http://localhost:4000/java/til/%EC%BA%90%EC%8B%B1%20%EA%B8%B0%EB%B2%95</id><content type="html" xml:base="http://localhost:4000/java/til/%EC%BA%90%EC%8B%B1-%EA%B8%B0%EB%B2%95/"><![CDATA[<h2 id="캐싱이란">캐싱이란</h2>
+
+<p>캐시는 컴퓨터 과학에서 데이터나 값을 미리 복사해 놓는 임시 장소를 가리킨다.
+캐시는 데이터를 접근해 시간이 오래 걸리는 경우나 다시 계산하는 시간을 절약하고 싶은 경우에 사용한다.
+캐시에 데이터를 미리 복사해 놓으면 계산이나 접근 시간 없이 더 빠른 속도로 데이터에 접근할 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="java-wrapper-class">Java Wrapper Class</h3>
+
+<p>Java에서는 원시 타입을 참조 타입으로 사용하기 위해 만든 Wrapper 클래스가 있다.
+인스턴스는 각각의 주소를 가지고, Wrapper Class 로 생성한 값들은 서로 다른 주소값을 가지기 때문에 실제 값을 비교하기 위해 오버라이딩이 된 <code class="language-plaintext highlighter-rouge">equals()</code> 를 사용한다. <code class="language-plaintext highlighter-rouge">==</code>으로 비교를 한다면 값이 같아도 false가 나올 것이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Integer</span> <span class="n">num1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+<span class="nc">Integer</span> <span class="n">num2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">num1</span> <span class="o">==</span> <span class="n">num2</span><span class="o">);</span> <span class="o">-&gt;</span> <span class="n">하지만</span> <span class="kc">true</span> <span class="n">가</span> <span class="n">나온다</span><span class="o">.</span> <span class="n">왜</span><span class="o">?</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="integer의-캐싱">Integer의 캐싱</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">IntegerCache</span> <span class="o">{</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">low</span> <span class="o">=</span> <span class="o">-</span><span class="mi">128</span><span class="o">;</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">high</span><span class="o">;</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Integer</span> <span class="n">cache</span><span class="o">[];</span>
+
+        <span class="kd">static</span> <span class="o">{</span>
+            <span class="c1">// high value may be configured by property</span>
+            <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">127</span><span class="o">;</span>
+            <span class="nc">String</span> <span class="n">integerCacheHighPropValue</span> <span class="o">=</span>
+                <span class="no">VM</span><span class="o">.</span><span class="na">getSavedProperty</span><span class="o">(</span><span class="s">"java.lang.Integer.IntegerCache.high"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">integerCacheHighPropValue</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">parseInt</span><span class="o">(</span><span class="n">integerCacheHighPropValue</span><span class="o">);</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="mi">127</span><span class="o">);</span>
+                    <span class="c1">// Maximum array size is Integer.MAX_VALUE</span>
+                    <span class="n">h</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="o">(-</span><span class="n">low</span><span class="o">)</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span><span class="o">(</span> <span class="nc">NumberFormatException</span> <span class="n">nfe</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="c1">// If the property cannot be parsed into an int, ignore it.</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">h</span><span class="o">;</span>
+
+            <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Integer</span><span class="o">[(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">low</span><span class="o">;</span>
+            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">cache</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">k</span><span class="o">++)</span>
+                <span class="n">cache</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Integer</span><span class="o">(</span><span class="n">j</span><span class="o">++);</span> <span class="c1">// 인스턴스 미리 생성!!</span>
+
+            <span class="c1">// range [-128, 127] must be interned (JLS7 5.1.7)</span>
+            <span class="k">assert</span> <span class="nc">IntegerCache</span><span class="o">.</span><span class="na">high</span> <span class="o">&gt;=</span> <span class="mi">127</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">private</span> <span class="nf">IntegerCache</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="o">}</span>
+
+
+    <span class="nd">@HotSpotIntrinsicCandidate</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Integer</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="nc">IntegerCache</span><span class="o">.</span><span class="na">low</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="nc">IntegerCache</span><span class="o">.</span><span class="na">high</span><span class="o">)</span>
+            <span class="k">return</span> <span class="nc">IntegerCache</span><span class="o">.</span><span class="na">cache</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="o">(-</span><span class="nc">IntegerCache</span><span class="o">.</span><span class="na">low</span><span class="o">)];</span> <span class="c1">// 저장된 값 반환!!</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Integer</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="c1">// 새로운 Integer 생성 후 반환!!</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>위의 코드를 보면 low 값인 -128부터 high 값인 127 까지 Integer 인스턴스를 미리 생성하여 cache 배열에 저장하는 것을 볼 수 있다.
+<code class="language-plaintext highlighter-rouge">valueOf()</code>는 low와  hight 사이의 값일 경우 IntegerCache의 cache에 저장된 값을 반환하고 그 외의 경우 새로 Integer 인스턴스를 생성하여 반환한다.</p>
+
+<p>이 IntegerCache에서 사용된 캐싱 기법을 Lotto 미션에서도 구현을 해보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">domain.Lotto</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">utils.ExceptionMessage</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoNumber</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MINIMUM_LOTTO_NUMBER</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAXIMUM_LOTTO_NUMBER</span> <span class="o">=</span> <span class="mi">45</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="no">CACHE</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="no">MINIMUM_LOTTO_NUMBER</span><span class="o">;</span> <span class="n">number</span> <span class="o">&lt;=</span> <span class="no">MAXIMUM_LOTTO_NUMBER</span><span class="o">;</span> <span class="n">number</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="no">CACHE</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">number</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="n">number</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">validateLottoNumberBound</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">number</span> <span class="o">=</span> <span class="n">number</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validateLottoNumberBound</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="no">MINIMUM_LOTTO_NUMBER</span> <span class="o">||</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="no">MAXIMUM_LOTTO_NUMBER</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="nc">ExceptionMessage</span><span class="o">.</span><span class="na">LOTTO_NUMBER_OUT_OF_BOUND</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">LottoNumber</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">=</span> <span class="no">CACHE</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">lottoNumber</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="no">CACHE</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">number</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="n">number</span><span class="o">));</span>
+            <span class="n">lottoNumber</span> <span class="o">=</span> <span class="no">CACHE</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">lottoNumber</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="nf">values</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="no">CACHE</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNumber</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">number</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>1에서 45의 LottoNumber 객체를 미리 만들어놔서 <code class="language-plaintext highlighter-rouge">valueOf()</code>와 <code class="language-plaintext highlighter-rouge">values()</code>를 사용해 숫자가 같은 LottoNumber 인스턴스는 모두 동일한 인스턴스가 된다.
+캐싱을 함으로써 발생하는 메모리 낭비 문제를 해결할 수 있다. 
+또한 숫자가 같은 LottoNumber는 같은 객체이므로 , equals와 hashcode를 오버라이딩하지 않아도 된다.</p>
+
+<p><br /></p>
+
+<p>참고<br /></p>
+
+<p><a href="https://tecoble.techcourse.co.kr/post/2020-06-24-caching-instance/">https://tecoble.techcourse.co.kr/post/2020-06-24-caching-instance/</a></p>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[캐싱이란]]></summary></entry><entry><title type="html">동작 파라미터화 코드 전달하기</title><link href="http://localhost:4000/java/%EB%8F%99%EC%9E%91-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%ED%99%94-%EC%BD%94%EB%93%9C-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="동작 파라미터화 코드 전달하기" /><published>2022-02-21T00:00:00+09:00</published><updated>2022-02-21T00:00:00+09:00</updated><id>http://localhost:4000/java/%EB%8F%99%EC%9E%91%20%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%ED%99%94%20%EC%BD%94%EB%93%9C%20%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/java/%EB%8F%99%EC%9E%91-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%ED%99%94-%EC%BD%94%EB%93%9C-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0/"><![CDATA[<h2 id="동작-파라미터화-코드-전달하기">동작 파라미터화 코드 전달하기</h2>
+
+<p>소비자 요구사항은 항상 바뀌고, 변화하는 요구 사항은 소프트웨어 엔지니어링에서 피할 수 없는 문제다.
+그러면 시시각각 변하는 사용자 요구 사항에 어떻게 대응해야 할까?
+엔지니어링적인 비용이 가장 최소화 될 수 있어야 하고, 유지보수가 쉬워야 한다.</p>
+
+<p>동작 파라미터화를 이용하면 자주 바뀌는 요구사항에 효과적으로 대응할 수 있다.
+동작 파라미터화란 아직은 어떻게 실행할 것인지 결정하지 않은 코드 블록을 의미한다.
+즉, 코드 블록의 실행은 나중으로 미뤄진다.</p>
+
+<p>ex) 친구는 슈머파켓에 갔다가 집으로 돌아오는 길을 알고 있다. 그래서 친구에게 음식좀 사오라고 부탁을 했다.
+이 동작은 goAndBuy라는 메서드를 호출하면서 사려는 물품을 파라미터로 전달하는 것으로 비유 할 수 있다.
+그런데 어느날 , 친구에게 우체국에서 소포를 받아와 달라고 부탁해야 하는데, 친구는 소포를 가져온 경험이 없다.
+그래서 나는 친구에게 우체국에서 소포를 가져오는 방법을 상세하게 정리해서 알려줘야 한다. 
+이 상황을 비유 했을 때, 소포를 가져오는 동작을 메서드의 파라미터로 전달하는 것이다.</p>
+
+<h2 id="요구-사항에-따라-대응하기">요구 사항에 따라 대응하기</h2>
+
+<ul>
+  <li>첫번째 요구 사항 : 녹색 사과 필터링 해주세요</li>
+  <li>첫번째 시도 : 녹색 사과 필터링</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterGreenApples</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">()</span> <span class="o">==</span> <span class="nc">Color</span><span class="o">.</span><span class="na">GREEN</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>두번째 요구 사항 : 빨간 사과 필터링 해주세요 + 무게에 따라 사과를 필터링 해주세요</li>
+  <li>두번째 시도 : 색을 파라미터화 + 무게에 따라 필터링 하는 메서드 추가</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterApplesByColor</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">,</span> <span class="nc">Color</span> <span class="n">color</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">()</span> <span class="o">==</span> <span class="n">color</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterApplesByWeight</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">,</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">weight</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>좋은 해결책이었지만, 색 필터링 코드와 무게 필터링 코드 거의 중복
+소프트웨어 공학의 DRY(don’t repeat yourself) 원칙을 어기고 있다.</p>
+
+<ul>
+  <li>세번째 시도 : 가능한 모든 속성으로 필터링 (어떤 것을 기준으로 필터링할지 flag 사용)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterApplesByWeight</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">,</span> <span class="nc">Color</span> <span class="n">color</span><span class="o">,</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">flag</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">flag</span> <span class="o">&amp;&amp;</span> <span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">color</span><span class="o">))</span> <span class="o">||</span> <span class="o">(!</span><span class="n">flag</span> <span class="o">&amp;&amp;</span> <span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">weight</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>형편없는 코드. 파라미터가 무엇을 뜻하는지 불분명하다.
+그리고 요구사항이 또 바뀌면 유연하게 대응도 불가능하다.</p>
+
+<h3 id="동작-파라미터화">동작 파라미터화</h3>
+
+<p>요구사항에 유연하게 대응하기 위해 필터링 조건에 따라 불리언 값을 반환하는 방식을 생각해보자.
+참 또는 거짓을 반환하는 함수를 <strong>프레디케이트</strong>라고 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 알고리즘 패밀리</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplePredicate</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 전략 1</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppleHeavyWeightPredicate</span> <span class="kd">implements</span> <span class="nc">ApplePredicate</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 전략 2</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppleGreenColorPredicate</span> <span class="kd">implements</span> <span class="nc">ApplePredicate</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">()</span> <span class="o">==</span> <span class="nc">Color</span><span class="o">.</span><span class="na">GREEN</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위 조건에 따라 filter 메서드가 다르게 동작할 것이라고 예상할 수 있다. 이를 전략 디자인 패턴이라고 한다.
+전략 디자인 패턴은 각 전략들을 캡슐화하는 알고리즘 패밀리를 정의해둔 다음 런타임에 선택하는 기법이다.</p>
+
+<p>filterApples에서 AppliePredicate 객체를 받아 애플의 조건을 검사하도록 메서드를 고쳐야 한다.
+이렇게 동작 파라미터화, 즉 메서드가 다양한 동작을 받아서 내부적으로 다양한 동작을 수행할 수 있다.</p>
+
+<ul>
+  <li>네번째 시도 : 추상적 조건으로 필터링</li>
+</ul>
+
+<p>filter 메서드</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterApples</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">,</span> <span class="nc">ApplePredicate</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">apple</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>무겁고 빨간 사과를 필터링하는 전략</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppleRedHeavyWeightPredicate</span> <span class="kd">implements</span> <span class="nc">ApplePredicate</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="no">RED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">())</span> <span class="o">&amp;&amp;</span> <span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>우리가 전달한 ApplePredicate 객체에 의해 filterApples 메서드의 동작이 결정되는 것이다.
+즉, 우리는 filterApples 메서드의 동작을 파라미터화한 것이다.
+가장 중요한 구현은 test 메서드이고, 메서드는 객체만 인수로 받으므로 test 메서드를 ApplePredicate 객체로 감싸서 전달해야 한다.</p>
+
+<h2 id="복잡-한-과정-간소화">복잡 한 과정 간소화</h2>
+
+<h3 id="익명-클래스">익명 클래스</h3>
+
+<p>자바는 클래스의 선언과 인스턴스화를 동시에 수행할 수 있도록 익명 클래스라는 기법을 제공한다.
+익명 클래스는 말 그대로 이름이 없는 클래스다. 익명 클래스를 이용하면 클래스 선언과 인스턴스화를 동시에 할 수 있다.</p>
+
+<ul>
+  <li>5번째 시도 : 익명 클래스 사용</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">redApples</span> <span class="o">=</span> <span class="n">filterApples</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ApplePredicate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">test</span><span class="o">(</span><span class="nc">Apple</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="no">RED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">());</span>
         <span class="o">}</span>
     <span class="o">});</span>
 </code></pre></div></div>
 
-<p>File 클래스에는 이미 isHidden이라는 메서드가 있는데 왜 굳이 FileFileter로 감싼 다음에 FileFilter를 인스턴스화해야 하나?</p>
+<p>익명 클래스도 여전히 많은 공간 차지한다.
+장황한 코드는 유지보수하는데 오래걸릴 뿐 아니라, 즐거움을 빼앗는다.</p>
 
 <ul>
-  <li>메서드 참조 사용</li>
+  <li>여섯번째 시도 : 람다 표현식 사용</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nc">File</span><span class="o">[]</span> <span class="n">hiddenFiles2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="s">"."</span><span class="o">).</span><span class="na">listFiles</span><span class="o">(</span><span class="nl">File:</span><span class="o">:</span><span class="n">isHidden</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">filterApples</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="no">RED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getColor</span><span class="o">()));</span>
 </code></pre></div></div>
 
-<p>isHidden이라는 메서드가 File 클래스에 준비되어 있으므로 메서드 참조를 이용해서 listFiles에 직접 전달하였다.<br /></p>
+<p>이전 코드보다 훨씬 간단해졌다.</p>
 
-<p><code class="language-plaintext highlighter-rouge">::</code>  : 메서드를 값으로 사용해라</p>
+<h2 id="실전-예제">실전 예제</h2>
 
-<p><br /></p>
+<h3 id="comparator로-정렬하기">Comparator로 정렬하기</h3>
 
-<p><strong>람다 : 익명함수</strong></p>
-
-<p>메서드를 일급값으로 취급할 뿐 아니라 람다(또는 익명함수)를 포함하여 함수도 값으로 취급할 수 있다.<br />직접 메서드를 정의해서 메서드 참조를 이용할 수도 있지만, 이용할 수 있는 편리한 클래스나 메서드가 없을 때 새로운 람다 문법을 이용하면 더 간결한 코드를 작성할 수 있다.<br /></p>
-
-<p><strong>람다 문법 형식으로 구현된 프로그램을 함수형 프로그래밍, 즉 함수를 일급값으로 넘겨주는 프로그램을 구현한다.</strong></p>
-
-<p><br /></p>
-
-<p><strong>예시</strong></p>
-
-<p>Apple 클래스가 존재하고 Apple 객체의 무게를 반환해주는 getWeight() 이라는 메서드가 존재한다.<br />Apple 타입의 리스트에서 무게가 150보다 큰 Apple 객체들을 필터링하는 작업을 해볼 것이다.</p>
+<p>정렬 기준 요구사항이 계속 바뀔 때, 우리는 어떻게 정렬해야 하는가?
+Comparator를 구현해서 sort 메서드의 동작을 다양화할 수 있다.</p>
 
 <ul>
-  <li>메서드를 전달하지 않은 코드</li>
+  <li>익명 클래스 사용</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterHeavyApples</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-            <span class="k">for</span> <span class="o">(</span><span class="nc">Applie</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">){</span>
-                <span class="k">if</span><span class="o">(</span><span class="n">apple</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">)</span> <span class="o">{</span>
-                  <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
-               <span class="o">}</span>
-            <span class="o">}</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;()</span>
+    <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">){</span>
+        <span class="k">return</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
     <span class="o">}</span>
+    <span class="o">});</span>
 </code></pre></div></div>
 
-<p>단점 : 다른 기준으로 필터링하는 코드를 작성할 때, 거의 동일한 코드가 여러번 반복된다.<br /></p>
-
 <ul>
-  <li>메서드를 전달하는 코드</li>
+  <li>람다 사용</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="nf">filterApples</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">inventory</span><span class="o">,</span> <span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
-      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-          <span class="k">for</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">apple</span> <span class="o">:</span> <span class="n">inventory</span><span class="o">){</span>
-              <span class="k">if</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">apple</span><span class="o">))</span> <span class="o">{</span>
-                    <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
-                <span class="o">}</span>
-              <span class="o">}</span>
-    <span class="o">}</span> 
-
-<span class="c1">// 사용할 때</span>
-	<span class="n">filterApples</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="nl">Apple:</span><span class="o">:</span><span class="n">isGreenApple</span><span class="o">);</span>
-	<span class="n">filterApples</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="nl">APPLE:</span><span class="o">:</span><span class="n">isHeavyApple</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		<span class="n">inventory</span><span class="o">.</span><span class="na">sort</span><span class="o">((</span><span class="nc">Apple</span> <span class="n">a1</span><span class="o">,</span> <span class="nc">Apple</span> <span class="n">a2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()));</span>
 </code></pre></div></div>
 
-<p><br /></p>
+<h3 id="runnable로-코드-블록-실행하기">Runnable로 코드 블록 실행하기</h3>
 
-<h3 id="메서드-전달에서-람다로">메서드 전달에서 람다로</h3>
+<p>자바 스레드를 이용하면 병렬로 코드 블록을 실행할 수 있다.
+자바 8까지는 Thread 생성자에 객체만을 전달할 수 있었으므로 보통 결과를 반환하지 않는 void run 메서드를 포함하는 익명 클래스가 Runnable 인터페이스를 구현하도록 하는 것이 일반적인 방법이다.</p>
 
-<p>메서드를 값으로 전달하는 것은 분명 유용한 기능이다.<br />하지만 한 두번만 사용할 메서드를 매번 정의하는 것은 귀찮은 일이다.<br />자바 8에서는 람다를 사용해서 코드를 구현할 수 있다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Runnable</span> <span class="o">{</span>
+   	 	<span class="kt">void</span> <span class="nf">run</span><span class="o">();</span>
+		<span class="o">}</span>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">filterApples</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">a</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">);</span>
-	<span class="n">filterApples</span><span class="o">(</span><span class="n">inventory</span><span class="o">,</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">a</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="no">GREEN</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">()));</span>
+    <span class="nc">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="k">new</span> <span class="nc">Runnable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hello world"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
 </code></pre></div></div>
 
-<p>한 번만 사용할 메서드는 따로 정의를 구현할 필요가 없지만 람다가 몇 줄 이상으로 길어진다면 익명 람다 보다는 코드가 수행하는 일을 잘 설명하는 이름을 가진 메서드를 정의하고 메서드 참조를 활용하는 것이 바람직하다.<br />코드의 명확성이 우선시되어야 한다.</p>
-
-<p>위에서 filterApples라는 새로운 메서드를 정의하였는데, 라이브러리 메서드 filter를 사용하면 메서드를 구현할 필요가 없다.<br />자바 8에서는 filter와 비슷한 동작을 수행하는 연산집합을 포함하는 새로운 스트림 API를 제공한다.</p>
-
-<p><br /><br /></p>
-
-<h2 id="스트림">스트림</h2>
-
-<p>거의 모든 자바 어플리케이션은 컬렉션을 만들고 활용한다.<br />스트림 API를 이용하면 컬렉션 API와는 상당히 다른 방식으로 데이터를 처리할 수 있다.</p>
-
 <ul>
-  <li>컬렉션
-    <ul>
-      <li>반복 과정 직접 처리 (외부 반복)</li>
-    </ul>
-  </li>
-  <li>스트림 API
-    <ul>
-      <li>라이브러리 내부에서 모든 데이터 처리 (내부 반복)</li>
-    </ul>
-  </li>
+  <li>8부터는 람다 사용</li>
 </ul>
 
-<p>많은 요소를 가진 목록을 반복한다면 오랜 시간이 걸릴 수 있다.<br />단일 cpu로는 거대한 데이터를 처리하기 힘들다. 하지만 우리는 현재 대부분 멀티 코어 cpu를 사용한다.<br />따라서 서로 다른 cpu 코어에 작업을 각각 할당해서 처리 시간을 줄일 수 있다면 좋다.</p>
-
-<p><br /></p>
-
-<h3 id="멀티스레딩은-어렵다">멀티스레딩은 어렵다</h3>
-
-<p>스레드 API로 멀티스레딩 코드를 구현해서 병렬성을 이용하는 것은 쉽지 않다.<br />멀티 스레딩 환경에서 각각의 스레드는 동시에 공유된 데이터에 접근하고, 데이터를 갱신할 수 있는데 스레드를 잘 제어하지 못하면 원치 않은 방식으로 바뀐다.</p>
-
-<p>하지만 자바 8에서 부터 스트림 API로 ‘컬렉션을 처리하면서 발생하는 모호함과 반복적인 코드 문제’, ‘멀티코어 활용 어려움’ 이라는 2가지 문제를 모두 해결했다.<br />기존의 컬렉션에서는 데이터를 처리할 때 반복되는 패턴이 너무 많았는데, 라이브러리에서 이러한 반복되는 패턴을 제공한다면 좋을 것이라는 아이디어가 변화의 동기가 되었다.<br />자주 반복되는 패턴으로 데이터를 필터링, 추출, 그룹화 등의 기능이 있다.<br />또한 이러한 동작들을 쉽게 병렬화할 수 있다는 점도 변화의 동기가 되었다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/153752496-cf7a56fc-7077-4ea3-b419-69c49560a7cf.png" alt="image" /></p>
-
-<ul>
-  <li>포킹 단계<br />두 cpu를 가진 환경에서 리스트를 필터링할 때 한 cpu는 리스트의 앞부분을 처리하고, 다른 cpu는 리스트의 뒷부분을 처리하도록 요청할 수 있다.</li>
-  <li>각각의 cpu는 자신이 맡은 절반의 리스트를 처리한다.</li>
-  <li>마지막으로 하나의 cpu가 두 결과를 정리한다.</li>
-</ul>
-
-<p><strong>컬렉션은 어떻게 데이터를 저장하고 접근할지에 중점을 두고, 스트림은 데이터에 어떤 계산을 할 것인지 묘사하는 것에 중점을 둔다.</strong></p>
-
-<p>스트림은 스트림 내의 요소를 쉽게 병렬로 처리할 수 있는 환경을 제공한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Apple</span><span class="o">&gt;</span> <span class="n">heavyApples</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="na">parallelStream</span><span class="o">()</span>
-                                   <span class="o">.</span><span class="na">filter</span><span class="o">(</span> <span class="o">(</span><span class="nc">Apple</span> <span class="n">a</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="o">)</span>
-                                   <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		<span class="nc">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello world"</span><span class="o">));</span>
 </code></pre></div></div>
 
-<p><br /><br /></p>
+<h3 id="callable을-결과로-반환하기">Callable을 결과로 반환하기</h3>
 
-<h2 id="디폴트-메서드와-자바-모듈">디폴트 메서드와 자바 모듈</h2>
+<p>ExecutorService 인터페이스를 이용하면 태스크를 스레드 풀로 보내고 결과를 Future로 저장할 수 있다.</p>
 
-<p>요즘은 외부에서 만들어진 컴포넌트를 이용해 시스템을 구축하는 경향이 있다.<br />지금까지 자바에서는 특별한 구조가 아닌 평범한 자바 패키지 집합을 포함하는 JAR파일을 제공하는 것이 전부였다.<br />게다가 패키지의 인터페이스를 바꿔야 하는 상황에서는 인터페이스를 구현하는 모든 클래스의 구현을 바꿔야 했으므로 정말 고통스러운 작업이었다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Future</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">threadName</span> <span class="o">=</span> <span class="n">executorService</span><span class="o">.</span><span class="na">submit</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">())</span>
+</code></pre></div></div>
 
-<p>자바8에서는 인터페이스를 쉽게 바꿀 수 있도록 디폴트 메서드를 지원한다.<br />디폴트 메서드는 특정 프로그램을 구현하는데 도움을 주는 기능이 아니라 미래에 프로그램이 쉽게 변화할 수 있는 환경을 제공하는 기능이다.</p>
+<p>f</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[동작 파라미터화 코드 전달하기]]></summary></entry><entry><title type="html">Controller는 무슨 역할을 하는가?</title><link href="http://localhost:4000/java/til/Controller%EB%8A%94-%EB%AC%B4%EC%8A%A8-%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%A0%EA%B9%8C/" rel="alternate" type="text/html" title="Controller는 무슨 역할을 하는가?" /><published>2022-02-19T00:00:00+09:00</published><updated>2022-02-19T00:00:00+09:00</updated><id>http://localhost:4000/java/til/Controller%EB%8A%94%20%EB%AC%B4%EC%8A%A8%20%EC%97%AD%ED%95%A0%EC%9D%84%20%ED%95%A0%EA%B9%8C</id><content type="html" xml:base="http://localhost:4000/java/til/Controller%EB%8A%94-%EB%AC%B4%EC%8A%A8-%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%A0%EA%B9%8C/"><![CDATA[<h2 id="controller는-무슨일을-하는가">Controller는 무슨일을 하는가?</h2>
 
-<p>현재 Collection 인터페이스에는 stream이라는 메서드가 정의되지 않았다고 가정하자.<br />List의 스트림이 사용된 코드를 컴파일 되게 하기 위해서는 직접 Collection 인터페이스에 stream 메서드를 추가하고 ArrayList 클래스에서 메서드를 구현해야 한다.<br />하지만 이미 컬렉션 API의 인터페이스를 구현하는 많은 컬렉션 프레임워크가 존재하는데 인터페이스를 구현한 모든 클래스는 새로 추가된 메서드를 구현해야 한다.<br />현실적으로 언어 설계자들이 인터페이스에 구현한 모든 코드를 책임질 수 없기에, 자바 8은 구현 클래스에서 구현하지 않아도 되는 메서드를 인터페이스에 추가할 수 있는 기능을 제공한다.<br />이러한 메서드를 디폴트 메서드라고 부르고 메서드 본문은 클래스 구현이 아니라 인터페이스의 일부로 포함된다.</p>
+<p>항상 Controller의 로직을 짤 때마다, 의문이 들었다.
+Controller는 인스턴스의 상태를 가지고 있지 않기 때문에 유틸리티 클래스로 만들어줘도 되지 않을까? 
+Controller 같이 모든 코드를 조립해주는 클래스들을 어떻게 해야 더 객체지향적인 코드로 설계할 수 있을까?</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">default</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
-      <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
-  <span class="o">}</span>
-</code></pre></div></div>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[자바 8, 9, 10, 11 무슨일이 일어나고 있는가]]></summary></entry><entry><title type="html">2022.02.13 함수 vs 메서드 , TDA 법칙, 커밋에는 어떤 내용이</title><link href="http://localhost:4000/java/til/%ED%95%A8%EC%88%98-vs-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="alternate" type="text/html" title="2022.02.13 함수 vs 메서드 , TDA 법칙, 커밋에는 어떤 내용이" /><published>2022-02-13T00:00:00+09:00</published><updated>2022-02-13T00:00:00+09:00</updated><id>http://localhost:4000/java/til/%ED%95%A8%EC%88%98%20vs%20%EB%A9%94%EC%84%9C%EB%93%9C</id><content type="html" xml:base="http://localhost:4000/java/til/%ED%95%A8%EC%88%98-vs-%EB%A9%94%EC%84%9C%EB%93%9C/"><![CDATA[<h2 id="함수-vs-메서드">함수 vs 메서드</h2>
-<p>모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다.<br />
-함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다.<br />
-함수와 메서드의 용어에 대해서 생각해보게 되었다.
-<br /></p>
+<p>리뷰어님께 이러한 궁금증들을 여쭤보게 되었고, <code class="language-plaintext highlighter-rouge">View가 Controller로 넘어와도 될까요?</code> 라는 역질문을 받게 되었다.</p>
 
-<h3 id="함수">함수</h3>
-<p>프로그래밍 언어에 있어서 함수라는 것은 어떠한 기능을 수행하는 것이다.
-<br /></p>
-
-<h3 id="메서드">메서드</h3>
-<p>메서드도 함수처럼 어떠한 기능을 수행하는 것인데, 차이가 있다면 메서드는 클래스와 연관되어 있는 함수라는 것이다.<br /> 
- 클래스 내에 선언되어 있는 함수가 바로 메서드다. 
- <br /></p>
-
-<h3 id="정리">정리</h3>
-
-<p><strong>클래스 및 객체와 연관되어 있는 것이라면 메서드고, 그것들과 상관없이 독립적으로 존재하는 것은 함수다. 함수가 메서드보다 더 큰 개념이라고 생각할 수 있다.</strong>
- Java 클래스에서 함수라는 용어를 사용하지 않았던 것은, Java는 모두 클래스로 이루어져있고 클래스 밖에 어떠한 것도 선언할 수 없기 때문이었다.</p>
-
-<p><br />
-<br /></p>
-
-<h2 id="tdatell-dont-ask-법칙">TDA(Tell don’t ask) 법칙</h2>
-
-<p><br />
-<br /></p>
-
-<h2 id="커밋">커밋</h2>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[함수 vs 메서드 모던 자바 인 액션을 읽는 중, 책에서 설명을 할 때 메서드와 함수를 다른 의미로 사용하는 듯 했다. 함수와 메서드는 같은 의미지 않나라는 생각이 들었고, java 공부를 시작하면서 함수라는 단어는 사용을 잘 안 한듯한 느낌이 들었다. 함수와 메서드의 용어에 대해서 생각해보게 되었다.]]></summary></entry><entry><title type="html">2022.02.11 스트림 joining, 상대방 커밋 이력 가져오기</title><link href="http://localhost:4000/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC-joining,-%EC%83%81%EB%8C%80%EB%B0%A9-%EC%BB%A4%EB%B0%8B-%EC%9D%B4%EB%A0%A5-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0/" rel="alternate" type="text/html" title="2022.02.11 스트림 joining, 상대방 커밋 이력 가져오기" /><published>2022-02-11T00:00:00+09:00</published><updated>2022-02-11T00:00:00+09:00</updated><id>http://localhost:4000/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC%20joining,%20%EC%83%81%EB%8C%80%EB%B0%A9%20%EC%BB%A4%EB%B0%8B%20%EC%9D%B4%EB%A0%A5%20%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC-joining,-%EC%83%81%EB%8C%80%EB%B0%A9-%EC%BB%A4%EB%B0%8B-%EC%9D%B4%EB%A0%A5-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0/"><![CDATA[<h2 id="스트림-colloctorsjoining">스트림 Colloctors.joining()</h2>
-<h2 id="상대방-커밋-이력과-코드-가져오기">상대방 커밋 이력과 코드 가져오기</h2>
-
-<ul>
-  <li><strong>git remote add <code class="language-plaintext highlighter-rouge">축약할 이름</code> <code class="language-plaintext highlighter-rouge">가져올 상대의 저장소</code></strong></li>
-</ul>
-
-<p>내 Local git과 가져올 Github의 저장소의 주소를 연결시켜주기 위해 이 작업이 필요하다.
-축약할 이름은 자기가 편한 이름으로 지어주면 된다.
-보통 자주 사용하는 <code class="language-plaintext highlighter-rouge">origin</code>도 하나의 이름이다.
-git clone 을 하면 자동으로 clone 한 저장소와 연결이 된다. 그 때, 자동으로 origin 이라고 이름이 지어진다.</p>
-
-<p><br /></p>
-
-<ul>
-  <li><strong>git fetch <code class="language-plaintext highlighter-rouge">축약이름</code> <code class="language-plaintext highlighter-rouge">브랜치명</code></strong></li>
-</ul>
-
-<p>이렇게 작성을 해주면, 내가 입력한 브랜치의 코드들과 커밋만 가져와 준다.</p>
-
-<p><br /></p>
-
-<ul>
-  <li><strong>git merge <code class="language-plaintext highlighter-rouge">축약이름</code>/ <code class="language-plaintext highlighter-rouge">브랜치</code></strong></li>
-</ul>
-
-<p>커밋 이력은 git log를 통해 확인할 수 있다.
-이 작업을 하면, 코드와 커밋 이력이 내 로컬 저장소에 생기게 된다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/154097981-42ca3527-d5f4-4624-b1ad-4e21edf885f9.png" alt="image" /></p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/154098199-df2fdacf-733c-49a7-97bf-920496a52f43.png" alt="image" /></p>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[스트림 Colloctors.joining() 상대방 커밋 이력과 코드 가져오기]]></summary></entry><entry><title type="html">2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스</title><link href="http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/" rel="alternate" type="text/html" title="2022.02.10 정규표현식, 팩토리 메서드 패턴, 유틸 클래스" /><published>2022-02-10T00:00:00+09:00</published><updated>2022-02-10T00:00:00+09:00</updated><id>http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C%20%ED%91%9C%ED%98%84%EC%8B%9D,%20%ED%8C%A9%ED%86%A0%EB%A6%AC%20%EB%A9%94%EC%84%9C%EB%93%9C%20%ED%8C%A8%ED%84%B4,%20%EC%9C%A0%ED%8B%B8%20%ED%81%B4%EB%9E%98%EC%8A%A4</id><content type="html" xml:base="http://localhost:4000/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/"><![CDATA[<h2 id="정규-표현식">정규 표현식</h2>
-
-<h2 id="팩토리-메서드-패턴">팩토리 메서드 패턴</h2>
-
-<h2 id="유틸-클래스">유틸 클래스</h2>
-
-<p>이렇게 모든 메소드가 static이고 객체를 만들어 쓰지 않는 클래스를 유틸리티 클래스라고 한다.<br />
-이 클래스는 인스턴스화 될 필요가 없다. <br />
-생성자 사용을 방지하기 위해 기본 생성자를 private으로 만들수도 있다.<br />
-상속을 방지하기 위해 클래스를 final로 선언한다. <br />
-유틸리티 클래스에서 비즈니스 로직을 다루는 것은 좋지 않다.<br />나 같은 경우는 InputView나 OutputView 같은 뷰클래스들은 유틸 클래스로 만든다.<br />
-그리고 상황에 맞게, 인스턴스가 없는 클래스 같은 경우 유틸 클래스로 만들어 효율적으로 관리할 수 있을 것 같다.</p>]]></content><author><name>kun</name></author><category term="til" /><category term="java" /><summary type="html"><![CDATA[정규 표현식]]></summary></entry><entry><title type="html">2022.02.09 Junit</title><link href="http://localhost:4000/til/Junit/" rel="alternate" type="text/html" title="2022.02.09 Junit" /><published>2022-02-09T00:00:00+09:00</published><updated>2022-02-09T00:00:00+09:00</updated><id>http://localhost:4000/til/Junit</id><content type="html" xml:base="http://localhost:4000/til/Junit/"><![CDATA[<p>우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다.<br />
-이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다.<br />
-지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해 궁금증이 생겨 정리해보았다.<br /></p>
-
-<h2 id="junit5">Junit5</h2>
-
-<p>Junit5는 이전 버전과 다르게 세개의 서브 프로젝트로 이루어져 있다.
-Junit5은 <code class="language-plaintext highlighter-rouge">Junit Platform</code> + <code class="language-plaintext highlighter-rouge">Junit Jupiter</code> + <code class="language-plaintext highlighter-rouge">Junit Vintage</code> 이 3개가 합쳐진 것이다.</p>
-
-<ul>
-  <li>
-    <p><strong>Junit Platform</strong><br />
-  Junit Platform은 JVM 테스트 프레임워크를 실행하는데 기초를 제공한다.
-  또한 TestEngine API를 제공해 테스트 프레임워크를 개발할 수 있다.</p>
-  </li>
-  <li>
-    <p><strong>Junit Jupiter</strong><br />
-  Junit Jupiter는 Junit 5에서 테스트를 작성하고 확장 하기 위한 새로운 프로그래밍 모델과 확장 모델의 조합이다.</p>
-  </li>
-  <li>
-    <p><strong>Junit Vintage</strong><br />
-  Junit Vintage는 하위 호환성을 위해 Junit3과 Junit4를 기반으로 돌아가는 플랫폼에 테스트 엔진을 제공한다.</p>
-
-    <p><br /></p>
-  </li>
-</ul>
-
-<h3 id="displayname">@DisplayName</h3>
-
-<p>테스트 클래스나 테스트 메서드에 이름을 붙여줄 때 사용한다.
-테스트를 실행했을 때, 디폴트값은 메서드 이름인데, <code class="language-plaintext highlighter-rouge">@DisplayName</code>을 붙여주면 <code class="language-plaintext highlighter-rouge">@DisplayName</code>의 내용이 출력된다.</p>
-
-<p><br /></p>
-
-<h3 id="beforeeach">@BeforeEach</h3>
-
-<p>각각 테스트 메서드가 실행되기전에 실행되어야 하는 메서드를 명시해준다.
-<code class="language-plaintext highlighter-rouge">@Test</code>, <code class="language-plaintext highlighter-rouge">@RepeatedTest</code>, <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code>, <code class="language-plaintext highlighter-rouge">@TestFactory</code> 가 붙은 테스트 메서드가 실행하기 전에 실행된다.
-Junit4의 <code class="language-plaintext highlighter-rouge">@Before</code> 와 같은 역할을 한다.</p>
-
-<p><br /></p>
-
-<h3 id="parameterizedtest">@ParameterizedTest</h3>
-
-<p>파라미터화 테스트는 각각 다른 인자로 여러 번 테스트를 돌린다.
-호출 시 사용될 인자를 적어도 하나는 적어줘야 한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nd">@ParameterizedTest</span>
-	<span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">})</span>
-	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Set값 전체 존재 확인"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">set값_전체_존재_확인</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">assertThat</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">value</span><span class="o">)).</span><span class="na">isTrue</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Game</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">CarFactory</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">inputCarNames</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="nc">InputView</span><span class="o">.</span><span class="na">inputGameCount</span><span class="o">();</span>
+		<span class="nc">OutputView</span><span class="o">.</span><span class="na">printGameResultTitle</span><span class="o">();</span>
+		<span class="n">play</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+		<span class="n">showResult</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
 	<span class="o">}</span>
-</code></pre></div></div>
 
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">@ValueSource</code>  :  간단하게 하나의 배열로 값을 정의하며, 하나의 인자만 받는 파라미터화 테스트에만 적용할 수 있다.</li>
-  <li><code class="language-plaintext highlighter-rouge">@NullSource</code> : <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> 메서드에 null을 제공한다.</li>
-  <li><code class="language-plaintext highlighter-rouge">@EmptySource</code> : 배열 같은 인자에 빈값을 제공한다.</li>
-</ul>
-
-<p><br /></p>
-
-<h3 id="csvsource">@CsvSource</h3>
-
-<p><code class="language-plaintext highlighter-rouge">@CsvSource</code> 는 리스트를 delimeter 속성의 구분자로 구분해 준다.
-delimeter 속성에 아무것도 입력하지 않는다면 기본값은 콤마를 사용한다.
-delimeterString 속성을 쓰면 문자 대신 문자열로 구분자를 사용할 수도 있다.
-그러나 delimeter 속성과 delimeterString을 동시에 사용하면 안된다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ParameterizedTest</span>
-	<span class="nd">@CsvSource</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span><span class="s">"1:true"</span><span class="o">,</span> <span class="s">"2:True"</span><span class="o">,</span> <span class="s">"3:true"</span><span class="o">,</span> <span class="s">"4:false"</span><span class="o">,</span> <span class="s">"5:false"</span><span class="o">},</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="sc">':'</span><span class="o">)</span>
-	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Set값 존재 여부 구별"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">set값_존재_여부_구별</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">assertThat</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">value</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">play</span><span class="o">(</span><span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">Referee</span><span class="o">.</span><span class="na">judgeCarMove</span><span class="o">(</span><span class="n">car</span><span class="o">,</span> <span class="n">makeRandomValue</span><span class="o">());</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">cars</span><span class="o">;</span>
 	<span class="o">}</span>
-</code></pre></div></div>
 
-<p><br /></p>
-
-<h3 id="assertions">Assertions</h3>
-
-<p>JUnit Jupiter는 JUnit4로부터 온 assertion 메소드와 새롭게 자바 8 람다 표현식으로 추가된 메소드들이 있다. 
-모든 JUnit Jupiter assertion은 정적 메소드이며, <code class="language-plaintext highlighter-rouge">org.junit.jupiter.api.Assertions</code> 클래스 안에 있다.</p>
-
-<p><br /></p>
-
-<h2 id="assertj란-무엇인가">AssertJ란 무엇인가</h2>
-
-<p>AsserJ는 많은 assertion을 제공하는 자바 라이브러리다.
-에러 메세지와 테스트 코드의 가독성을 매우 높여준다.
-<code class="language-plaintext highlighter-rouge">Junit</code>에서 제공하는 assertEquals에 비해 가독성이 더 좋다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertEquals</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">actual</span><span class="o">);</span>
-<span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h3 id="exception-처리-test">Exception 처리 test</h3>
-
-<ul>
-  <li><strong>assertThatThrownBy()</strong> 
-예외 처리를 가독성 있게 테스트할 수 있게 해준다.
-기존에는 Throwable을 가지고 검증 했다면, 좀 더 나은 가독성으로 작성하게 해준다.</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">공백_이름</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">""</span><span class="o">))</span>
-			<span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-			<span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="no">EMPTY_NAME_ERROR</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">showResult</span><span class="o">(</span><span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">OutputView</span><span class="o">.</span><span class="na">printLineString</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+		<span class="o">}</span>
+		<span class="nc">OutputView</span><span class="o">.</span><span class="na">printBlankLine</span><span class="o">();</span>
 	<span class="o">}</span>
+
+
 </code></pre></div></div>
 
-<p><br /></p>
+<p>지금과 같은 경우에는 View가 Console이기 때문에, Controller에서 View를 직접 반환하기 때문에 위와 같은 구조가 되겠지만, 추후에 App이나 Web의 경우에는 사용할 수 없는 구조이다.
+그리고 view가 controller와 결합성이 높게 되면 도메인이 영향을 받을 가능성이 높아지고 controller가 하나의 view에 종속적일 수 밖에 없다.</p>
 
-<ul>
-  <li><strong>assertThatExceptionOfType</strong></li>
-</ul>
+<p>그래서 controller에 들어오기 전에 View를 통해 input을 받고 입력받은 String값을 controller에 넘겨주고, output의 경우에도 Controller에서 return한 값을 output에 전달하는 방식을 제안해주셨다.
+직접 View를 전달하는 것이 아닌, 서버에서는 API를 넘기고 front 작업을 따로 하는 형식이다.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nd">@Test</span>
-	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"IndexOutOfBoundsException 발생"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">indexOutOfBoundsException_발생</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">assertThatExceptionOfType</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">isThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-			<span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="s">"abc"</span><span class="o">;</span>
-			<span class="kt">int</span> <span class="n">errorIndex</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
-			<span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">errorIndex</span><span class="o">));</span>
-		<span class="o">});</span>
-	<span class="o">}</span>
-</code></pre></div></div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GameController</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">NEGATIVE_ERROR_MESSAGE</span> <span class="o">=</span> <span class="s">"[ERROR] 음수를 입력할 수 없습니다"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">ERROR_CRITERIA_VALUE_ZERO</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
 
-<p><br /></p>
+    <span class="kd">private</span> <span class="nc">Cars</span> <span class="n">cars</span><span class="o">;</span>
 
-<p>AssertJ에서 자주 발생하는 예외들에 대해 정의된 함수를 제공한다.
-<code class="language-plaintext highlighter-rouge">NullPointerException</code>, <code class="language-plaintext highlighter-rouge">IllegalArgumentException</code>, <code class="language-plaintext highlighter-rouge">IllegalStateException</code>, <code class="language-plaintext highlighter-rouge">IOException</code>이 있다.</p>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">createCars</span><span class="o">(</span><span class="nc">String</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="nc">CarFactory</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">carNames</span><span class="o">));</span>
+    <span class="o">}</span>
 
-<ul>
-  <li><strong>assertThatIoException</strong></li>
-</ul>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">createGameCount</span><span class="o">(</span><span class="kt">int</span> <span class="n">gameCount</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">validateGameCount</span><span class="o">(</span><span class="n">gameCount</span><span class="o">);</span>
+    <span class="o">}</span>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nd">@Test</span>
-	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Exception Message 검사"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">exception_message_검사</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">assertThatIOException</span><span class="o">().</span><span class="na">isThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-			<span class="k">throw</span> <span class="k">new</span> <span class="nf">IOException</span><span class="o">(</span><span class="s">"exception message test"</span><span class="o">);</span>
-		<span class="o">}).</span><span class="na">withMessage</span><span class="o">(</span><span class="s">"exception message test"</span><span class="o">);</span>
-	<span class="o">}</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">validateGameCount</span><span class="o">(</span><span class="kt">int</span> <span class="n">gameCount</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">gameCount</span> <span class="o">&lt;</span> <span class="no">ERROR_CRITERIA_VALUE_ZERO</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="no">NEGATIVE_ERROR_MESSAGE</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">gameCount</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">TotalCarsDto</span> <span class="nf">play</span><span class="o">(</span><span class="kt">int</span> <span class="n">gameCount</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarsDto</span><span class="o">&gt;</span> <span class="n">carsDtos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">gameCount</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">carsDtos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">cars</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="k">new</span> <span class="nc">RandomNumberGenerator</span><span class="o">()));</span>
+        <span class="o">}</span>
+        <span class="nc">WinnerCarsDto</span> <span class="n">winnerCarsDto</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">judgeWinner</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">TotalCarsDto</span><span class="o">(</span><span class="n">carsDtos</span><span class="o">,</span> <span class="n">winnerCarsDto</span><span class="o">);</span>
+    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p><br /></p>
-
-<p>참고<br />
-<a href="https://pjh3749.tistory.com/241">https://pjh3749.tistory.com/241</a><br />
-<a href="https://donghyeon.dev/junit/2021/04/11/JUnit5-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C/">https://donghyeon.dev/junit/2021/04/11/JUnit5-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C/</a></p>]]></content><author><name>kun</name></author><category term="til" /><summary type="html"><![CDATA[우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다. 이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다. 지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해 궁금증이 생겨 정리해보았다.]]></summary></entry><entry><title type="html">JDK, JRE, JVM</title><link href="http://localhost:4000/java/JDK,JRE,JVM/" rel="alternate" type="text/html" title="JDK, JRE, JVM" /><published>2022-02-06T00:00:00+09:00</published><updated>2022-02-06T00:00:00+09:00</updated><id>http://localhost:4000/java/JDK,JRE,JVM</id><content type="html" xml:base="http://localhost:4000/java/JDK,JRE,JVM/"><![CDATA[<p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
-
-<h1 id="jdk-java-development-kit">JDK (Java Development Kit)</h1>
-
-<p>JDK란 Java를 활용하여 프로그램을 개발할 때 필요한 도구 모음이다. <br />JRE는 Java 프로그램을 실행하기 위한 도구들의 구성요소로 독립적으로 사용 가능하다. <br />하지만 프로그램을 실행시키는 것도 개발의 일환이기 때문에 JDK는 JRE를 필요로 한다.</p>
-
-<p><br /></p>
-
-<p><strong>JDK 구성요소</strong></p>
-
-<ul>
-  <li>javac : 자바 컴파일러. 자바 소스파일을 바이트코드로 반환</li>
-  <li>jdb : 자바 디버깅 툴</li>
-  <li>jar : 서로 관련있는 클래스 라이브러리들과 리소스를 하나의 파일로 묶어주는 툴</li>
-</ul>
-
-<p><br /></p>
-
-<p><strong>JDK 종류</strong></p>
-
-<ul>
-  <li>
-    <p>Java SE (Java Standard Edition)<br />: 표준 에디션의 자바 플랫폼이다. 자바 언어의 핵심 기능을 제공한다. 주요 패키지는 java.lang , java.io , java.util, java.awt 등이 있다.</p>
-  </li>
-  <li>
-    <p>Java EE (Java Enterprise Edition)<br />: Java SE에 웹 어플리케이션 서버에서 동작하는 기능을 추가한 플랫폼이다.  JSP, Servlet, JDBC 등 기업용 어플리케이션을 개발하는데 필요한 다양한 것들이 포함된 플랫폼이다.</p>
-  </li>
-  <li>
-    <p>Java ME (Java Micro Edition)<br />: 임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.</p>
-
-    <p><br /></p>
-  </li>
-</ul>
-
-<h1 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h1>
-
-<p>JVM 위에서 .class 파일이 원활하게 작동하기 위해서는 몇 가지 필수적인 요소들이 필요하는데 이를 제공해주는 것이 JRE다.<br /> JRE는 크게 JVM과 Java Class Libraries, Class Loader라는 요소로 구성이 된다.</p>
-
-<p><br /></p>
-
-<p><strong>Java Class Libraries</strong></p>
-
-<p>Java를 실행시키는데 필수적인 라이브러리다.<br />java.io, java.util, java.thread, java.lang 등 작동에 필수적인 요소들을 가지고 있다.<br />JVM에 올라가는 바이트 코드에서도 필수 라이브러리를 참고하고 있기 때문에 간단한 코드라도 필수 라이브러리가 필요하다.</p>
-
-<p><br /></p>
-
-<p><strong>Class Loader</strong></p>
-
-<p>필요한 클래스들을 JVM 위로 올려주는 역할을 한다. <br />Javac를 통해 생성된 .class 파일은 각 디렉토리에 흩어져 있다.<br />그리고 라이브러리의 클래스 파일들은 $JAVAHOME_ 내부 경로에 존재한다.<br />이러한 각각의 클래스 파일들을 찾아서 JVM의 메모리에 탑재해주는 역할을 하는 것이 ClassLoader 이다.</p>
-
-<p>ClassLoader 는 크게 Loading, Linking, 그리고 Initialization 3가지 역할을 맡게 된다.<br /> Loading 은 클래스 파일을 탑재하는 과정, Linking 은 클래스 파일을 사용하기 위해 검증하고, 기본 값으로 초기화하는 과정이다. Initialization 은 static field 의 값들을 개발자가 정의한 값으로 초기화를 하는 과정이다.</p>
-
-<p><br /></p>
-
-<h1 id="jvm-java-virtual-machine">JVM (Java Virtual Machine)</h1>
-
-<p>JVM은 Java로 작성된 프로그램이 돌아가도록 만들어준다.<br />Java로 작성된 프로그램은 운영체제에 맞는 실행파일로 컴파일되는 것이 아닌 .class라는 확장자를 가진 파일로 변환이 되는데 이 .class 파일이 JVM위에서 작동하는 것이고 JVM이 .class 파일에 환경을 제공해준다.<br />JVM은 자바 인터프리터, JIT 커파일러, 가비지 컬렉터로 구성되어 있다.</p>
-
-<p><br /></p>
-
-<p><strong>Java Interpreter</strong></p>
-
-<p>자바 컴파일러에 의해 변환된 자바 바이트 코드를 읽고 해석하는 역할을 하는 것이 자바 인터프리터다.</p>
-
-<p><br /></p>
-
-<p><strong>JIT 컴파일러 (Just In Time compiler)</strong></p>
-
-<p>JIT 컴파일러란 런타임에 자바 바이트 코드를 실제 기계어로 변환해주는 컴파일러를 의미한다. 프로그램의 실행 속도를 향상시키기 위해 동적 번역이라는 기법을 사용한다.</p>
-
-<p><br /></p>
-
-<p><strong>Garbage Collector</strong></p>
-
-<p>jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 자동으로 회수해 준다.</p>
-
-<p><br /></p>
-
-<h3 id="정리">정리</h3>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/152675147-e4b7c544-68cf-40bf-813c-e4cabcbf8a9c.png" alt="img_java_programming" /></p>
-
-<p>우리가 작성하는 자바 클래스 파일(.java)은 JDK의 자바 컴파일러(javac) 를 통해 자바 바이트 코드(.class) 로 변환하게 된다.</p>
-
-<p>자바 컴파일러에 의해 생성된 자바 바이트 코드는 운영체제에 상관없이 JVM 위에서 작동이 되기 때문에 Java가 이식성이 좋은 것이다.</p>
-
-<p>그리고 바이트 코드가 JVM 위에서 원활하게 작동이 되기 위해서는 필수적인 자바 라이브러리나 우리가 작성한 클래스 파일들이 필요하는데, 이러한 각각의 클래스 파일들을 JVM 위에 올려주는 역할을 하는 것이 JRE이다.</p>
-
-<p><br /></p>
-
-<p>참고</p>
-
-<p>https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk<br />
-https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/<br />
-https://tecoble.techcourse.co.kr/post/2021-07-12-jvm-jre-jdk/<br />
-http://www.tcpschool.com/java/java_intro_programming</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[]]></summary></entry></feed>
+<p>이렇게 코드를 짜보니 Controller의 역할에 더 실감할 수 있었다.
+View와 데이터를 주고 받으며 Car 객체들을 만들고 움직이게하고 우승자를 판정하는 등의 비즈니스 로직들을 실행시키는 역할을 하는 것이다.
+Controller는 외부에서 요청이 들어오는 것을 처리해주고, View에서 필요한 데이터들을 보내주는 역할을 한다.</p>]]></content><author><name>kun</name></author><category term="java" /><category term="til" /><summary type="html"><![CDATA[Controller는 무슨일을 하는가?]]></summary></entry></feed>
