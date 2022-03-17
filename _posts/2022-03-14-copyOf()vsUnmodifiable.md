@@ -1,8 +1,16 @@
+---
+title: Collections.unmodifiableList() vs List.copyOf()
+toc: true
+toc_sticky: true
+categories:
+  - java
+date: 2022-03-14
+---
+
 이전 내용을 간략하게 요약해보자.<br/>
 인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다.<br/>
 방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.
 
-<br/>
 
 ```java
 public final class Cards {
@@ -51,7 +59,6 @@ public class Application {
 }
 ```
 
-<br/>
 
 ![image](https://user-images.githubusercontent.com/67885363/158881619-6675b204-5f18-41ac-a12a-a10cc17c6328.png)
 
@@ -99,8 +106,6 @@ public final class Cards {
     }
 }
 ```
-
-<br/>
 
 
 ![image](https://user-images.githubusercontent.com/67885363/158884061-518ed7d1-641f-47a2-8849-14a1a71baf3a.png)
@@ -180,8 +185,9 @@ public class CopyOfTest {
 `unmodifiableList`는 원본 값에 영향을 받고 있다.<br/>
 원본 리스트에 새로운 값을 추가해주니, 변화하였다.<br/>
 하지만, `copyOfList`는 변화하지 않았다. 왜?<br/>
+`List.copyOf`는  원본과의 참조를 끊어주기 때문이다.
 
-`List.copyOf`는  원본과의 참조를 끊어주지만, `Collections.unmodifiableList()`는  참조가 끊어져 있지 않다.<br/>
+차이점으로, `Collections.unmodifiableList()`로는  참조가 끊어져 있지 않다.<br/>
  따라서, `Collections.unmodifiableList()`로 반환한 리스트를 직접 수정할 수는 없지만, 원본 리스트를 수정한다면 함께 수정이 일어난다.<br/>
 
 `Unmodifiable`과 `Immutable`은 다르다.<br/>

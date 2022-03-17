@@ -254,7 +254,7 @@
   <ul class="nav__items" id="category_tag_menu">
       <!--전체 글 수-->
       <li>
-            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">21</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">18</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
       </li>
       <li>
         <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
@@ -265,8 +265,13 @@
                 <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
                 
                     
-                        <li><a href="/categories/java" class="">JAVA (17)</a></li>
+                        <li><a href="/categories/java" class="">Java (15)</a></li>
                     
+                
+                    
+                
+            </ul>
+            <ul>
                 
                     
                 
@@ -279,28 +284,11 @@
                 
                     
                 
-                    
-                
             </ul>
             <ul>
                 
                     
                 
-                    
-                        <li><a href="/categories/til" class="">TIL (11)</a></li>
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                        <li><a href="/categories/web" class="">WEB (3)</a></li>
                     
                 
             </ul>
@@ -322,7 +310,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98-%EA%B3%B5%EB%8F%99%EC%B2%B4/" rel="permalink">협력하는 객체들의 공동체
+        <a href="/java/copyOf()vsUnmodifiable/" rel="permalink">Collections.unmodifiableList() vs List.copyOf()
 </a>
       
     </h2>
@@ -347,7 +335,9 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">객체지향이란 뭘까?
+    <p class="archive__item-excerpt" itemprop="description">이전 내용을 간략하게 요약해보자.
+인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다.
+방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.
 </p>
   </article>
 </div>
@@ -357,7 +347,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/%EB%9E%8C%EB%8B%A4-%ED%91%9C%ED%98%84%EC%8B%9D(2)/" rel="permalink">람다 표현식(2)
+        <a href="/java/%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC%EB%9E%80/" rel="permalink">방어적 복사
 </a>
       
     </h2>
@@ -375,14 +365,14 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          1 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">메서드 참조
+    <p class="archive__item-excerpt" itemprop="description">방어적 복사란
 </p>
   </article>
 </div>
@@ -392,7 +382,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/%EB%9E%8C%EB%8B%A4-%ED%91%9C%ED%98%84%EC%8B%9D/" rel="permalink">람다 표현식
+        <a href="/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/" rel="permalink">절차지향 vs 객체지향
 </a>
       
     </h2>
@@ -410,14 +400,14 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          7 minute read
+          less than 1 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">람다 표현식
+    <p class="archive__item-excerpt" itemprop="description">절차지향 vs 객체지향
 </p>
   </article>
 </div>
@@ -427,7 +417,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%EC%8B%B1%EA%B8%80%ED%84%B4-%ED%8C%A8%ED%84%B4/" rel="permalink">싱글턴 패턴
+        <a href="/java/%EC%8B%B1%EA%B8%80%ED%84%B4-%ED%8C%A8%ED%84%B4/" rel="permalink">싱글턴 패턴
 </a>
       
     </h2>
@@ -497,7 +487,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%EC%BA%90%EC%8B%B1-%EA%B8%B0%EB%B2%95/" rel="permalink">캐싱 기법
+        <a href="/java/%EC%BA%90%EC%8B%B1-%EA%B8%B0%EB%B2%95/" rel="permalink">캐싱 기법
 </a>
       
     </h2>
@@ -532,42 +522,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/%EB%8F%99%EC%9E%91-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%ED%99%94-%EC%BD%94%EB%93%9C-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0/" rel="permalink">동작 파라미터화 코드 전달하기
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">동작 파라미터화 코드 전달하기
-</p>
-  </article>
-</div>
-
-<div class="list__item">
-  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/java/til/Controller%EB%8A%94-%EB%AC%B4%EC%8A%A8-%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%A0%EA%B9%8C/" rel="permalink">Controller는 무슨 역할을 하는가?
+        <a href="/java/Controller%EB%8A%94-%EB%AC%B4%EC%8A%A8-%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%A0%EA%B9%8C/" rel="permalink">Controller는 무슨 역할을 하는가?
 </a>
       
     </h2>
@@ -602,7 +557,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EB%B6%84%EB%A6%AC%ED%95%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%ED%95%98%EA%B8%B0-%EC%A2%8B%EC%9D%80-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0/" rel="permalink">인터페이스를 분리해 테스트 코드 하기 좋은 메서드로 만들기
+        <a href="/java/%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EB%B6%84%EB%A6%AC%ED%95%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%ED%95%98%EA%B8%B0-%EC%A2%8B%EC%9D%80-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0/" rel="permalink">인터페이스를 분리해 테스트 코드 하기 좋은 메서드로 만들기
 </a>
       
     </h2>
@@ -637,7 +592,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%EC%9B%90%EC%8B%9C%EA%B0%92-%ED%8F%AC%EC%9E%A5/" rel="permalink">원시값 포장
+        <a href="/java/%EC%9B%90%EC%8B%9C%EA%B0%92-%ED%8F%AC%EC%9E%A5/" rel="permalink">원시값 포장
 </a>
       
     </h2>
@@ -672,7 +627,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%EC%9D%BC%EA%B8%89-%EC%BB%AC%EB%A0%89%EC%85%98/" rel="permalink">일급 컬렉션
+        <a href="/java/%EC%9D%BC%EA%B8%89-%EC%BB%AC%EB%A0%89%EC%85%98/" rel="permalink">일급 컬렉션
 </a>
       
     </h2>
@@ -707,7 +662,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="permalink">인스턴스 메서드 vs 클래스 메서드
+        <a href="/java/%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C-vs-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="permalink">인스턴스 메서드 vs 클래스 메서드
 </a>
       
     </h2>
@@ -742,7 +697,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/til/%ED%95%A8%EC%88%98-vs-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="permalink">함수 vs 메서드 , TDA 법칙
+        <a href="/java/%ED%95%A8%EC%88%98-vs-%EB%A9%94%EC%84%9C%EB%93%9C/" rel="permalink">함수 vs 메서드 , TDA 법칙
 </a>
       
     </h2>
@@ -779,42 +734,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/java/%EC%9E%90%EB%B0%94-8%EC%97%90%EC%84%9C%EB%8A%94-%EB%AC%B4%EC%8A%A8%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%AC%EB%8A%94%EA%B0%80/" rel="permalink">Java 8에서는 무슨일이 일어났는가?
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">자바 8, 9, 10, 11 무슨일이 일어나고 있는가
-</p>
-  </article>
-</div>
-
-<div class="list__item">
-  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/til/java/%EC%8A%A4%ED%8A%B8%EB%A6%BC-joining,-%EC%83%81%EB%8C%80%EB%B0%A9-%EC%BB%A4%EB%B0%8B-%EC%9D%B4%EB%A0%A5-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0/" rel="permalink">상대방 커밋 이력 가져오기
+        <a href="/java/%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/" rel="permalink">팩토리 메서드 패턴, 유틸 클래스
 </a>
       
     </h2>
@@ -839,7 +759,7 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">상대방 커밋 이력과 코드 가져오기
+    <p class="archive__item-excerpt" itemprop="description">정적 팩토리 메서드 패턴
 </p>
   </article>
 </div>
@@ -849,7 +769,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/til/java/%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D,-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4,-%EC%9C%A0%ED%8B%B8-%ED%81%B4%EB%9E%98%EC%8A%A4/" rel="permalink">정규표현식, 팩토리 메서드 패턴, 유틸 클래스
+        <a href="/java/Junit/" rel="permalink">Junit
 </a>
       
     </h2>
@@ -867,15 +787,16 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          2 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">정규 표현식
-</p>
+    <p class="archive__item-excerpt" itemprop="description">우테코 첫 미션으로 TDD 기법을 사용해 자동차 경주 게임을 구현한다.
+이전에 프로덕션 코드를 작성하고 간단한 단위 테스트 코드를 작성한 적은 있지만 TDD는 처음이다.
+지금까지는 Junit은 테스트 코드를 작성하게 지원해주는 라이브러리 정도라고만 알고 있었는데, Junit에 대해...</p>
   </article>
 </div>
 

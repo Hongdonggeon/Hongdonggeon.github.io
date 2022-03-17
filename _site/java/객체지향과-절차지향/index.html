@@ -9,19 +9,24 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Keep Going</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>절차지향 vs 객체지향 - Keep Going</title>
+<meta name="description" content="절차지향 vs 객체지향">
 
 
   <meta name="author" content="kun">
   
+  <meta property="article:author" content="kun">
+  
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Keep Going">
-<meta property="og:title" content="Keep Going">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:title" content="절차지향 vs 객체지향">
+<meta property="og:url" content="http://localhost:4000/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/">
+
+
+  <meta property="og:description" content="절차지향 vs 객체지향">
 
 
 
@@ -29,6 +34,7 @@
 
 
 
+  <meta property="article:published_time" content="2022-03-09T00:00:00+09:00">
 
 
 
@@ -39,11 +45,9 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/">
+<link rel="canonical" href="http://localhost:4000/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/">
 
 
-
-  <link rel="next" href="http://localhost:4000/page2/">
 
 
 <script type="application/ld+json">
@@ -92,7 +96,7 @@
 
   </head>
 
-  <body class="layout--home">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -302,24 +306,168 @@
 
 
 
-  <div class="archive">
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="절차지향 vs 객체지향">
+    <meta itemprop="description" content="절차지향 vs 객체지향">
+    <meta itemprop="datePublished" content="2022-03-09T00:00:00+09:00">
     
-      <h1 id="page-title" class="page__title"></h1>
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/" class="u-url" itemprop="url">절차지향 vs 객체지향
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
     
+
     
 
-<h3 class="archive__subtitle">Recent posts</h3>
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
 
 
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#절차지향-vs-객체지향">절차지향 vs 객체지향</a><ul><li><a href="#절차-지향">절차 지향</a></li><li><a href="#객체-지향">객체 지향</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="절차지향-vs-객체지향">절차지향 vs 객체지향</h2>
+
+<h3 id="절차-지향">절차 지향</h3>
+
+<p>프로시저로 프로그램을 구성하는 기법을 절차 지향 프로그래밍이라고 부른다.</p>
+
+<ul>
+  <li>프로시저는 데이터를 사용해서 기능을 구현한다.</li>
+  <li>프로시저는 다른 프로시저를 사용하기도 한다.</li>
+  <li>여러 프로시저가 동일한 데이터를 공유한다.</li>
+</ul>
+
+<p>다수의 프로시저들이 데이터를 공유하는 방식으로 만들어지기 때문에, 절차 지향 프로그램은 자연스럽게 데이터를 중심으로 구현하게 된다.</p>
+
+<p><br /></p>
+
+<p>절차 지향의 문제점</p>
+<ul>
+  <li>데이터 타입이나 의미를 변경해야 할 때, 함께 수정해야 하는 프로시저가 증가한다.</li>
+  <li>같은 데이터를 프로시저들이 서로 다른 의미로 사용하는 경우가 발생한다.</li>
+</ul>
+
+<p>절차 지향적으로 코드를 구현하는 것은 쉽지만, 데이터 종류가 증가하고 이를 사용하는 프로시저가 증가하게 되면, 여러가지 문제들이 발생하게 되고, 유지 보수가 어렵다.</p>
+
+<p><br /></p>
+
+<h3 id="객체-지향">객체 지향</h3>
+
+<p>객체 지향은 데이터 및 데이터 관련된 프로시저를 객체로 묶는다.</p>
+
+<p>객체는 프로시저를 실행하는데 필요한 만큼의 데이터를 가지며, 객체들이 모여 프로그램을 구성한다.</p>
+
+<p>객체는 자신만의 기능을 제공하며, 각 객체들이 서로 연결되어 다른 객체가 제공하는 기능을 사용할 수 있게 된다.</p>
+
+<p>객체는 다른 객체에 기능을 제공하기 위해 프로시저를 사용하는데, 프로시저는 자신이 속한 객체의 데이터에만 접근할 수 있으며, 다른 객체에 속한 데이터에는 접근할 수 없다.</p>
+
+<p>객체 지향은 객체 별로 데이터와 프로시저를 알맞게 정의해야 한다.</p>
+
+<p>객체 지향적으로 만든 코드는 객체의 데이터를 변경하더라도 해당 객체로만 변화가 집중되고 다른 객체에는 영향을 주지 않으므로, 요구 사항의 변화가 발생했을 때 절차 지향 방식보다 프로그램을 더 쉽게 변경할 수 있다.</p>
+
+<p><br />
+<br /></p>
+
+<p>참고 : 개발자가 반드시 정복해야 할 객체 지향과 디자인 패턴 (최범균)</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
 
 
-<div class="entries-list">
   
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
     
+      <a href="/categories/#java" class="page__taxonomy-item p-category" rel="tag">java</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-03-09T00:00:00+09:00">March 9, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5+vs+%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2F%25EA%25B0%259D%25EC%25B2%25B4%25EC%25A7%2580%25ED%2596%25A5%25EA%25B3%25BC-%25EC%25A0%2588%25EC%25B0%25A8%25EC%25A7%2580%25ED%2596%25A5%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2F%25EA%25B0%259D%25EC%25B2%25B4%25EC%25A7%2580%25ED%2596%25A5%25EA%25B3%25BC-%25EC%25A0%2588%25EC%25B0%25A8%25EC%25A7%2580%25ED%2596%25A5%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2F%25EA%25B0%259D%25EC%25B2%25B4%25EC%25A7%2580%25ED%2596%25A5%25EA%25B3%25BC-%25EC%25A0%2588%25EC%25B0%25A8%25EC%25A7%2580%25ED%2596%25A5%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/Exception/" class="pagination--pager" title="Exception
+">Previous</a>
+    
+    
+      <a href="/%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80-%EA%B0%9D%EC%B2%B4/" class="pagination--pager" title="클래스와 객체
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -356,12 +504,12 @@
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -396,12 +544,12 @@
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -436,52 +584,12 @@
   </article>
 </div>
 
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/" rel="permalink">절차지향 vs 객체지향
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">절차지향 vs 객체지향
-</p>
-  </article>
-</div>
-
-  
-    
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -516,63 +624,11 @@
   </article>
 </div>
 
+        
+      </div>
+    </div>
   
-</div>
-
-
-<nav class="pagination">
   
-  <ul>
-    
-    
-    <li><a href="#" class="disabled"><span aria-hidden="true">Previous</span></a></li>
-    
-
-    
-    
-      <li><a href="#" class="disabled current">1</a></li>
-    
-
-    
-    
-
-    
-    
-    
-
-    
-      
-        
-        
-        
-        <li><a href="/page2/">2</a></li>
-      
-    
-      
-        
-        
-        
-        <li><a href="/page3/">3</a></li>
-      
-    
-
-    
-    
-
-    
-      <li><a href="/page4/">4</a></li>
-    
-
-    
-    
-      <li><a href="/page2/">Next</a></li>
-    
-  </ul>
-</nav>
-
-
-
-  </div>
 </div>
     </div>
 

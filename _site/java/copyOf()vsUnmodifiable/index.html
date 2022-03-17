@@ -1,0 +1,836 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Collections.unmodifiableList() vs List.copyOf() - Keep Going</title>
+<meta name="description" content="이전 내용을 간략하게 요약해보자. 인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다. 방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.">
+
+
+  <meta name="author" content="kun">
+  
+  <meta property="article:author" content="kun">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Keep Going">
+<meta property="og:title" content="Collections.unmodifiableList() vs List.copyOf()">
+<meta property="og:url" content="http://localhost:4000/java/copyOf()vsUnmodifiable/">
+
+
+  <meta property="og:description" content="이전 내용을 간략하게 요약해보자. 인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다. 방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-03-14T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/java/copyOf()vsUnmodifiable/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Keep Going Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Keep Going
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Tech</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">kun</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>돌아가면 돌아갈수록 단단해진다</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:ghd700@naver.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/Hongdonggeon" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    <br/>
+    
+      
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">18</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
+        <span class="nav__sub-title">DEV</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
+                
+                    
+                        <li><a href="/categories/java" class="">Java (15)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+            </ul>
+      </li>
+  </ul>
+</nav>
+    
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Collections.unmodifiableList() vs List.copyOf()">
+    <meta itemprop="description" content="이전 내용을 간략하게 요약해보자.인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다.방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.">
+    <meta itemprop="datePublished" content="2022-03-14T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/java/copyOf()vsUnmodifiable/" class="u-url" itemprop="url">Collections.unmodifiableList() vs List.copyOf()
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#첫번째-방법-new-arraylist">첫번째 방법, new ArrayList()</a></li><li><a href="#두번째-방법-collectionsunmodifiablelist">두번째 방법, Collections.unmodifiableList()</a></li><li><a href="#세번째-방법-listcopyof">세번째 방법, List.copyOf()</a></li><li><a href="#collectionsunmodifiablelist-vs-listcopyof">Collections.unmodifiableList() vs List.copyOf()</a></li><li><a href="#이제-정말-불변일까">이제, 정말 불변일까?</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>이전 내용을 간략하게 요약해보자.<br />
+인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다.<br />
+방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span> <span class="c1">// new ArrayList&lt;&gt;()를 이용해 복사본을 만들었다. -&gt; 방어적 복사</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">cards</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>그렇다면, 이제 <code class="language-plaintext highlighter-rouge">List&lt;Card&gt; cards</code>를 외부에서의 변화에 걱정하지 않고 사용할 수 있을까? <br />
+아니다. <code class="language-plaintext highlighter-rouge">getCards()</code>로 리스트를 불러와, 변경시킨다면 Cards의 필드에도 변화가 가해질 것이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FIVE</span><span class="o">));</span>
+        <span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FOUR</span><span class="o">));</span>
+
+        <span class="nc">Cards</span> <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cards</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Card</span> <span class="n">card</span> <span class="o">:</span> <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"card = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">", card content = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">.</span><span class="na">getDenomination</span><span class="o">()</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span><span class="n">card</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">HEART</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">THREE</span><span class="o">));</span> <span class="c1">// getter()로 List를 불러와 새로운 Card 추가</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Card</span> <span class="n">card</span> <span class="o">:</span> <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"card = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">", card content = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">.</span><span class="na">getDenomination</span><span class="o">()</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span><span class="n">card</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">());</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/158881619-6675b204-5f18-41ac-a12a-a10cc17c6328.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Cards</code>의 <code class="language-plaintext highlighter-rouge">getter()</code>를 이용해 List를 불러와 새로운 카드를 추가하였다.<br />
+그렇다면, <code class="language-plaintext highlighter-rouge">getter()</code>에서도 필드를 그대로 반환해주는 것이 아닌, 방어적 복사를 해서 외부에서의 변화를 막아주자.</p>
+
+<p><br /></p>
+
+<h3 id="첫번째-방법-new-arraylist">첫번째 방법, new ArrayList()</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
+  
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span> <span class="c1">// new ArrayList&lt;&gt;()를 이용해 복사본을 만들었다. -&gt; 방어적 복사</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">cards</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">getter()</code>에서도 방어적 복사를 함으로써, 필드의 참조값과 <code class="language-plaintext highlighter-rouge">getCards()</code>가 반환하는 List의 참조 값을 다르게 해주었다.</p>
+
+<p><br /></p>
+
+<h3 id="두번째-방법-collectionsunmodifiablelist">두번째 방법, Collections.unmodifiableList()</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">initialCards</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">unmodifiableList</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/158884061-518ed7d1-641f-47a2-8849-14a1a71baf3a.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Unmodifiable Collection</code>을 이용하는 경우에, 외부에서 변경 시 예외가 발생한다.<br />
+<code class="language-plaintext highlighter-rouge">unmodifiableList()</code> 메서드를 통해 리턴되는 리스트는 읽기 용도로만 사용할 수 있다.<br />
+리스트에 변경을 가하는 메서드를 호출하면 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> 이 발생한다.</p>
+
+<p><br /></p>
+
+<h3 id="세번째-방법-listcopyof">세번째 방법, List.copyOf()</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">initialCards</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/158885545-095c9184-bffd-494c-92f7-de5dff8d5b93.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">copyOf</code>를 이용하였을 때도 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>이 발생했다.
+<code class="language-plaintext highlighter-rouge">List.copyOf()</code>로 반환되는 List도 수정이 불가한가보다.
+그렇다면, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>와 <code class="language-plaintext highlighter-rouge">List.copyOf()</code>의 차이가 뭘까?</p>
+
+<p><br /></p>
+
+<h3 id="collectionsunmodifiablelist-vs-listcopyof">Collections.unmodifiableList() vs List.copyOf()</h3>
+
+<p>둘의 차이점을 알아보기 위해, 간단한 코드를 작성해보겠다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CopyOfTest</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">unmodifiableList</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">unmodifiableList</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+        
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">copyOfList</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+
+        <span class="n">values</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"===========unmodifiableList==============="</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Integer</span> <span class="n">integer</span> <span class="o">:</span> <span class="n">unmodifiableList</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"===========copyOf================"</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Integer</span> <span class="n">integer</span> <span class="o">:</span> <span class="n">copyOfList</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이 결과 값은 어떻게 될까?</p>
+
+<p><br /></p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/158887087-dbfcc0e1-b411-4209-9f19-4a6be120d746.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">unmodifiableList</code>는 원본 값에 영향을 받고 있다.<br />
+원본 리스트에 새로운 값을 추가해주니, 변화하였다.<br />
+하지만, <code class="language-plaintext highlighter-rouge">copyOfList</code>는 변화하지 않았다. 왜?<br />
+<code class="language-plaintext highlighter-rouge">List.copyOf</code>는  원본과의 참조를 끊어주기 때문이다.</p>
+
+<p>차이점으로, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>로는  참조가 끊어져 있지 않다.<br />
+ 따라서, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>로 반환한 리스트를 직접 수정할 수는 없지만, 원본 리스트를 수정한다면 함께 수정이 일어난다.<br /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Unmodifiable</code>과 <code class="language-plaintext highlighter-rouge">Immutable</code>은 다르다.<br />
+ <code class="language-plaintext highlighter-rouge">Unmodifiable</code>이라는 키워드가 불변을 보장해주지는 않는다.<br />
+원본 자체에 대한 수정이 일어나면 <code class="language-plaintext highlighter-rouge">unmodifiableList()</code> 메서드를 통해 리턴되었던 리스트 또한 변경이 일어난다.</p>
+
+<p><br /></p>
+
+<h3 id="이제-정말-불변일까">이제, 정말 불변일까?</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">initialCards</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>생성자에 들어올 원본 리스트와의 주소 값도 끊어주었고, <code class="language-plaintext highlighter-rouge">getCards()</code>로 리스트를 반환할 때도 <code class="language-plaintext highlighter-rouge">copyOf()</code>를 이용해, 외부에서의 변화에 대해 막아주었다.<br />
+하지만, <code class="language-plaintext highlighter-rouge">new ArrayList()</code>, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>, <code class="language-plaintext highlighter-rouge">copyOf()</code> 모두 깊은 복사를 한 것이 아니다.<br />
+즉, 리스트의 참조 값만 끊어 준 것이지, 리스트 내부의 객체 참조 값은 동일하다.<br />
+만약 Card 클래스에 <code class="language-plaintext highlighter-rouge">setter()</code>가 존재한다면, <code class="language-plaintext highlighter-rouge">cards</code>는 외부에서 얼마든지 변할 수 있다.<br />
+그렇다고 꼭 깊은 복사를 해야한다는 것은 아니다.<br />
+<code class="language-plaintext highlighter-rouge">Card</code>가 불변 객체라면, 방어적 복사만으로도 <code class="language-plaintext highlighter-rouge">cards</code>는 충분히 안전한 리스트라고 할 수 있다고 생각한다.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#java" class="page__taxonomy-item p-category" rel="tag">java</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-03-14T00:00:00+09:00">March 14, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Collections.unmodifiableList%28%29+vs+List.copyOf%28%29%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2FcopyOf%28%29vsUnmodifiable%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FcopyOf%28%29vsUnmodifiable%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FcopyOf%28%29vsUnmodifiable%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/java/%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC%EB%9E%80/" class="pagination--pager" title="방어적 복사
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/java/%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC%EB%9E%80/" rel="permalink">방어적 복사
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">방어적 복사란
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80-%EA%B0%9D%EC%B2%B4/" rel="permalink">클래스와 객체
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/" rel="permalink">절차지향 vs 객체지향
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">절차지향 vs 객체지향
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Exception/" rel="permalink">Exception
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Keep Going. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
