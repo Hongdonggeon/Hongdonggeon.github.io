@@ -136,4 +136,46 @@ var store = [{
         "tags": [],
         "url": "/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/",
         "teaser": null
+      },{
+        "title": "JPQL과 페치 조인",
+        "excerpt":"JPQL이란 JPQL(Java PErsistence Query Language)은 엔티티 객체를 조회하는 객체지향 쿼리다. JPQL은 SQL을 추상화해서 특정 데이터베이스에 의존하지 않는다. 데이터베이스 방언을 변경하면 JPQL을 수정하지 않고도 데이터베이스를 변경할 수 있다. 왜냐하면 JPQL이 제공하는 표준화된 함수를 사용하면 선택한 방언에 따라 해당 데이터베이스에 맞춘 적절한 SQL 함수가 실행되기 때문이다. JPQL 페치 조인 일반적인 SQL에서 이야기하는...","categories": ["jpa"],
+        "tags": [],
+        "url": "/jpa/JPQL%EA%B3%BC-%ED%8E%98%EC%B9%98%EC%A1%B0%EC%9D%B8/",
+        "teaser": null
+      },{
+        "title": "JPQL 벌크 연산을 주의하자",
+        "excerpt":"JPQL 벌크 연산 엔티티를 수정하려면 영속성 컨텍스트의 변경 감지 기능이나, 삭제하려면 entityManger.remove() 메서드를 사용할 수 있다. 하지만 이 방법으로 수백 개 이상의 엔티티를 하나씩 처리하기에는 시간이 너무 오래 걸린다. 이럴 때 여러 건을 한번에 수정하거나 삭제하는 벌크 연산을 사용할 수 있다. 벌크 연산의 주의점 하지만 벌크 연산을 사용할 때는 벌크...","categories": ["jpa"],
+        "tags": [],
+        "url": "/jpa/JPQL-%EB%B2%8C%ED%81%AC-%EC%97%B0%EC%82%B0/",
+        "teaser": null
+      },{
+        "title": "aws ec2 살펴보기1 (리전, 가용 영역)",
+        "excerpt":"리전 aws 리전이란 aws 리소스를 지리적 관점으로 영역으로 구분해놓은 것이다. 각 aws 리전은 격리되어 있고 독립적이다. 내가 만약 서울 리전에서 리소스를 만들었다면 미국 동부(오하이오) 리전에서 사용할 수 없다. 리전은 전 세계적으로 여러 곳에 존재하고 있기 때문에 재해 발생시에도 서비스를 공급할 수 있고 사용자는 자신의 위치와 가장 가까운 리전을 선택함으로서 빠른...","categories": ["infra"],
+        "tags": [],
+        "url": "/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/",
+        "teaser": null
+      },{
+        "title": "인수테스트 격리하기",
+        "excerpt":"인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다. 인수 테스트의 목적이 실제 운영 환경과 같은 조건을 테스트하고자 하는 것이기 때문에 mock 프레임워크 등을 사용하지 않고 실제 데이터베이스를 사용해야 조건에 충족할 수 있다. 그러므로 테스트가 실행되면서 데이터베이스의 상태는 변하게 되고 테스트는 데이터베이스의 상태에 따라 성공 여부가...","categories": ["spring","test","checkmate"],
+        "tags": [],
+        "url": "/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/",
+        "teaser": null
+      },{
+        "title": "서비스 계층을 테스트할 때 @Transactional 사용을 지양하자",
+        "excerpt":"보통 우리는 여러 repository 메서드를를 실행시키는(DB에 접근하는) Service 계층에서 원자성을 보장하기 위해 @Transactional 어노테이션을 붙여줍니다. 트랜잭션 관리는 서비스 계층의 역할 중에서 가장 중요하다고 볼 수도 있는 역할이라고 생각을 하는데요. 단순히 테스트 격리를 위해서 Service 테스트 클래스에서 @Transactional을 붙여주게 된다면 각 서비스 메서드들은 테스트 클래스의 트랜잭션에 참여하게 되기 때문에 서비스 계층의...","categories": ["spring","test","checkmate"],
+        "tags": [],
+        "url": "/spring/test/checkmate/Service-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-@Transactional%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4/",
+        "teaser": null
+      },{
+        "title": "시간에 독립적인 테스트를 위한 코드 작성하기",
+        "excerpt":"지금 진행하고 있는 프로젝트인 체크메이트는 출결 관리 서비스이다. 출석이라는 도메인 자체가 시간과 밀접해있기 때문에 시간에 따라 도메인의 상태가 많이 변경된다. 예를 들어, 미팅 시작 시간 30분 전부터 미팅 시작 시간 5분 후 까지는 출석부가 수정이 허용되고, 출석 허용시간이 끝나면 출결 상태가 출석이 아닌 회원들은 지각으로 바뀌어야 하는 등 기능의 요구사항들과...","categories": ["spring","test","checkmate"],
+        "tags": [],
+        "url": "/spring/test/checkmate/%EC%8B%9C%EA%B0%84%EC%97%90-%EB%8F%85%EB%A6%BD%EC%A0%81%EC%9D%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/",
+        "teaser": null
+      },{
+        "title": "Application Context를 재활용해서 테스트 시간을 줄이자",
+        "excerpt":"Application Context를 재활용해서 테스트 시간을 줄이자 JUnit은 테스트 메서드를 실행할 때마다 매번 테스트 클래스의 새로운 오브젝트를 만든다. 따라서 모든 테스트는 서로 영향을 주지 않으며 독립적으로 실행되는 것을 보장한다. 하지만 테스트가 독립적이라고 해서 매번 Application Context를 새로 만드는 건 매우 비효율적이다. 스프링은 이러한 문제를 해결하기 위해 Context Caching 기능을 제공한다. Spring...","categories": ["spring","test","checkmate"],
+        "tags": [],
+        "url": "/spring/test/checkmate/Application-Context%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EA%B0%84%EC%9D%84-%EC%A4%84%EC%9D%B4%EC%9E%90/",
+        "teaser": null
       }]

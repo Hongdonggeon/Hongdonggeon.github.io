@@ -1,4 +1,287 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-24T02:49:09+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">영속성 컨텍스트의 특징</title><link href="http://localhost:4000/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/" rel="alternate" type="text/html" title="영속성 컨텍스트의 특징" /><published>2022-07-10T00:00:00+09:00</published><updated>2022-07-10T00:00:00+09:00</updated><id>http://localhost:4000/jpa/%EC%98%81%EC%86%8D%EC%84%B1%20%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98%20%ED%8A%B9%EC%A7%95</id><content type="html" xml:base="http://localhost:4000/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/"><![CDATA[<h2 id="1차-캐시">1차 캐시</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-24T03:12:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Keep Going</title><author><name>kun</name></author><entry><title type="html">Application Context를 재활용해서 테스트 시간을 줄이자</title><link href="http://localhost:4000/spring/test/checkmate/Application-Context%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EA%B0%84%EC%9D%84-%EC%A4%84%EC%9D%B4%EC%9E%90/" rel="alternate" type="text/html" title="Application Context를 재활용해서 테스트 시간을 줄이자" /><published>2022-08-28T00:00:00+09:00</published><updated>2022-08-28T00:00:00+09:00</updated><id>http://localhost:4000/spring/test/checkmate/Application%20Context%EB%A5%BC%20%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%8B%9C%EA%B0%84%EC%9D%84%20%EC%A4%84%EC%9D%B4%EC%9E%90</id><content type="html" xml:base="http://localhost:4000/spring/test/checkmate/Application-Context%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EA%B0%84%EC%9D%84-%EC%A4%84%EC%9D%B4%EC%9E%90/"><![CDATA[<h1 id="application-context를-재활용해서-테스트-시간을-줄이자">Application Context를 재활용해서 테스트 시간을 줄이자</h1>
+
+<p>JUnit은 테스트 메서드를 실행할 때마다 매번 테스트 클래스의 새로운 오브젝트를 만든다. 따라서 모든 테스트는 서로 영향을 주지 않으며 독립적으로 실행되는 것을 보장한다. 하지만 테스트가 독립적이라고 해서 매번 Application Context를 새로 만드는 건 매우 비효율적이다.</p>
+
+<p>스프링은 이러한 문제를 해결하기 위해 Context Caching 기능을 제공한다. Spring 테스트 컨텍스트 프레임워크는 한번 ApplicationContext가 만들어지면 이를 캐시에 저장하고 다른 테스트를 돌릴 때 환경이 같으면 재사용한다.</p>
+
+<p>스프링 테스트 컨텍스트 프레임워크는 테스트 클래스의 여러 configuration으로 key를 구성하는데, 이 key가 같으면 환경이 같은 것이다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">locations</code> (from <code class="language-plaintext highlighter-rouge">@ContextConfiguration</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">classes</code> (from <code class="language-plaintext highlighter-rouge">@ContextConfiguration</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">contextInitializerClasses</code> (from <code class="language-plaintext highlighter-rouge">@ContextConfiguration</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">contextCustomizers</code> (from <code class="language-plaintext highlighter-rouge">ContextCustomizerFactory</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">contextLoader</code> (from <code class="language-plaintext highlighter-rouge">@ContextConfiguration</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">parent</code> (from <code class="language-plaintext highlighter-rouge">@ContextHierarchy</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">activeProfiles</code> (from <code class="language-plaintext highlighter-rouge">@ActiveProfiles</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">propertySourceLocations</code> (from <code class="language-plaintext highlighter-rouge">@TestPropertySource</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">propertySourceProperties</code> (from <code class="language-plaintext highlighter-rouge">@TestPropertySource</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">resourceBasePath</code> (from <code class="language-plaintext highlighter-rouge">@WebAppConfiguration</code>)</li>
+</ul>
+
+<p>우리 팀은 테스트 코드를 작성할 때 해당 테스트를 위한 ApplicationContext를 xml 파일로 따로 관리하고 있지 않기 때문에 캐싱을 하기 위해 신경 쓸 부분은 빈의 상태(mockbean인지 진짜 빈인지) 밖에 없었다.</p>
+
+<blockquote>
+  <p>빈을 @MockBean으로 사용할 경우 ContextCustomizers에 MockitoContextCustomizer가 추가되게 되고 cache key가 달라지면서 Application Context를 재사용하지 못하게 된다.</p>
+</blockquote>
+
+<p>우리팀은 Controller Test에서 Service 클래스를 mocking 하고 있는 슬라이싱 테스트를 하고 있다. 각 클래스는 필요한 서비스 클래스를 @MockBean으로 주입받고 있기 때문에 모든 테스트 클래스가 환경이 달라 ApplicationContext가 재사용되고 있지 않았다.</p>]]></content><author><name>kun</name></author><category term="spring" /><category term="test" /><category term="checkmate" /><summary type="html"><![CDATA[Application Context를 재활용해서 테스트 시간을 줄이자]]></summary></entry><entry><title type="html">시간에 독립적인 테스트를 위한 코드 작성하기</title><link href="http://localhost:4000/spring/test/checkmate/%EC%8B%9C%EA%B0%84%EC%97%90-%EB%8F%85%EB%A6%BD%EC%A0%81%EC%9D%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="시간에 독립적인 테스트를 위한 코드 작성하기" /><published>2022-08-21T00:00:00+09:00</published><updated>2022-08-21T00:00:00+09:00</updated><id>http://localhost:4000/spring/test/checkmate/%EC%8B%9C%EA%B0%84%EC%97%90%20%EB%8F%85%EB%A6%BD%EC%A0%81%EC%9D%B8%20%EC%BD%94%EB%93%9C%20%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/spring/test/checkmate/%EC%8B%9C%EA%B0%84%EC%97%90-%EB%8F%85%EB%A6%BD%EC%A0%81%EC%9D%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/"><![CDATA[<p>지금 진행하고 있는 프로젝트인 체크메이트는 출결 관리 서비스이다. 출석이라는 도메인 자체가 시간과 밀접해있기 때문에 시간에 따라 도메인의 상태가 많이 변경된다. 
+예를 들어, 미팅 시작 시간 30분 전부터 미팅 시작 시간 5분 후 까지는 출석부가 수정이 허용되고, 출석 허용시간이 끝나면 출결 상태가 출석이 아닌 회원들은 지각으로 바뀌어야 하는 등 기능의 요구사항들과 시간이 굉장히 밀접하다.</p>
+
+<p>시간과 밀접한 기능에 대한 로직을 작성할 때,  <code class="language-plaintext highlighter-rouge">LocalDateTime.now()</code>(요청이 들어오는 시간) 를 이용하게 되니 시간에 따라 테스트의 성공 여부가 달라지게 되었고 시간에 의존적이지 않은 테스트 코드를 작성하기 위해 고민하게 되었다.</p>
+
+<p><br /></p>
+
+<p>하나의 예시에 대해 살펴보겠다. 아래의 코드는 출석체크를 하는 메서드인데 코드를 간단하게 설명을 하자면,
+<img src="https://user-images.githubusercontent.com/67885363/197393566-17ae8e73-fe15-40d2-86e9-a835c59a1791.png" alt="image" /></p>
+
+<ul>
+  <li>pathVariable로 받는 meetingId와 UserId에 대해 존재하는 id인지 확인한다.</li>
+  <li>요청을 보내는 날짜에 미팅의 이벤트가 있는지 확인하고 일정이 있으면 참가자에 대한 출석처리를 한다.</li>
+  <li>요청을 보내는 날짜에 미팅의 이벤트가 존재하지 않으면 예외를 발생한다.</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197397021-9cc1cf01-45f9-4488-8c2e-c04169c09a1e.png" alt="image" /></p>
+
+<p>위 테스트 코드에서 이벤트 객체는 2022년 8월 1일로 저장되었다. 
+현재 프로덕션 코드에서는 <code class="language-plaintext highlighter-rouge">LocalDate.now</code>로 조회를 하고 있기 때문에 테스트 돌리는 날짜에 따라 이벤트가 존재하는지 조회하는 날짜가 달라지게 되고 아래의 테스트 코드는 2022년 8월 1일에만 통과하게 된다.</p>
+
+<p>이 문제를 해결하기 위해 요청 시간을 관리하는 객체를 만들어, 테스트 클래스에서는 가짜 객체를 주입받아 시간을 지정할 수 있게 하고자 하였다. 그리고 출석 시간인지 판단하고, 출석 종료 시간을 계산하는 로직들이 반복되고 있음을 깨닫고 시간에 관련된 비즈니스 로직을 처리하고자 하는 객체를 만들고자 했다.</p>
+
+<p><br /></p>
+
+<p>먼저 LocalDateTime을 필드로 가지는 DateTime이라는 추상 클래스를 만들었다. 
+<img src="https://user-images.githubusercontent.com/67885363/197398112-3ee581ad-0142-48f0-aa5b-28d14f8ab581.png" alt="image" /></p>
+
+<ul>
+  <li>
+    <p>프로덕션 코드에서는 ServerDateTime이라는 객체를 사용되게 하고자 했고
+<img src="https://user-images.githubusercontent.com/67885363/197401384-e441154a-496b-4b08-9379-f439073125e8.png" alt="image" /></p>
+  </li>
+  <li>
+    <p>테스트 코드에서는 FakeDateTime 객체가 사용되게 하고자 했다.
+<img src="https://user-images.githubusercontent.com/67885363/197398309-1ac7653b-2e04-4e29-90a8-e5126efd049f.png" alt="image" />
+그러기 위해서 이 FakeDateTime의 객체 위치를 test 패키지 하위에 배치했고, @Primary 어노테이션이 붙여주었다.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>사실 @Primary 어노테이션은 이런 용도로 사용하는 것이 아닐수도 있다.</p>
+
+  <p>@Autowired 시에 여러 빈이 매칭될 때 @Primary가 붙은 빈을 우선권을 가지게 하고자 할 때 사용하는 것이다.</p>
+
+  <p>정석적인 방법으로는 @TestConfiguration을 이용해서 테스트 환경을 위한 빈을 정의하는 것이 맞았을수도 있지만, 아래와 같은 방법이 더 편하기도 하고 신기해서 사용했다.</p>
+
+  <p>main과 test 모듈이 달라서 test에 있는 먼저 빈을 읽은건가 싶어서 @Primary를 삭제해보았는데 ServerDateTime 객체가 주입받게 되었고 테스트에 실패하는 것을 확인할 수 있었다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p>그리고 이 DateTime을 필드로 가지고 있고 시간에 관련된 비즈니스 로직을 처리하는 ServerTimeManager라는 객체를 만들었다. 각 서비스 클래스들은 이 클래스를 주입받아 시간에 대한 처리를 하고 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197399128-ad71fedd-d312-49b0-9ebb-85ef18b41a93.png" alt="image" /></p>
+
+<p>각 Service 클래스는 빈 스코프를 따로 설정해주지 않기 때문에 싱글톤 스코프다.</p>
+
+<p>하지만 이 ServerTimeManager의 DateTime은 요청이 들어오는 시간에 따라 (빈을 사용할 때마다) 빈이 새로 생성이 되어야한다. 그래서 빈 스코프를 prototype으로 할지, request로 할 지 고민이 들었는데 request가 더 간편해서 request로 결정하게 되었다.</p>
+
+<blockquote>
+  <p>프로토타입 스코프 - 싱글톤 빈과 함께 사용시 주의할 점</p>
+
+  <p>그리고 싱글톤 빈은 생성 시점에만 의존관계 주입을 받기 때문에, 처음 주입받은 프로토타입 빈과 함께 계속 유지된다. (프로토타입 빈은 컨테이너가 빈을 생성하고 초기화할 때까지만 관리하고 종료 시점까지 관리하지 않는다. )</p>
+
+  <p>그래서 프로토타입 빈을 사용할 때마다 ApplicationContext에서 직접 조회하는 로직이 수행되어야 하는데, 이런 것들을 간편하게 해주는 Provider 같은 라이브러리를 사용해야 한다.</p>
+
+  <p>반면 웹 스코프는 프로토타입과 다르게 스프링이 해당 스코프의 종료 시점까지 관리한다.</p>
+</blockquote>]]></content><author><name>kun</name></author><category term="spring" /><category term="test" /><category term="checkmate" /><summary type="html"><![CDATA[지금 진행하고 있는 프로젝트인 체크메이트는 출결 관리 서비스이다. 출석이라는 도메인 자체가 시간과 밀접해있기 때문에 시간에 따라 도메인의 상태가 많이 변경된다. 예를 들어, 미팅 시작 시간 30분 전부터 미팅 시작 시간 5분 후 까지는 출석부가 수정이 허용되고, 출석 허용시간이 끝나면 출결 상태가 출석이 아닌 회원들은 지각으로 바뀌어야 하는 등 기능의 요구사항들과 시간이 굉장히 밀접하다.]]></summary></entry><entry><title type="html">서비스 계층을 테스트할 때 @Transactional 사용을 지양하자</title><link href="http://localhost:4000/spring/test/checkmate/Service-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-@Transactional%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4/" rel="alternate" type="text/html" title="서비스 계층을 테스트할 때 @Transactional 사용을 지양하자" /><published>2022-08-14T00:00:00+09:00</published><updated>2022-08-14T00:00:00+09:00</updated><id>http://localhost:4000/spring/test/checkmate/Service%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C%20@Transactional%EC%9D%84%20%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B4%20%EC%95%88%EB%90%9C%EB%8B%A4</id><content type="html" xml:base="http://localhost:4000/spring/test/checkmate/Service-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-@Transactional%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4/"><![CDATA[<p>보통 우리는 여러 repository 메서드를를 실행시키는(DB에 접근하는) Service 계층에서 원자성을 보장하기 위해 <code class="language-plaintext highlighter-rouge">@Transactional</code> 어노테이션을 붙여줍니다.</p>
+
+<p>트랜잭션 관리는 서비스 계층의 역할 중에서 가장 중요하다고 볼 수도 있는 역할이라고 생각을 하는데요.</p>
+
+<p>단순히 테스트 격리를 위해서 Service 테스트 클래스에서 @Transactional을 붙여주게 된다면 각 서비스 메서드들은 테스트 클래스의 트랜잭션에 참여하게 되기 때문에 서비스 계층의 트랜잭션 관리를 테스트하고 있다고 볼 수 없게 됩니다.</p>
+
+<p>그리고 JPA를 사용한다고 했을 때, 스프링 컨테이너는 기본 전략으로 트랜잭션의 범위와 영속성 컨텍스트의 생존 범위를 같게 하는 전략을 사용하기 때문에, 서비스 계층의 메서드들은 테스트 클래스의 영속성 컨텍스트에 참여하게 되는 것입니다.</p>
+
+<p>만약 서비스 메서드에서 지연 로딩을 위해 트랜잭션이 필요한 상황에 실수로 @Transactional을 붙여주지 않아서 예외가 발생해야 되는 상황인데,  서비스 테스트 클래스의 트랜잭션에 참여하게 된다면 예외가 발생하지 않게 되는 올바르지 않는 테스트를 하고 있을 수도 있는거죠.</p>
+
+<p>그러기 때문에 단순히 테스트 격리를 위해 @Transactional 을 사용하는 것은 지양하는 것이 좋을 것 같습니다. 대안으로 @sql 어노테이션을 이용하거나 EntityManager로 Truncate 쿼리문을 실행시키는 방법이 좋아보입니다.</p>]]></content><author><name>kun</name></author><category term="spring" /><category term="test" /><category term="checkmate" /><summary type="html"><![CDATA[보통 우리는 여러 repository 메서드를를 실행시키는(DB에 접근하는) Service 계층에서 원자성을 보장하기 위해 @Transactional 어노테이션을 붙여줍니다.]]></summary></entry><entry><title type="html">인수테스트 격리하기</title><link href="http://localhost:4000/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="인수테스트 격리하기" /><published>2022-08-07T00:00:00+09:00</published><updated>2022-08-07T00:00:00+09:00</updated><id>http://localhost:4000/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/"><![CDATA[<p>인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.</p>
+
+<p>인수 테스트의 목적이 실제 운영 환경과 같은 조건을 테스트하고자 하는 것이기 때문에 mock 프레임워크 등을 사용하지 않고 실제 데이터베이스를 사용해야 조건에 충족할 수 있다.</p>
+
+<p>그러므로 테스트가 실행되면서 데이터베이스의 상태는 변하게 되고 테스트는 데이터베이스의 상태에 따라 성공 여부가 달라지게 될 것이다.</p>
+
+<p>데이터베이스의 상태에 의존받지 않기 위해 테스트를 효과적으로 격리해야한다.</p>
+
+<h3 id="dirtiescontext">@DirtiesContext</h3>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/196947575-adab8873-debe-40ad-861c-6e7ccd20b3e1.png" alt="image" /></p>
+
+<p>이 @DirtiesContext 는 classMode에 따라 Spring Context를 새로 로드한다. 우리는 classMode를 <code class="language-plaintext highlighter-rouge">BEFORE_EACH_TEST_METHOD</code>로 지정했기 때문에 모든 테스트 메서드마다 시작하기 이전에 contexts를 재생성했다.</p>
+
+<p>메서드마다 context를 새로 로드하기 때문에 격리는 잘 되었지만 문제가 있었다.</p>
+
+<p>테스트 갯수가 얼마되지 않았을 때에는 실행할 때 체감할 수 있을 정도로 많은 시간이 걸리지 않았지만, 점점 테스트 갯수가 많아지면서 시간이 너무 오래걸리게 되었다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/196950043-46a190e1-c99c-41f5-9a69-063a1ec49381.png" alt="image" /></p>
+
+<p>총 51개의 인수테스트가 실행되는데 2분 29초이나 걸렸다. 다른 격리하는 방법을 찾게 되었다.</p>
+
+<p><br /></p>
+
+<h3 id="sql">@SQL</h3>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197001536-ffa71a2b-7f20-495a-959d-e0e15d04d3fe.png" alt="image" /></p>
+
+<p>스트링 부트에서 제공하는 어노테이션이다. executionPhase의 속성이 <code class="language-plaintext highlighter-rouge">BEFORE_TEST_METHOD</code>이기 때문에 실행되기 전에 @sql이 가리키는 경로에 있는 SQL 실행이 먼저 일어나고 있다. executionPhase 속성의 기본 값이 <code class="language-plaintext highlighter-rouge">BEFORE_TEST_METHOD</code> 이다.</p>
+
+<p>그리고 sql 파일에는 모든 데이터를 지워주는 쿼리문을 작성해주면 된다.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">attendance</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">event</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">participant</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">meeting</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="k">user</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>좋은 방식이지만 sql 파일을 계속 관리해주어야 하는 단점이 있다. 만약 새로운 테이블이 추가되면 sql 파일에도 추가를 해주어야한다. 엔티티 구조가 간단하면 사용할만 하지만, 엔티티가 정말 많아진다면 sql 파일 관리하는 것도 많이 귀찮아질 것이다.</p>
+
+<p><br /></p>
+
+<h3 id="entitymanager로-truncate-쿼리-실행시키기">EntityManager로 TRUNCATE 쿼리 실행시키기</h3>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197004856-c48f1c71-8e7b-48e4-91fc-d88fbf3b39e7.png" alt="image" /></p>
+
+<p>이 방법은 EntityManager를 빈으로 주입 받아 모든 테이블 이름을 List에 추가한 후 List를 for문으로 돌면서 <code class="language-plaintext highlighter-rouge">TRUNCATE</code> 쿼리문을 실행시켜주는 것이다.</p>
+
+<p>위의 init 메서드를 빈이 생성될 때 자동으로 실행될 수 있게 <code class="language-plaintext highlighter-rouge">@PostConstruct</code> 어노테이션을 붙여주면서 따로 메서드를 실행시키지 않게 해주었다. 테스트 클래스에서는 Junit의 <code class="language-plaintext highlighter-rouge">@BeforeEach</code>로 execute 메서드를 실행시켜주면 테이블의 모든 데이터를 지우면서 격리시킬 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197008774-a7b85b0f-a5da-456a-81be-7555d3be6cf1.png" alt="image" /></p>
+
+<p>이 방법은 DirtiesContext처럼 spring context를 새로 로드하지 않기 때문에 시간이 많이 걸리지 않게 되고 @sql 방법처럼 따로 sql 파일을 관리하지 않아도 되므로 가장 좋은 방법으로 보인다.</p>]]></content><author><name>kun</name></author><category term="spring" /><category term="test" /><category term="checkmate" /><summary type="html"><![CDATA[인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.]]></summary></entry><entry><title type="html">aws ec2 살펴보기1 (리전, 가용 영역)</title><link href="http://localhost:4000/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/" rel="alternate" type="text/html" title="aws ec2 살펴보기1 (리전, 가용 영역)" /><published>2022-07-28T00:00:00+09:00</published><updated>2022-07-28T00:00:00+09:00</updated><id>http://localhost:4000/infra/aws%20ec2%20%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01%20(%EB%A6%AC%EC%A0%84,%20%EA%B0%80%EC%9A%A9%20%EC%98%81%EC%97%AD)</id><content type="html" xml:base="http://localhost:4000/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/"><![CDATA[<h2 id="리전">리전</h2>
+<p>aws 리전이란 aws 리소스를 지리적 관점으로 영역으로 구분해놓은 것이다. 각 aws 리전은 격리되어 있고 독립적이다. 내가 만약 서울 리전에서 리소스를 만들었다면 미국 동부(오하이오) 리전에서 사용할 수 없다.</p>
+
+<p>리전은 전 세계적으로 여러 곳에 존재하고 있기 때문에 재해 발생시에도 서비스를 공급할 수 있고 사용자는 자신의 위치와 가장 가까운 리전을 선택함으로서 빠른 서비스를 이용할 수 있다.</p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/ded36692-320b-4334-8e23-ff7ecf8abbda/image.png" alt="" /></p>
+
+<p><br /></p>
+
+<h2 id="가용-영역-avaliability-zone">가용 영역 (Avaliability Zone)</h2>
+<p>가용 영역이란 aws 리전 내에서 격리된 위치다. 리전은 일반적으로 3개 이상의 가용 영역으로 구성되어 있는데 낙뢰, 지진과 같은 자연재에서의 연쇄적인 피해를 보호하기 위해 물리적으로 유의미한 거리를 두고 설치한다.</p>
+
+<p>가용 영역은 하나 이상의 개별 데이터 센터로 구성되고 개별 데이터 센터에는 일반적으로 50,000 ~ 80,000대의 물리적 서버가 있다고 한다.</p>
+
+<p>리전의 모든 가용영역은 전용 메트로 광 네트워크로 연결되어 있어 높은 처리량과 지연 시간이 짧은 네트워킹을 제공한다.</p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/9e1a7f97-6e62-437c-9c20-02b76dcc7ab4/image.png" alt="" /></p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/85e38e00-bc69-45d8-926a-c9e79dec304f/image.png" alt="" /></p>
+
+<blockquote>
+  <p>참고
+https://docs.aws.amazon.com/ko_kr/general/latest/gr/rande-manage.html
+https://aws.amazon.com/ko/about-aws/global-infrastructure/regions_az/</p>
+</blockquote>]]></content><author><name>kun</name></author><category term="infra" /><summary type="html"><![CDATA[리전 aws 리전이란 aws 리소스를 지리적 관점으로 영역으로 구분해놓은 것이다. 각 aws 리전은 격리되어 있고 독립적이다. 내가 만약 서울 리전에서 리소스를 만들었다면 미국 동부(오하이오) 리전에서 사용할 수 없다.]]></summary></entry><entry><title type="html">JPQL 벌크 연산을 주의하자</title><link href="http://localhost:4000/jpa/JPQL-%EB%B2%8C%ED%81%AC-%EC%97%B0%EC%82%B0/" rel="alternate" type="text/html" title="JPQL 벌크 연산을 주의하자" /><published>2022-07-17T00:00:00+09:00</published><updated>2022-07-17T00:00:00+09:00</updated><id>http://localhost:4000/jpa/JPQL%20%EB%B2%8C%ED%81%AC%20%EC%97%B0%EC%82%B0</id><content type="html" xml:base="http://localhost:4000/jpa/JPQL-%EB%B2%8C%ED%81%AC-%EC%97%B0%EC%82%B0/"><![CDATA[<h2 id="jpql-벌크-연산">JPQL 벌크 연산</h2>
+<p>엔티티를 수정하려면 영속성 컨텍스트의 변경 감지 기능이나, 삭제하려면 entityManger.remove() 메서드를 사용할 수 있다.
+하지만 이 방법으로 수백 개 이상의 엔티티를 하나씩 처리하기에는 시간이 너무 오래 걸린다.
+이럴 때 여러 건을 한번에 수정하거나 삭제하는 벌크 연산을 사용할 수 있다.</p>
+
+<h3 id="벌크-연산의-주의점">벌크 연산의 주의점</h3>
+<p>하지만 벌크 연산을 사용할 때는 벌크 연산이 영속성 컨텍스트의 변경감지나 이런 특징들을 이용하지 않고 데이터베이스에 직접 쿼리한다는 점에 주의를 해야한다.
+한 상황을 예시로 들어보겠다.</p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/17b27ddc-5fb0-40d3-9717-86e7d610e0dc/image.png" alt="" />
+한 사용자의 모든 질문들의 내용들을 변경하는 JPQL 메서드가 있다고 하자.</p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/317f603c-6759-467f-85cf-31da34f76779/image.png" alt="" /></p>
+<ol>
+  <li>User의 ID가 1인 질문을 조회하였다.</li>
+  <li>벌크 연산으로 질문의 내용을 모두 hot!! 으로 변경시켰다.</li>
+  <li>벌크 연산을 수행한 후에 질문의 내용을 확인해보았을 때 hot!! 으로 변경되지 않았다.</li>
+</ol>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/c5202f7d-7be7-43af-b381-6c81dff14211/image.png" alt="" /></p>
+
+<p>처음 조회를 했을 때 question 객체가 영속성 컨텍스트가 관리된다.
+벌크 연산은 영속성 컨텍스트를 통하지 않고 데이터베이스에 직접 쿼리한다. 데이터베이스에서는 question의 내용은 hot!!으로 변경되었을 것이다.
+이렇게 영속성 컨텍스트의 객체 상태와 데이터베이스에 데이터의 값이 다르게 되기 때문에 주의해서 사용해야 한다.</p>
+
+<ul>
+  <li>entitymanager.refresh() 사용하기
+데이터베이스에서 데이터를 다시 조회해온다.</li>
+</ul>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/b66eef58-b1bd-42fd-a9cd-92274e1a12ca/image.png" alt="" /></p>
+
+<ul>
+  <li>벌크 연산 수행 후 영속성 컨텍스트 초기화
+벌크 연산을 수행한 직후에 영속성 컨텍스트를 초기화해서 비어준다.
+그 후에 새로 엔티티를 조회해서 데이터베이스에서 엔티티를 조회한 후에 영속성 컨텍스트에 보관하게 하자.</li>
+</ul>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/7eec81c1-4bd4-4bd1-a365-24df328b1473/image.png" alt="" /></p>
+
+<p>아래의 그림과 같이 JPQL이 영속성 컨텍스트를 거치지 않고 데이터베이스로 직접 변경한 데이터를 다시 조회해오게 하면 된다.</p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/20b0415f-ffb2-4c69-916f-2552ab020264/image.png" alt="" /></p>
+
+<p><br /></p>
+
+<h2 id="영속성-컨텍스트와-jpql">영속성 컨텍스트와 JPQL</h2>
+<p>JPQL 조회 대상으로 엔티티, 임베디드, 값 등 여러가지 종류가 있을텐데 JPQL로 엔티티를 조회하면 영속성 컨텍스트에서 관리되지만 엔티티가 아니면 영속성 컨텍스트에 관리되지 않는다.</p>
+
+<h3 id="jpql로-조회한-엔티티와-영속성-컨텍스트">JPQL로 조회한 엔티티와 영속성 컨텍스트</h3>
+<p>JPQL로 데이터베이스에서 조회한 엔티티가 영속성 컨텍스트에 이미 있으면 JPQL로 데이터베이스에서 조회한 결과를 버리고 대신에 영속성 컨텍스트에 있던 엔티티를 반환한다.</p>
+
+<p>왜 영속성 컨텍스트에 있는 기존 엔티티를 반환하는 것일까?
+일단 영속성 컨텍스트는 기본 키 값을 기준으로 엔티티를 관리하기때문에 같은 기본 키 값을 가진 엔티티는 등록할 수 없다.
+그리고 영속성 컨텍스트에 있던 데이터가 수정중인데 JPQL로 새로 검색한 엔티티로 대체하게 되면 위험하다.
+또한 영속성 컨텍스트는 엔티티의 동일성을 보장하기 때문에 새로 검색한 엔티티를 버리고 기존 엔티티를 그대로 두게 되는 것이다.</p>
+
+<h3 id="jpql과-플러시-모드">JPQL과 플러시 모드</h3>
+<p>기본적으로 entityManager의 플러시 모드는 Auto이다.</p>
+<blockquote>
+  <p>FlushModeType.AUTO : 커밋 또는 쿼리 실행시 플러시 (기본 값)
+FlushModeType.COMMIT : 커밋시에만 플러시</p>
+</blockquote>
+
+<p>기존에 영속성 컨텍스트에 있던 User 객체가 닉네임이 kun에서 kun2로 변경되어 쓰기 지연 저장소에 update 쿼리를 보관중이다.
+JPQL로 kun2 닉네임인 User를 조회하려고 한다고 할 때, flush가 되지 않았다면 데이터베이스에서는 kun2로 닉네임이 변경되지 않았을 것이다.
+플러시 모드를 기본값인 AUTO로 사용한다면 쿼리 실행 직전에 영속성 컨텍스트가 플러시 되고 kun2 닉네임으로 User를 조회할 수 있게된다.</p>
+
+<p><br />
+<br /></p>
+
+<blockquote>
+  <p>참고 <br />
+자바 ORM 표준 JPA 프로그래밍</p>
+</blockquote>]]></content><author><name>kun</name></author><category term="jpa" /><summary type="html"><![CDATA[JPQL 벌크 연산 엔티티를 수정하려면 영속성 컨텍스트의 변경 감지 기능이나, 삭제하려면 entityManger.remove() 메서드를 사용할 수 있다. 하지만 이 방법으로 수백 개 이상의 엔티티를 하나씩 처리하기에는 시간이 너무 오래 걸린다. 이럴 때 여러 건을 한번에 수정하거나 삭제하는 벌크 연산을 사용할 수 있다.]]></summary></entry><entry><title type="html">JPQL과 페치 조인</title><link href="http://localhost:4000/jpa/JPQL%EA%B3%BC-%ED%8E%98%EC%B9%98%EC%A1%B0%EC%9D%B8/" rel="alternate" type="text/html" title="JPQL과 페치 조인" /><published>2022-07-15T00:00:00+09:00</published><updated>2022-07-15T00:00:00+09:00</updated><id>http://localhost:4000/jpa/JPQL%EA%B3%BC%20%ED%8E%98%EC%B9%98%EC%A1%B0%EC%9D%B8</id><content type="html" xml:base="http://localhost:4000/jpa/JPQL%EA%B3%BC-%ED%8E%98%EC%B9%98%EC%A1%B0%EC%9D%B8/"><![CDATA[<h2 id="jpql이란">JPQL이란</h2>
+<p>JPQL(Java PErsistence Query Language)은 엔티티 객체를 조회하는 객체지향 쿼리다.
+JPQL은 SQL을 추상화해서 특정 데이터베이스에 의존하지 않는다. 데이터베이스 방언을 변경하면 JPQL을 수정하지 않고도 데이터베이스를 변경할 수 있다. 왜냐하면 JPQL이 제공하는 표준화된 함수를 사용하면 선택한 방언에 따라 해당 데이터베이스에 맞춘 적절한 SQL 함수가 실행되기 때문이다.</p>
+
+<p><br /></p>
+
+<h2 id="jpql-페치-조인">JPQL 페치 조인</h2>
+<p>일반적인 SQL에서 이야기하는 조인의 종류는 아니고 JPQL에서 성능 최적화를 위헤 제공하는 기능이다. 연관된 엔티티나 컬렉션을 한번에 같이 조회하는 기능이다.</p>
+
+<h3 id="엔티티-페치-조인">엔티티 페치 조인</h3>
+<p>페치 조인을 사용해서 Question 엔티티를 조회하면서 연관된 User 엔티티도 함께 조회하는 JPQL을 보자.
+<img src="https://velog.velcdn.com/images/hdg3052/post/9e112e18-59af-4c42-8878-00d8a84c68e0/image.png" alt="" /></p>
+
+<p><img src="https://velog.velcdn.com/images/hdg3052/post/1337de76-9a5f-4366-a3b2-00b86cb4c16b/image.png" alt="" /></p>
+
+<p>SQL을 보면 Question 엔티티만 조회하였는데도 연관된 Useer 엔티티도 함께 조회된 것을 확인할 수 있다. 페치조인을 이용해서 조회한다면 User 엔티티는 프록시 객체가 아니라 실제 객체다.
+<img src="https://velog.velcdn.com/images/hdg3052/post/b4a2131c-0b0d-4bc5-9fba-2b9715ac5dd7/image.png" alt="" /></p>
+
+<p>Question과 User엔티티를 지연 로딩으로 설정했다고 가정을 하고, <code class="language-plaintext highlighter-rouge">entityManger.find</code>로 question을 조회하면 User객체는 프록시 객체다. 
+<img src="https://velog.velcdn.com/images/hdg3052/post/38d0ed19-a5c1-4230-b3fc-99947c163682/image.png" alt="" /></p>
+
+<p><br />
+<br /></p>
+
+<blockquote>
+  <p>참고 <br />
+자바 ORM 표준 JPA 프로그래밍</p>
+</blockquote>]]></content><author><name>kun</name></author><category term="jpa" /><summary type="html"><![CDATA[JPQL이란 JPQL(Java PErsistence Query Language)은 엔티티 객체를 조회하는 객체지향 쿼리다. JPQL은 SQL을 추상화해서 특정 데이터베이스에 의존하지 않는다. 데이터베이스 방언을 변경하면 JPQL을 수정하지 않고도 데이터베이스를 변경할 수 있다. 왜냐하면 JPQL이 제공하는 표준화된 함수를 사용하면 선택한 방언에 따라 해당 데이터베이스에 맞춘 적절한 SQL 함수가 실행되기 때문이다.]]></summary></entry><entry><title type="html">영속성 컨텍스트의 특징</title><link href="http://localhost:4000/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/" rel="alternate" type="text/html" title="영속성 컨텍스트의 특징" /><published>2022-07-10T00:00:00+09:00</published><updated>2022-07-10T00:00:00+09:00</updated><id>http://localhost:4000/jpa/%EC%98%81%EC%86%8D%EC%84%B1%20%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98%20%ED%8A%B9%EC%A7%95</id><content type="html" xml:base="http://localhost:4000/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/"><![CDATA[<h2 id="1차-캐시">1차 캐시</h2>
 <p>영속성 컨텍스트는 내부에 캐시를 가지고 있다.
 쉽게 이야기해서 영속성 컨텍스트 내부에 엔티티를 보관하고 있는 Map이 하나 있다고 생각하면 된다.
 1차 캐시의 키는 식별자 값인데, 식별자 값은 우리가 엔티티를 정의할 때 <code class="language-plaintext highlighter-rouge">@Id</code> 를 붙인 필드다.
@@ -588,700 +871,4 @@
   <p>참고 <br />
 스프링 핵심 원리 - 기본편 (김영한 님)
 토비의 스프링 - vol.1 (이일민 님)</p>
-</blockquote>]]></content><author><name>kun</name></author><category term="spring" /><summary type="html"><![CDATA[MVC 구조]]></summary></entry><entry><title type="html">서블릿</title><link href="http://localhost:4000/spring/%EC%84%9C%EB%B8%94%EB%A6%BF/" rel="alternate" type="text/html" title="서블릿" /><published>2022-06-17T00:00:00+09:00</published><updated>2022-06-17T00:00:00+09:00</updated><id>http://localhost:4000/spring/%EC%84%9C%EB%B8%94%EB%A6%BF</id><content type="html" xml:base="http://localhost:4000/spring/%EC%84%9C%EB%B8%94%EB%A6%BF/"><![CDATA[<h2 id="서블릿">서블릿</h2>
-
-<h3 id="서블릿-이전의-cgi">서블릿 이전의 CGI</h3>
-
-<p>이전의 웹 프로그램들은 클라이언트의 요청에 대한 응답으로 정적인 리소스만 넘겨주었다.</p>
-
-<p>웹 프로그래밍은 점점 발전하게 되었고, 사용자의 요청에 맞게 동적인 페이지를 작성할 수 있게 되었는데 이 역할을 CGI라는 인터페이스가 해주었다.</p>
-
-<p><img width="732" alt="image" src="https://user-images.githubusercontent.com/67885363/174744583-d8c48a5b-ce55-4148-a0bb-bfb3a825ca8c.png" /></p>
-
-<p>하지만 CGI는 단점이 있었다. CGI는 클라이언트에서 요청이 올 때마다 각각에 대한 처리 프로세스를 만들어냈다. 들어오는 요청들이 같은 CGI 구현체를 사용할지라도 다른 요청이라면 그 때마다 구현체를 만들어서 처리해주었다.</p>
-
-<p>대량의 요청이 들어온다고 가정했을 때, 각 요청마다 프로세스를 만든다는 것은 정말 비효율적이지 않은가?</p>
-
-<p>이 문제를 서블릿이 해결해준다.</p>
-
-<p><br /></p>
-
-<h3 id="서블릿-1">서블릿</h3>
-
-<p>서블릿이란 클라이언트 요청을 처리하고, 결과를 처리해서 반환해주는 Java 인터페이스다.</p>
-
-<p><img width="897" alt="image" src="https://user-images.githubusercontent.com/67885363/174748310-0f5c27de-773c-4fa9-b30b-b7795ee69b17.png" /></p>
-
-<p>Servlet에 정의된 HttpServletRequest나 ServletResponse 객체들을 사용하면 HTTP 요청 정보를 쉽게 사용할 수 있고, 처리결과를 쉽게 응답할 수 있다.</p>
-
-<p>서블릿이 요청 HTTP 메시지를 읽고 응답 HTTP 메시지를 만들어주니 개발자는 처리 로직에만 집중할 수 있다.</p>
-
-<p><img src="/Users/hongdong-geon/Library/Application Support/typora-user-images/image-20220621165631171.png" alt="image-20220621165631171" /></p>
-
-<p>또한 서블릿은 싱글톤 패턴으로 CGI의 문제점을 해결해주었다.</p>
-
-<p>서블릿은 각 요청에 대한 프로세스를 생성하는 것이 아니라, 프로세스 1개가 있고 그 내부에 스레드들을 생성하여 처리했다.</p>
-
-<p><br /></p>
-
-<h3 id="서블릿-라이프-사이클-흐름">서블릿 라이프 사이클 흐름</h3>
-
-<p>서블릿에는 init(), service(), destroy() 메서드가 정의되어 있다.</p>
-
-<p><img width="914" alt="image" src="https://user-images.githubusercontent.com/67885363/174750014-b7257c2e-64e9-40bd-9cf0-44a054558231.png" /></p>
-
-<p>웹 어플리케이션 서버를 실행시키면, 서블릿이 생성되고 톰캣과 같은 서블릿 컨테이너에 등록된다.</p>
-
-<p>클라이언트에서 요청이 들어오면 서블릿이 실행되면서 요청에 대한 처리를 해주고 응답값을 반환해준다.</p>
-
-<p>웹 어플리케이션 서버를 중지시키면, 서블릿은 소멸된다.</p>
-
-<p><img width="765" alt="image" src="https://user-images.githubusercontent.com/67885363/174756812-502da54b-49c8-4e38-83cb-1bca8f1f546a.png" /></p>
-
-<p>위의 콘솔창을 보면<code class="language-plaintext highlighter-rouge">/hello</code> 경로로 2번 요청이 들어온 것을 볼 수 있다.</p>
-
-<p>여기서 중요한게 2번째 요청이 들어올 때, init 메서드가 호출되는 것이 아니라, 이전에 메모리에 남겨두었던 것을 재사용한다.</p>
-
-<p>생성된 Servlet 객체는 메모리에 남겨두고 동일한 서블릿에 대해 요청이 온다면 재사용한다. Servlet은 싱글톤 패턴을 통해 사용되기 때문에 하나의 구현체를 통해 동작할 수 있다.</p>
-
-<p><br /></p>
-
-<h3 id="서블릿-컨테이너">서블릿 컨테이너</h3>
-
-<p>서블릿은 스스로 작동하는 것이 아니고 서블릿을 생성, 소멸 및 관리해주는 것이 필요하다. 이런 서블릿을 관리해주는 역할을 하는 것이 서블릿 컨테이너이다. 톰캣이 서블릿 컨테이너의 대표적인 예시다.</p>
-
-<p>서블릿 컨테이너의 대표적인 역할로는 서블릿의 생명주기를 관리해주고, 클라이언트의 요청을 받고 응답할 수 있도록 웹 서버와 소켓으로 통신해준다.</p>
-
-<p>또한 서블릿 컨테이너는 요청마다 자바 스레드를 생성해주고, 요청이 완료되면 스레드를 죽이는 멀티 스레드 지원 및 관리 역할을 한다.</p>
-
-<p><br />
-<br /></p>
-
-<blockquote>
-  <p>참고 <br />
-스프링 핵심 원리 - 기본편 (김영한 님)</p>
-</blockquote>]]></content><author><name>kun</name></author><category term="spring" /><summary type="html"><![CDATA[서블릿]]></summary></entry><entry><title type="html">웹 어플리케이션 서버</title><link href="http://localhost:4000/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/" rel="alternate" type="text/html" title="웹 어플리케이션 서버" /><published>2022-06-16T00:00:00+09:00</published><updated>2022-06-16T00:00:00+09:00</updated><id>http://localhost:4000/spring/%EC%9B%B9%20%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%20%EC%84%9C%EB%B2%84</id><content type="html" xml:base="http://localhost:4000/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/"><![CDATA[<p>웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.</p>
-
-<p><br /></p>
-
-<h3 id="웹-서버">웹 서버</h3>
-
-<ul>
-  <li>HTTP 기반으로 동작</li>
-  <li>정적 리소스 제공, 기타 부가기능
-    <ul>
-      <li>정적인 파일을 제공하므로 HTML 을 특정 사용자마다 다르게 보여줄 수 있음</li>
-      <li>정적 HTML, CSS, JS, 이미지, 영상</li>
-    </ul>
-  </li>
-  <li>웹 서버에서 요청에 알맞은 파일을 반환하며, 항상 동일한 페이지를 반환</li>
-  <li>예) NGINX, APACHE</li>
-</ul>
-
-<p><br /></p>
-
-<h3 id="웹-애플리케이션-서버was">웹 애플리케이션 서버(WAS)</h3>
-
-<ul>
-  <li>HTTP 기반으로 동작</li>
-  <li>웹 서버 기능 포함 (정적 리소스 제공 가능)</li>
-  <li>프로그램 코드를 실행해서 애플리케이션 로직 수행
-    <ul>
-      <li>동적 HTML, HTTP API(JSON)</li>
-      <li>사용자에 따라서 다른 화면들을 보여줄 수 있다.</li>
-    </ul>
-  </li>
-  <li>들어온 요청에 맞게 동적으로 만들어진 컨텐츠로 데이터베이스, 서버 내 로직 등을 활용해 만들어진 컨텐츠를 반환</li>
-  <li>서블릿, 스프링 MVC가 WAS에서 동작</li>
-  <li>Tomcat, Jetty, Undertow</li>
-</ul>
-
-<p><br /></p>
-
-<h3 id="웹-시스템-구성">웹 시스템 구성</h3>
-
-<p><img width="620" alt="image" src="https://user-images.githubusercontent.com/67885363/174735563-d139bbcf-969c-4b31-a85c-100840bac322.png" /></p>
-
-<ul>
-  <li>역할 분리</li>
-</ul>
-
-<p>웹 시스템을 구성할 때 WAS, DB 만으로 시스템 구성이 가능하다. WAS는 정적 리소스, 어플리케이션 로직 모두 제공 가능하기 때문이다. 그러나 WAS가 너무 많은 역할을 담당하면 서버 과부하가 우려 된다. HTML, CSS, JS 파일 같은 경우는 시스템적으로 단순하고 값이 싸다. 그러나 어플리케이션 로직은 비즈니스 로직이므로 값이 비싸다. 어플리케이션 로직이 정적 리소스 때문에 수행이 어려우면 안되므로 역할을 분리해준다.</p>
-
-<ul>
-  <li>장애 발생시</li>
-</ul>
-
-<p>정적 리소스만 제공하는 웹 서버는 잘 죽지 않고 대부분의 장애는 WAS에서 발생한다. 하지만 WAS는 장애가 발생하면 요청하는 웹 브라우저에서 WAS로 접근조차 되지 않으므로 오류 화면 조차도 노출이 불가능하다. WAS 서버가 죽더라도 웹 서버가 WAS 에 요청을 했는데 응답이 없거나 잘 연결되지 않으면 오류화면 HTML 제공하도록 설정할 수 있다.</p>
-
-<ul>
-  <li>리소스 관리</li>
-</ul>
-
-<p>WAS는 중요한 어플리케이션 로직 처리에 전담할 수 있다. 그리고 시스템 리소스를 효율적으로 관리할 수 있다. 정적인 리소스가 많이 필요하면 웹 서버를 증설하면 되고 어플리케이션 리소스가 많이 사용되면 WAS를 증설하면 된다.</p>
-
-<p><br /></p>
-
-<h3 id="웹-어플리케이션-서버-vs-웹-컨테이너-서블릿-컨테이너">웹 어플리케이션 서버 vs 웹 컨테이너 (서블릿 컨테이너)</h3>
-
-<p>톰캣을 부를 때, 어플리케이션 서버와 서블릿 컨테이너를 혼용해서 사용하는 경우가 잦아서 두 키워드에 혼란이 있었다. 톰캣은 굳이 둘 중에 하나로 분류하자고 하면 서블릿 컨테이너 쪽에 가깝다고 한다.</p>
-
-<p>왜냐하면 톰캣은 서블릿과 JSP를 위한 런타임 환경을 제공하나 어플리케이션 서버의 필수적이라고 할 수 있는 EJB 같은 기술이 적용되어 있지 않기 때문이다.</p>
-
-<p>서블릿 컨테이너는 오직 서블릿 API 만 지원하는 것을 말하고 어플리케이션 서버는 Java EE (EJB, CDI, 서블릿 API 등..)의 전체를 지원한다고 한다.</p>
-
-<p>하지만, 톰캣은 서블릿 뿐만 아니라 JSP 같은 것도 실행할 수 있기 때문에 서블릿 컨테이너라고 부르는 것이 맞다라는 관점도 있고, 톰캣이 서블릿 컨테이너를 포함하고 있는 개념이라는 관점도 있다.</p>
-
-<p><br />
-<br /></p>
-
-<blockquote>
-  <p>참고 <br />
-스프링 핵심 원리 - 기본편 (김영한 님)</p>
-</blockquote>]]></content><author><name>kun</name></author><category term="spring" /><summary type="html"><![CDATA[웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.]]></summary></entry><entry><title type="html">스프링 컨테이너</title><link href="http://localhost:4000/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/" rel="alternate" type="text/html" title="스프링 컨테이너" /><published>2022-06-15T00:00:00+09:00</published><updated>2022-06-15T00:00:00+09:00</updated><id>http://localhost:4000/%EC%8A%A4%ED%94%84%EB%A7%81%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88</id><content type="html" xml:base="http://localhost:4000/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/"><![CDATA[<h2 id="스프링-컨테이너">스프링 컨테이너</h2>
-
-<h3 id="스프링-컨테이너란">스프링 컨테이너란?</h3>
-
-<p>스프링 컨테이너는 스프링 빈의 생명 주기를 관리하여  IoC(제어역전)와 DI(의존성주입)을 제공해주는 역할을 한다.</p>
-
-<p>스프링 컨테이너는 Bean Factory와 이를 상속한 ApplicationContext 2가지 유형이 존재한다.</p>
-
-<p><br /></p>
-
-<h4 id="bean-factory">Bean Factory</h4>
-
-<p>Bean Factory는 스프링 컨테이너의 최상위 인터페이스로 스프링 컨테이너 설정파일에 등록된 Bean 객체를 생성하고 관리하는 기본적인 기능만 담당하는 IoC 컨테이너이자 클래스를 말한다.
-컨테이너가 구동될 때 Bean 객체를 생성하는 것이 아니라 빈 사용 요청에 의해서 Bean 객체가 사용되는 시점(Lazy Loading) 에 객체를 생성하는 방식이다.</p>
-
-<p><br /></p>
-
-<h4 id="applicationcontext">ApplicationContext</h4>
-
-<p>ApplicationContext는 BeanFactory 인터페이스의 하위 인터페이스로 빈 관리 기능(DI 와 IoC) 뿐만 아니라 편리한 부가 기능을 제공한다. 트랜잭션 관리, 메시지 기반의 다국어 처리, AOP 처리 등 많은 부분을 지원한다.
-컨테이너가 구동되는 시점에 Bean 객체들을 생성하는 방식이다.</p>
-
-<p><br /></p>
-
-<h3 id="스프링-컨테이너-생성과정">스프링 컨테이너 생성과정</h3>
-
-<ul>
-  <li>스프링 컨테이너가 생성된다.</li>
-  <li>스프링 빈을 등록한다.
-    <ul>
-      <li>수동 빈 등록을 한다면 설정 정보를 읽어서 스프링 빈을 등록한다.</li>
-      <li>자동 빈 등록을 한다면 @Component가 붙은 클래스들을 스프링 빈으로 등록한다.</li>
-    </ul>
-  </li>
-  <li>스프링 빈의 의존관계를 설정한다.
-    <ul>
-      <li>수동 빈 등록을 할시에는 설정 정보를 읽어서 의존관계를 주입한다.</li>
-      <li>자동 빈 등록을 할시에는 등록된 빈에 생성자나 @Autowired를 보고 의존관계를 주입한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h3 id="스프링이-설정-파일을-읽는-과정">스프링이 설정 파일을 읽는 과정</h3>
-
-<p>XML 설정 파일이나 자바 설정 파일에 빈을 정의해주면 해당 설정 파일을 이용해 스프링 컨테이너가 빈 정의 내용대로 빈을 관리하도록 한다.</p>
-
-<p>스프링은 어떻게 이런 다양한 설정 형식을 지원하는 것일까?</p>
-
-<p>그 중심에는 BeanDefinition이라는 추상화가 있다. XML이든 자바 코드든 읽어서 BeanDefinition을 만들면 된다.
-스프링 컨테이너는 자바 코드인지, XML인지 몰라도 되고 오직 BeanDefinition만 알면 된다.</p>
-
-<p>BeanDefinition은 빈 설정 메타정보라고 한다. 스프링 컨테이너는 이 메타정보를 기반으로 스프링 빈을 생성한다.</p>
-
-<p><img width="672" alt="image" src="https://user-images.githubusercontent.com/67885363/176005470-9d8265e6-9fb2-4d3e-87bd-138676a1db78.png" /></p>
-
-<p><br /></p>
-
-<h3 id="싱글턴-패턴">싱글턴 패턴</h3>
-
-<p>스프링은 태생이 기업용 온라인 서비스 기술을 지원하기 위해 탄생했다. 
-웹 어플리케이션은 보통 여러 고객이 동시에 요청을 하는데 만약 대량의 트래픽이 들어왔을 때 요청마다 객체가 생성되고 소멸된다면 메모리 낭비가 심할 것이다. 
-스프링의 해결 방안으로는 싱글톤 패턴을 사용하여 해당 객체를 1개만 생성하게 하고 공유하도록 하는 것이다.</p>
-
-<p>하지만 싱글톤 패턴에는 여러가지 문제점이 있다.</p>
-
-<ul>
-  <li>private 생성자를 갖고 있기 때문에 상속할 수 없다.</li>
-  <li>싱글톤은 테스트하기가 힘들다.</li>
-  <li>필드에 공유 값을 설정하면 큰 장애가 발생할 수 있다.</li>
-</ul>
-
-<p>스프링은 이런 싱글톤 패턴의 문제점을 해결했다.</p>
-
-<p>스프링은 기본적으로 별다른 설정을 하지 않으면 내부에서 생성하는 빈 오브젝트를 모두 싱글톤으로 만듭니다.</p>
-
-<p>여기서 싱글톤은 디자인 패턴에서 나오는 싱글톤 패턴과 비슷한 개념이지만 구현 방법은 다릅니다.</p>
-
-<p><br /></p>
-
-<h3 id="싱글턴-레지스트리">싱글턴 레지스트리</h3>
-
-<p>스프링은 기본적으로 별다른 설정을 하지 않으면 내부에서 생성하는 빈 오브젝트를 모두 싱글톤으로 만든다.
-여기서 싱글톤은 디자인 패턴에서 나오는 싱글톤 패턴과 비슷한 개념이지만 구현 방법은 다르다. 또한 위의 싱글톤 패턴의 단점들을 보완한 상태를 사용한다.
-이렇게 애플리케이션 컨텍스트는 싱글톤을 저장하고 관리하는 싱글톤 레지스트리라고 할 수 있다.</p>
-
-<p>private 생성자로 객체의 생성을 막는 방법이 아니라 일반 자바 클래스를 싱글톤으로 활용할 수 있도록 지원한다.</p>
-
-<p>가장 중요한 것은 싱글톤 패턴과 달리 스프링이 지지하는 객체지향적인 설계 방식의 원칙, 디자인 패턴 등을 적용하는데 아무런 제약이 없게 만들어준다는 것입니다.</p>
-
-<p><br />
-<br /></p>
-
-<blockquote>
-  <p>참고 <br />
-스프링 핵심 원리 - 기본편 (김영한 님)
-토비의 스프링 - vol.1 (이일민 님)</p>
-</blockquote>]]></content><author><name>kun</name></author><summary type="html"><![CDATA[스프링 컨테이너]]></summary></entry><entry><title type="html">테스트 범위에 따른 테스트 종류</title><link href="http://localhost:4000/java/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%B2%94%EC%9C%84%EC%97%90-%EB%94%B0%EB%A5%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A2%85%EB%A5%98/" rel="alternate" type="text/html" title="테스트 범위에 따른 테스트 종류" /><published>2022-05-14T00:00:00+09:00</published><updated>2022-05-14T00:00:00+09:00</updated><id>http://localhost:4000/java/%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EB%B2%94%EC%9C%84%EC%97%90%20%EB%94%B0%EB%A5%B8%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%A2%85%EB%A5%98</id><content type="html" xml:base="http://localhost:4000/java/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%B2%94%EC%9C%84%EC%97%90-%EB%94%B0%EB%A5%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A2%85%EB%A5%98/"><![CDATA[<p>테스트의 범위는 테스트의 목적과 수행하는 사람에 따라 달라진다.</p>
-
-<p>일반적인 웹 어플리케이션에서 테스트 범위에 따른 테스트 종류는 아래의 그림과 같이 세 가지로 나눌 수 있다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/168793597-130da346-35b2-4760-89c7-2a51036ff3ae.png" alt="image" /></p>
-
-<p><br /></p>
-
-<h3 id="기능-테스트와-e2e-테스트">기능 테스트와 E2E 테스트</h3>
-
-<p>기능 테스트는 사용자 입장에서 시스템이 제공하는 기능이 올바르게 동작하는지 확인한다.</p>
-
-<p>기능 테스트를 수행하려면 시스템을 구동하고 사용하는데 필요한 모든 구성 요소가 필요하다.</p>
-
-<p>기능 테스트는 사용자가 직접 사용하는 웹 브라우저부터 DB나 외부 서비스에 이르기까지 모든 구성 요소를 논리적으로 완전한 하나의 기능으로 다룬다.</p>
-
-<p>기능 테스트는 끝에서 끝까지 올바른지 검사하기 때문에 E2E 테스트로도 볼 수 있다.</p>
-
-<blockquote>
-  <p>기능 테스트의 결과를 검증하기 위해 DB 데이터를 직접 조회할 수는 있지만, 이것은 마치 테스터가 브라우저로 회원 가입 기능을 실행한 뒤에 DB에 SELECT 쿼리를 보내서 데이터가 잘 들어갔는지 확인하는 것과 같다. 보통의 기능 테스트라면 회원 가입을 실행한 후에 데이터가 올바르게 들어갔는지 확인하기 위해 개인 정보 조회 화면을 실행하거나 관리 도구의 회원 정보 조회 기능을 실행할 것이다. 부득이한 경우를 제외하면 기능 테스트는 사용자와 동일한 방식으로 기능을 검증해야 한다.</p>
-</blockquote>
-
-<p><br /></p>
-
-<h3 id="통합-테스트">통합 테스트</h3>
-
-<p>통합 테스트는 시스템의 각 구성 요소가 올바르게 연동되는지 확인한다.</p>
-
-<p>기능 테스트가 사용자 입장에서 테스트하는데 반해, 통합 테스트는 소프트웨어 코드를 직접 테스트한다.</p>
-
-<p>기능 테스트는 가입 기능을 테스트한다면 통합 테스트는 서버의 회원 가입 코드를 직접 테스트하는 것이다.</p>
-
-<p>일반적인 웹 어플리케이션은 프레임워크, 데이터베이스, 구현한 코드가 주요 통합 테스트의 대상이다.</p>
-
-<p><br /></p>
-
-<h3 id="단위-테스트">단위 테스트</h3>
-
-<p>단위 테스트는 개별 코드나 컴포넌트가 기대한대로 동작하는지 확인한다.</p>
-
-<p>단위 테스트는 한 클래스나 한 메서드와 같은 작은 범위를 테스트한다.</p>
-
-<p>일부 의존 대상은 스텁이나 모의 객체 등을 이용해서 대역으로 대체한다.</p>
-
-<p><br /></p>
-
-<h3 id="테스트-범위간-차이">테스트 범위간 차이</h3>
-
-<ul>
-  <li>
-    <p>기능 테스트</p>
-
-    <p>웹 서버를 구동하거나 모바일 앱을 폰에 설치해야 할 수도 있다. 브라우저나 앱을 구동하고 화면의 흐름에 따라 알맞은 상호 작용을 해야 한다.</p>
-  </li>
-  <li>
-    <p>통합 테스트 : 실행하려면 DB나 캐시 서버와 같은 연동 대상을 구성해야 한다.</p>
-  </li>
-</ul>
-
-<p>​		DB 연결, 소켓 통신, 스프링 컨테이너 최고하와 같이 테스트 실행 속도를 느리게 만드는 요인이 많다.</p>
-
-<ul>
-  <li>단위 테스트 : 코드를 제외하고는 따로 준비할 것이 없다.</li>
-</ul>
-
-<p>​		서버를 구동하거나 DB를 준비할 필요가 없다. 테스트 대상이 의존하는 기능을 대역으로 처리하면 되므로 실행속도가 빠르다</p>
-
-<blockquote>
-  <p>통합 테스트를 실행하려면 준비할 것이 많고 단위 테스트에 비해 실행 시간도 길지만, 그래도 통합 테스트는 필요하다. 아무리 단위 테스트를 많이 만든다고 해도 결국은 각 구성 요소가 올바르게 연동되는 것을 확인해야 하는데 이를 자동화하기 좋은 수단이 통합 테스트 코드이기 때문이다.</p>
-</blockquote>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[테스트의 범위는 테스트의 목적과 수행하는 사람에 따라 달라진다.]]></summary></entry><entry><title type="html">JDBC란</title><link href="http://localhost:4000/java/JDBC%EB%9E%80/" rel="alternate" type="text/html" title="JDBC란" /><published>2022-04-07T00:00:00+09:00</published><updated>2022-04-07T00:00:00+09:00</updated><id>http://localhost:4000/java/JDBC%EB%9E%80</id><content type="html" xml:base="http://localhost:4000/java/JDBC%EB%9E%80/"><![CDATA[<h2 id="jdbc란">JDBC란</h2>
-
-<p>JDBC(Java DataBase Connectivity)는 자바 프로그램에서 Database를 조작하게 해주는 API이다.
-JDBC API는 JDK에서 제공하며 JDBC 프로그래밍을 위해서는 JDBC드라이버가 필요하다. 
-JDBC 드라이버는 각 DBMS 회사에서 제공하는 라이브러리 압축파일이다. 
-이번 체스 미션에서는 MySQL을 사용하기 때문에, MySQL 드라이버를 사용했다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/162207853-e28cc639-7c5c-41f6-9b29-65d969639e88.png" alt="image" /></p>
-
-<p><br /></p>
-
-<h3 id="jdbd-api-클래스">JDBD API 클래스</h3>
-
-<p>JDBC 클래스와 인터페이스는 자바 패키지 java.sql과 javax.sql에 포함되어 있다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/162208272-33c76821-16ac-4c9d-8271-a0f5e26b2d16.png" alt="image" /></p>
-
-<p><br /></p>
-
-<h3 id="jdbc를-이용한-데이터베이스-연동과정">JDBC를 이용한 데이터베이스 연동과정</h3>
-
-<p><strong>JDBC 드라이버 로드</strong></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">Class.forName("com.mysql.cj.jdbc.Driver")</code> 를 호출하여, mysql에서 제공하는 Driver 클래스를 JVM method area에 로딩시킨다.</p>
-
-<p><br /></p>
-
-<p><strong>데이터베이스 연결</strong></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">URL</span> <span class="o">=</span> <span class="s">"jdbc:mysql://localhost:3307/chess"</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">USER</span> <span class="o">=</span> <span class="s">"user"</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PASSWORD</span> <span class="o">=</span> <span class="s">"password"</span><span class="o">;</span>
-    
-		<span class="nc">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="no">URL</span><span class="o">,</span> <span class="no">USER</span><span class="o">,</span> <span class="no">PASSWORD</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p>URL에는 MySQL의 포트번호와 데이터베이스 이름을 지정해주면 된다.
-로컬 환경에서 MySQL의 포트번호는 3306이다. 
-체스 미션에서는 docker 환경에서 MySQL 을 사용했기 때문에, 포트를 3307로 지정해주었다. (저는 기존에 따로, 로컬 환경에서 3306 포트를 사용하고 있었습니다.)</p>
-
-<p>이제 Connection 객체를 만들어 사용하게 되는데, DriverManager의 getConnection() 을 호출해서, MySQL에 연결하기 위한 커넥션 정보를 입력한다.
-Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객체를 생성할 수 있다.</p>
-
-<p><br /></p>
-
-<p><strong>Query 실행을 위한 객체 생성</strong></p>
-
-<ul>
-  <li>Statement</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">"insert into board (position, piece, color, game_id) values ('"</span> <span class="o">+</span> <span class="n">position</span> <span class="o">+</span><span class="s">", "</span> <span class="o">+</span> <span class="n">piece</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">color</span> <span class="o">+</span><span class="s">", "</span> <span class="o">+</span> <span class="n">game_id</span> <span class="o">+</span> <span class="s">"')"</span><span class="o">;</span>
-<span class="nc">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
-</code></pre></div></div>
-
-<ul>
-  <li>PreparedStatement (Statement 를 상속한 인터페이스)</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">final</span> <span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">"insert into board (position, piece, color, game_id) values (?, ?, ?, ?)"</span><span class="o">;</span>
-<span class="nc">PreparedStatement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">));</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">piece</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">color</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
-
-</code></pre></div></div>
-
-<p>SQL 서버 엔진이 쿼리를 수행할 때 다음 과정을 거친다.</p>
-
-<ol>
-  <li>구문 분석 및 정규화 단계 : 쿼리 문법 및 테이블과 칼럼이 존재 여부를 확인한다.</li>
-  <li>컴파일 단계 : 쿼리를 컴파일한다.</li>
-  <li>쿼리 최적화 계획 : 쿼리를 실행할 수 있는 방법의 수와 비용을 알아내 최적의 계획을 선택한다.</li>
-  <li>캐시 : 선택된 계획은 캐시에 저장되고 동일한 쿼리가 들어올때마다 Cache 찾아 실행한다. (1, 2, 3 단계는 실행되지 않는다.)</li>
-  <li>실행 단계 : 쿼리가 실행되고 데이터가 ResultSet 객체로 사용자에게 반환된다.</li>
-</ol>
-
-<p>그럼 Statement와 PreparedStatement의 차이가 뭘까?</p>
-
-<p>Statement와 PreparedStatement의 차이는 캐시 사용여부이다.</p>
-
-<p>Statement는 쿼리를 실행할 때마다 위의 1~5 단계를 수행해야 한다.</p>
-
-<p>PreparedStatement는 위의 코드를 보다 시피, 완전한 쿼리가 아니다. 
-쿼리의 틀을 미리 생성해 놓고 물음표를 대체할 값을 나중에 지정한다.
-따라서 PreparedStatement가 처음 실행될 때만 1~3 단계를 수행 하고  캐시에 담아 재사용하게 한다.
-이후에 <code class="language-plaintext highlighter-rouge">Placeholder Replacement</code> 라는 추가 단계가 있는데, 런타임시에 사용자가 입력한 데이터로 set메서드를 사용해 ?를 대체한다.</p>
-
-<p><br /></p>
-
-<p>참고</p>
-
-<p>https://velog.io/@jsj3282/Statement%EB%B3%B4%EB%8B%A4-Preparedstatement%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0%EC%84%B1%EB%8A%A5-%EB%B3%B4%EC%95%88-%EC%B8%A1%EB%A9%B4</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[JDBC란]]></summary></entry><entry><title type="html">Collections.unmodifiableList() vs List.copyOf()</title><link href="http://localhost:4000/java/copyOf()vsUnmodifiable/" rel="alternate" type="text/html" title="Collections.unmodifiableList() vs List.copyOf()" /><published>2022-03-14T00:00:00+09:00</published><updated>2022-03-14T00:00:00+09:00</updated><id>http://localhost:4000/java/copyOf()vsUnmodifiable</id><content type="html" xml:base="http://localhost:4000/java/copyOf()vsUnmodifiable/"><![CDATA[<p>이전 내용을 간략하게 요약해보자.<br />
-인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다.<br />
-방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span> <span class="c1">// new ArrayList&lt;&gt;()를 이용해 복사본을 만들었다. -&gt; 방어적 복사</span>
-    <span class="o">}</span>
-  
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">cards</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>그렇다면, 이제 <code class="language-plaintext highlighter-rouge">List&lt;Card&gt; cards</code>를 외부에서의 변화에 걱정하지 않고 사용할 수 있을까? <br />
-아니다. <code class="language-plaintext highlighter-rouge">getCards()</code>로 리스트를 불러와, 변경시킨다면 Cards의 필드에도 변화가 가해질 것이다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-        <span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FIVE</span><span class="o">));</span>
-        <span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FOUR</span><span class="o">));</span>
-
-        <span class="nc">Cards</span> <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cards</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Card</span> <span class="n">card</span> <span class="o">:</span> <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">())</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"card = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">);</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">", card content = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">.</span><span class="na">getDenomination</span><span class="o">()</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span><span class="n">card</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">());</span>
-        <span class="o">}</span>
-
-        <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">HEART</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">THREE</span><span class="o">));</span> <span class="c1">// getter()로 List를 불러와 새로운 Card 추가</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Card</span> <span class="n">card</span> <span class="o">:</span> <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">())</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"card = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">);</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">", card content = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">.</span><span class="na">getDenomination</span><span class="o">()</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span><span class="n">card</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">());</span>
-        <span class="o">}</span>
-
-    <span class="o">}</span>
-
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/158881619-6675b204-5f18-41ac-a12a-a10cc17c6328.png" alt="image" /></p>
-
-<p><code class="language-plaintext highlighter-rouge">Cards</code>의 <code class="language-plaintext highlighter-rouge">getter()</code>를 이용해 List를 불러와 새로운 카드를 추가하였다.<br />
-그렇다면, <code class="language-plaintext highlighter-rouge">getter()</code>에서도 필드를 그대로 반환해주는 것이 아닌, 방어적 복사를 해서 외부에서의 변화를 막아주자.</p>
-
-<p><br /></p>
-
-<h3 id="첫번째-방법-new-arraylist">첫번째 방법, new ArrayList()</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-  
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span> <span class="c1">// new ArrayList&lt;&gt;()를 이용해 복사본을 만들었다. -&gt; 방어적 복사</span>
-    <span class="o">}</span>
-  
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">cards</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">getter()</code>에서도 방어적 복사를 함으로써, 필드의 참조값과 <code class="language-plaintext highlighter-rouge">getCards()</code>가 반환하는 List의 참조 값을 다르게 해주었다.</p>
-
-<p><br /></p>
-
-<h3 id="두번째-방법-collectionsunmodifiablelist">두번째 방법, Collections.unmodifiableList()</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">initialCards</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">unmodifiableList</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/158884061-518ed7d1-641f-47a2-8849-14a1a71baf3a.png" alt="image" /></p>
-
-<p><code class="language-plaintext highlighter-rouge">Unmodifiable Collection</code>을 이용하는 경우에, 외부에서 변경 시 예외가 발생한다.<br />
-<code class="language-plaintext highlighter-rouge">unmodifiableList()</code> 메서드를 통해 리턴되는 리스트는 읽기 용도로만 사용할 수 있다.<br />
-리스트에 변경을 가하는 메서드를 호출하면 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> 이 발생한다.</p>
-
-<p><br /></p>
-
-<h3 id="세번째-방법-listcopyof">세번째 방법, List.copyOf()</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">initialCards</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/158885545-095c9184-bffd-494c-92f7-de5dff8d5b93.png" alt="image" /></p>
-
-<p><code class="language-plaintext highlighter-rouge">copyOf</code>를 이용하였을 때도 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>이 발생했다.
-<code class="language-plaintext highlighter-rouge">List.copyOf()</code>로 반환되는 List도 수정이 불가한가보다.
-그렇다면, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>와 <code class="language-plaintext highlighter-rouge">List.copyOf()</code>의 차이가 뭘까?</p>
-
-<p><br /></p>
-
-<h3 id="collectionsunmodifiablelist-vs-listcopyof">Collections.unmodifiableList() vs List.copyOf()</h3>
-
-<p>둘의 차이점을 알아보기 위해, 간단한 코드를 작성해보겠다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CopyOfTest</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-        <span class="n">values</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
-
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">unmodifiableList</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">unmodifiableList</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
-        
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">copyOfList</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
-
-        <span class="n">values</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
-
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"===========unmodifiableList==============="</span><span class="o">);</span>
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Integer</span> <span class="n">integer</span> <span class="o">:</span> <span class="n">unmodifiableList</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">);</span>
-        <span class="o">}</span>
-
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"===========copyOf================"</span><span class="o">);</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Integer</span> <span class="n">integer</span> <span class="o">:</span> <span class="n">copyOfList</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>이 결과 값은 어떻게 될까?</p>
-
-<p><br /></p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/158887087-dbfcc0e1-b411-4209-9f19-4a6be120d746.png" alt="image" /></p>
-
-<p><code class="language-plaintext highlighter-rouge">unmodifiableList</code>는 원본 값에 영향을 받고 있다.<br />
-원본 리스트에 새로운 값을 추가해주니, 변화하였다.<br />
-하지만, <code class="language-plaintext highlighter-rouge">copyOfList</code>는 변화하지 않았다. 왜?<br />
-<code class="language-plaintext highlighter-rouge">List.copyOf</code>는  원본과의 참조를 끊어주기 때문이다.</p>
-
-<p>차이점으로, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>로는  참조가 끊어져 있지 않다.<br />
- 따라서, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>로 반환한 리스트를 직접 수정할 수는 없지만, 원본 리스트를 수정한다면 함께 수정이 일어난다.<br /></p>
-
-<p><code class="language-plaintext highlighter-rouge">Unmodifiable</code>과 <code class="language-plaintext highlighter-rouge">Immutable</code>은 다르다.<br />
- <code class="language-plaintext highlighter-rouge">Unmodifiable</code>이라는 키워드가 불변을 보장해주지는 않는다.<br />
-원본 자체에 대한 수정이 일어나면 <code class="language-plaintext highlighter-rouge">unmodifiableList()</code> 메서드를 통해 리턴되었던 리스트 또한 변경이 일어난다.</p>
-
-<p><br /></p>
-
-<h3 id="이제-정말-불변일까">이제, 정말 불변일까?</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">initialCards</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>생성자에 들어올 원본 리스트와의 주소 값도 끊어주었고, <code class="language-plaintext highlighter-rouge">getCards()</code>로 리스트를 반환할 때도 <code class="language-plaintext highlighter-rouge">copyOf()</code>를 이용해, 외부에서의 변화에 대해 막아주었다.<br />
-하지만, <code class="language-plaintext highlighter-rouge">new ArrayList()</code>, <code class="language-plaintext highlighter-rouge">Collections.unmodifiableList()</code>, <code class="language-plaintext highlighter-rouge">copyOf()</code> 모두 깊은 복사를 한 것이 아니다.<br />
-즉, 리스트의 참조 값만 끊어 준 것이지, 리스트 내부의 객체 참조 값은 동일하다.<br />
-만약 Card 클래스에 <code class="language-plaintext highlighter-rouge">setter()</code>가 존재한다면, <code class="language-plaintext highlighter-rouge">cards</code>는 외부에서 얼마든지 변할 수 있다.<br />
-그렇다고 꼭 깊은 복사를 해야한다는 것은 아니다.<br />
-<code class="language-plaintext highlighter-rouge">Card</code>가 불변 객체라면, 방어적 복사만으로도 <code class="language-plaintext highlighter-rouge">cards</code>는 충분히 안전한 리스트라고 할 수 있다고 생각한다.</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[이전 내용을 간략하게 요약해보자. 인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다. 방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다.]]></summary></entry><entry><title type="html">방어적 복사</title><link href="http://localhost:4000/java/%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC%EB%9E%80/" rel="alternate" type="text/html" title="방어적 복사" /><published>2022-03-13T00:00:00+09:00</published><updated>2022-03-13T00:00:00+09:00</updated><id>http://localhost:4000/java/%EB%B0%A9%EC%96%B4%EC%A0%81%20%EB%B3%B5%EC%82%AC%EB%9E%80</id><content type="html" xml:base="http://localhost:4000/java/%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC%EB%9E%80/"><![CDATA[<h2 id="방어적-복사란">방어적 복사란</h2>
-
-<p>생성자를 통해 초기화 할 때, 새로운 객체로 감싸서 복사해주는 방법이다.
-외부와 내부에서 주소값을 공유하는 인스턴스의 관계를 끊어주기 위함이다.
-방어적 복사를 하지 않는다면, 외부(원본) List에서 리스트에 값을 추가할 시, 내부의 List에도 값이 추가 될 것이다.</p>
-
-<h3 id="방어적-복사를-하지-않은-경우">방어적 복사를 하지 않은 경우</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="n">initialCards</span><span class="o">;</span>
-    <span class="o">}</span>
-  
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">cards</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-        <span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FIVE</span><span class="o">));</span>
-        <span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FOUR</span><span class="o">));</span>
-
-        <span class="nc">Cards</span> <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cards</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span>
-      	<span class="n">initialCards</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">.</span><span class="na">DIAMOND</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">NINE</span><span class="o">));</span> <span class="c1">// 원본 리스트에서 값 추가</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Card</span> <span class="n">card</span> <span class="o">:</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// initialCards는 당연히 3개가 나올테고</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"card = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">);</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">", card content = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">.</span><span class="na">getDenomination</span><span class="o">()</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span><span class="n">card</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">());</span>
-        <span class="o">}</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="nc">Card</span> <span class="n">card</span> <span class="o">:</span> <span class="n">cards</span><span class="o">.</span><span class="na">getCards</span><span class="o">())</span> <span class="o">{</span> <span class="c1">// initalCards에 카드를 추가하기 전에, Cards 객체를 먼저 만들었으니까 사이즈가 2이지 않을까?</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"card = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">);</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">", card content = "</span> <span class="o">+</span> <span class="n">card</span><span class="o">.</span><span class="na">getDenomination</span><span class="o">()</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span><span class="n">card</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">());</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>이 실행 결과는 어떻게 될까?<br />
-Cards 메서드로 조작하는 것이 아닌, Cards를 생성할 때, 인자로 들어올 <code class="language-plaintext highlighter-rouge">initialCards</code>리스트에서 새로운 Card 객체를 추가하였다.</p>
-
-<p>인자로 들어올 리스트(외부)를 변경하니, Cards의 내부 List에서도 변경되었다.
-이유가 뭘까?</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/158861419-22c3b5f3-cfe4-496b-9a51-c50cb401f449.png" alt="image" style="zoom:100%;" /></p>
-
-<p>인자로 들어올 리스트 <code class="language-plaintext highlighter-rouge">initialCards</code>와 <code class="language-plaintext highlighter-rouge">Cards</code>의 필드인 <code class="language-plaintext highlighter-rouge">cards</code>가 주소를 공유하고 있기 때문이다.<br />
-그러면, Cards 객체를 생성할 때, 원본과의 주소 공유를 끊어내보자.</p>
-
-<p><br /></p>
-
-<h3 id="방어적-복사를-한-경우">방어적 복사를 한 경우</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Cards</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">initialCards</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">cards</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">(</span><span class="n">initialCards</span><span class="o">);</span> <span class="c1">// new ArrayList&lt;&gt;()를 이용해 복사본을 만들었다.</span>
-    <span class="o">}</span>
-  
-    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="nf">getCards</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">cards</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">new ArrayList&lt;&gt;(initialCards)</code>를 통해 새로운 주소값을 참조하도록 복사하였다.<br />
-이렇게 되면 외부에서 넘겨주는 List와 내부적으로 사용하는 List가 참조하는 값이 다르기 때문에 외부에서 제어가 불가능해진다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/158861097-e4dd8fd0-6924-4462-8aaa-a28457abcf6f.png" alt="image" /></p>
-
-<p>방어적 복사를 함으로써, 원본 리스트와 객체 내부 리스트의 참조 값이 달라지게 되었다.</p>
-
-<p>그러면, <code class="language-plaintext highlighter-rouge">Cards</code>의 리스트는 외부의 변경에 안전하게 되었을까? 
-아니다. <code class="language-plaintext highlighter-rouge">getCards().add()</code>를 한다면 새로운 값이 추가가 될 것이다.
-이것 또한 막아주는 방법이 있다. 
-이 내용은 다음 포스팅의 <code class="language-plaintext highlighter-rouge">copyOf()</code>와 <code class="language-plaintext highlighter-rouge">Collections.Unmodifiable</code>을 비교하면서 다루겠다.</p>]]></content><author><name>kun</name></author><category term="java" /><summary type="html"><![CDATA[방어적 복사란]]></summary></entry></feed>
+</blockquote>]]></content><author><name>kun</name></author><category term="spring" /><summary type="html"><![CDATA[MVC 구조]]></summary></entry></feed>

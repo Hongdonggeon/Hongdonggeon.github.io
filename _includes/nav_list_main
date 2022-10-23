@@ -17,28 +17,28 @@
                 <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
                 {% for category in site.categories %}
                     {% if category[0] == "java" %}
-                        <li><a href="/categories/java" class="">Java ({{category[1].size}})</a></li>
+                        <li><a href="/categories/java" class="">java ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "spring" %}
-                        <li><a href="/categories/spring" class="">Spring Boot ({{category[1].size}})</a></li>
+                        <li><a href="/categories/spring" class="">spring ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "test" %}
-                        <li><a href="/categories/test" class="">Test ({{category[1].size}})</a></li>
+                        <li><a href="/categories/test" class="">test ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "web" %}
-                        <li><a href="/categories/web" class="">Web ({{category[1].size}})</a></li>
+                        <li><a href="/categories/web" class="">web ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
@@ -52,7 +52,7 @@
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "DBMS" %}
-                        <li><a href="/categories/DBMS" class="">DBMS ({{category[1].size}})</a></li>
+                        <li><a href="/categories/DBMS" class="">dbms ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
@@ -67,6 +67,13 @@
                 {% for category in site.categories %}
                     {% if category[0] == "git" %}
                         <li><a href="/categories/git" class="">git ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "jpa" %}
+                        <li><a href="/categories/jpa" class="">jpa ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

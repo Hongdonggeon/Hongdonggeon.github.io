@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>JDBC란 - Keep Going</title>
-<meta name="description" content="JDBC란">
+<!-- begin _includes/seo.html --><title>인수테스트 격리하기 - Keep Going</title>
+<meta name="description" content="인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.">
 
 
   <meta name="author" content="kun">
@@ -22,30 +22,30 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Keep Going">
-<meta property="og:title" content="JDBC란">
-<meta property="og:url" content="http://localhost:4000/java/JDBC%EB%9E%80/">
+<meta property="og:title" content="인수테스트 격리하기">
+<meta property="og:url" content="http://localhost:4000/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/">
 
 
-  <meta property="og:description" content="JDBC란">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-04-07T00:00:00+09:00">
+  <meta property="og:description" content="인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.">
 
 
 
 
 
-  
+
+
+  <meta property="article:published_time" content="2022-08-07T00:00:00+09:00">
+
+
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/java/JDBC%EB%9E%80/">
+
+<link rel="canonical" href="http://localhost:4000/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/">
 
 
 
@@ -442,16 +442,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="JDBC란">
-    <meta itemprop="description" content="JDBC란">
-    <meta itemprop="datePublished" content="2022-04-07T00:00:00+09:00">
+    <meta itemprop="headline" content="인수테스트 격리하기">
+    <meta itemprop="description" content="인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.">
+    <meta itemprop="datePublished" content="2022-08-07T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/java/JDBC%EB%9E%80/" class="u-url" itemprop="url">JDBC란
+            <a href="http://localhost:4000/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/" class="u-url" itemprop="url">인수테스트 격리하기
 </a>
           </h1>
           
@@ -483,112 +483,65 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#jdbc란">JDBC란</a><ul><li><a href="#jdbd-api-클래스">JDBD API 클래스</a></li><li><a href="#jdbc를-이용한-데이터베이스-연동과정">JDBC를 이용한 데이터베이스 연동과정</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#dirtiescontext">@DirtiesContext</a></li><li><a href="#sql">@SQL</a></li><li><a href="#entitymanager로-truncate-쿼리-실행시키기">EntityManager로 TRUNCATE 쿼리 실행시키기</a></li></ul>
 
             </nav>
           </aside>
         
-        <h2 id="jdbc란">JDBC란</h2>
+        <p>인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.</p>
 
-<p>JDBC(Java DataBase Connectivity)는 자바 프로그램에서 Database를 조작하게 해주는 API이다.
-JDBC API는 JDK에서 제공하며 JDBC 프로그래밍을 위해서는 JDBC드라이버가 필요하다. 
-JDBC 드라이버는 각 DBMS 회사에서 제공하는 라이브러리 압축파일이다. 
-이번 체스 미션에서는 MySQL을 사용하기 때문에, MySQL 드라이버를 사용했다.</p>
+<p>인수 테스트의 목적이 실제 운영 환경과 같은 조건을 테스트하고자 하는 것이기 때문에 mock 프레임워크 등을 사용하지 않고 실제 데이터베이스를 사용해야 조건에 충족할 수 있다.</p>
 
-<p><img src="https://user-images.githubusercontent.com/67885363/162207853-e28cc639-7c5c-41f6-9b29-65d969639e88.png" alt="image" /></p>
+<p>그러므로 테스트가 실행되면서 데이터베이스의 상태는 변하게 되고 테스트는 데이터베이스의 상태에 따라 성공 여부가 달라지게 될 것이다.</p>
+
+<p>데이터베이스의 상태에 의존받지 않기 위해 테스트를 효과적으로 격리해야한다.</p>
+
+<h3 id="dirtiescontext">@DirtiesContext</h3>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/196947575-adab8873-debe-40ad-861c-6e7ccd20b3e1.png" alt="image" /></p>
+
+<p>이 @DirtiesContext 는 classMode에 따라 Spring Context를 새로 로드한다. 우리는 classMode를 <code class="language-plaintext highlighter-rouge">BEFORE_EACH_TEST_METHOD</code>로 지정했기 때문에 모든 테스트 메서드마다 시작하기 이전에 contexts를 재생성했다.</p>
+
+<p>메서드마다 context를 새로 로드하기 때문에 격리는 잘 되었지만 문제가 있었다.</p>
+
+<p>테스트 갯수가 얼마되지 않았을 때에는 실행할 때 체감할 수 있을 정도로 많은 시간이 걸리지 않았지만, 점점 테스트 갯수가 많아지면서 시간이 너무 오래걸리게 되었다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/196950043-46a190e1-c99c-41f5-9a69-063a1ec49381.png" alt="image" /></p>
+
+<p>총 51개의 인수테스트가 실행되는데 2분 29초이나 걸렸다. 다른 격리하는 방법을 찾게 되었다.</p>
 
 <p><br /></p>
 
-<h3 id="jdbd-api-클래스">JDBD API 클래스</h3>
+<h3 id="sql">@SQL</h3>
 
-<p>JDBC 클래스와 인터페이스는 자바 패키지 java.sql과 javax.sql에 포함되어 있다.</p>
+<p><img src="https://user-images.githubusercontent.com/67885363/197001536-ffa71a2b-7f20-495a-959d-e0e15d04d3fe.png" alt="image" /></p>
 
-<p><img src="https://user-images.githubusercontent.com/67885363/162208272-33c76821-16ac-4c9d-8271-a0f5e26b2d16.png" alt="image" /></p>
+<p>스트링 부트에서 제공하는 어노테이션이다. executionPhase의 속성이 <code class="language-plaintext highlighter-rouge">BEFORE_TEST_METHOD</code>이기 때문에 실행되기 전에 @sql이 가리키는 경로에 있는 SQL 실행이 먼저 일어나고 있다. executionPhase 속성의 기본 값이 <code class="language-plaintext highlighter-rouge">BEFORE_TEST_METHOD</code> 이다.</p>
 
-<p><br /></p>
+<p>그리고 sql 파일에는 모든 데이터를 지워주는 쿼리문을 작성해주면 된다.</p>
 
-<h3 id="jdbc를-이용한-데이터베이스-연동과정">JDBC를 이용한 데이터베이스 연동과정</h3>
-
-<p><strong>JDBC 드라이버 로드</strong></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">);</span>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">attendance</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">event</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">participant</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">meeting</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="k">user</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">Class.forName("com.mysql.cj.jdbc.Driver")</code> 를 호출하여, mysql에서 제공하는 Driver 클래스를 JVM method area에 로딩시킨다.</p>
+<p>좋은 방식이지만 sql 파일을 계속 관리해주어야 하는 단점이 있다. 만약 새로운 테이블이 추가되면 sql 파일에도 추가를 해주어야한다. 엔티티 구조가 간단하면 사용할만 하지만, 엔티티가 정말 많아진다면 sql 파일 관리하는 것도 많이 귀찮아질 것이다.</p>
 
 <p><br /></p>
 
-<p><strong>데이터베이스 연결</strong></p>
+<h3 id="entitymanager로-truncate-쿼리-실행시키기">EntityManager로 TRUNCATE 쿼리 실행시키기</h3>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">URL</span> <span class="o">=</span> <span class="s">"jdbc:mysql://localhost:3307/chess"</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">USER</span> <span class="o">=</span> <span class="s">"user"</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PASSWORD</span> <span class="o">=</span> <span class="s">"password"</span><span class="o">;</span>
-    
-		<span class="nc">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="no">URL</span><span class="o">,</span> <span class="no">USER</span><span class="o">,</span> <span class="no">PASSWORD</span><span class="o">);</span>
-</code></pre></div></div>
+<p><img src="https://user-images.githubusercontent.com/67885363/197004856-c48f1c71-8e7b-48e4-91fc-d88fbf3b39e7.png" alt="image" /></p>
 
-<p>URL에는 MySQL의 포트번호와 데이터베이스 이름을 지정해주면 된다.
-로컬 환경에서 MySQL의 포트번호는 3306이다. 
-체스 미션에서는 docker 환경에서 MySQL 을 사용했기 때문에, 포트를 3307로 지정해주었다. (저는 기존에 따로, 로컬 환경에서 3306 포트를 사용하고 있었습니다.)</p>
+<p>이 방법은 EntityManager를 빈으로 주입 받아 모든 테이블 이름을 List에 추가한 후 List를 for문으로 돌면서 <code class="language-plaintext highlighter-rouge">TRUNCATE</code> 쿼리문을 실행시켜주는 것이다.</p>
 
-<p>이제 Connection 객체를 만들어 사용하게 되는데, DriverManager의 getConnection() 을 호출해서, MySQL에 연결하기 위한 커넥션 정보를 입력한다.
-Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객체를 생성할 수 있다.</p>
+<p>위의 init 메서드를 빈이 생성될 때 자동으로 실행될 수 있게 <code class="language-plaintext highlighter-rouge">@PostConstruct</code> 어노테이션을 붙여주면서 따로 메서드를 실행시키지 않게 해주었다. 테스트 클래스에서는 Junit의 <code class="language-plaintext highlighter-rouge">@BeforeEach</code>로 execute 메서드를 실행시켜주면 테이블의 모든 데이터를 지우면서 격리시킬 수 있다.</p>
 
-<p><br /></p>
+<p><img src="https://user-images.githubusercontent.com/67885363/197008774-a7b85b0f-a5da-456a-81be-7555d3be6cf1.png" alt="image" /></p>
 
-<p><strong>Query 실행을 위한 객체 생성</strong></p>
-
-<ul>
-  <li>Statement</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">"insert into board (position, piece, color, game_id) values ('"</span> <span class="o">+</span> <span class="n">position</span> <span class="o">+</span><span class="s">", "</span> <span class="o">+</span> <span class="n">piece</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">color</span> <span class="o">+</span><span class="s">", "</span> <span class="o">+</span> <span class="n">game_id</span> <span class="o">+</span> <span class="s">"')"</span><span class="o">;</span>
-<span class="nc">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
-</code></pre></div></div>
-
-<ul>
-  <li>PreparedStatement (Statement 를 상속한 인터페이스)</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">final</span> <span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">"insert into board (position, piece, color, game_id) values (?, ?, ?, ?)"</span><span class="o">;</span>
-<span class="nc">PreparedStatement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">));</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">piece</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">color</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
-<span class="n">statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
-
-</code></pre></div></div>
-
-<p>SQL 서버 엔진이 쿼리를 수행할 때 다음 과정을 거친다.</p>
-
-<ol>
-  <li>구문 분석 및 정규화 단계 : 쿼리 문법 및 테이블과 칼럼이 존재 여부를 확인한다.</li>
-  <li>컴파일 단계 : 쿼리를 컴파일한다.</li>
-  <li>쿼리 최적화 계획 : 쿼리를 실행할 수 있는 방법의 수와 비용을 알아내 최적의 계획을 선택한다.</li>
-  <li>캐시 : 선택된 계획은 캐시에 저장되고 동일한 쿼리가 들어올때마다 Cache 찾아 실행한다. (1, 2, 3 단계는 실행되지 않는다.)</li>
-  <li>실행 단계 : 쿼리가 실행되고 데이터가 ResultSet 객체로 사용자에게 반환된다.</li>
-</ol>
-
-<p>그럼 Statement와 PreparedStatement의 차이가 뭘까?</p>
-
-<p>Statement와 PreparedStatement의 차이는 캐시 사용여부이다.</p>
-
-<p>Statement는 쿼리를 실행할 때마다 위의 1~5 단계를 수행해야 한다.</p>
-
-<p>PreparedStatement는 위의 코드를 보다 시피, 완전한 쿼리가 아니다. 
-쿼리의 틀을 미리 생성해 놓고 물음표를 대체할 값을 나중에 지정한다.
-따라서 PreparedStatement가 처음 실행될 때만 1~3 단계를 수행 하고  캐시에 담아 재사용하게 한다.
-이후에 <code class="language-plaintext highlighter-rouge">Placeholder Replacement</code> 라는 추가 단계가 있는데, 런타임시에 사용자가 입력한 데이터로 set메서드를 사용해 ?를 대체한다.</p>
-
-<p><br /></p>
-
-<p>참고</p>
-
-<p>https://velog.io/@jsj3282/Statement%EB%B3%B4%EB%8B%A4-Preparedstatement%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0%EC%84%B1%EB%8A%A5-%EB%B3%B4%EC%95%88-%EC%B8%A1%EB%A9%B4</p>
-
+<p>이 방법은 DirtiesContext처럼 spring context를 새로 로드하지 않기 때문에 시간이 많이 걸리지 않게 되고 @sql 방법처럼 따로 sql 파일을 관리하지 않아도 되므로 가장 좋은 방법으로 보인다.</p>
 
         
       </section>
@@ -607,7 +560,11 @@ Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#java" class="page__taxonomy-item p-category" rel="tag">java</a>
+      <a href="/categories/#checkmate" class="page__taxonomy-item p-category" rel="tag">checkmate</a><span class="sep">, </span>
+    
+      <a href="/categories/#spring" class="page__taxonomy-item p-category" rel="tag">spring</a><span class="sep">, </span>
+    
+      <a href="/categories/#test" class="page__taxonomy-item p-category" rel="tag">test</a>
     
     </span>
   </p>
@@ -615,7 +572,7 @@ Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-04-07T00:00:00+09:00">April 7, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-08-07T00:00:00+09:00">August 7, 2022</time></p>
 
       </footer>
 
@@ -624,22 +581,22 @@ Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=JDBC%EB%9E%80%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDBC%25EB%259E%2580%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8+%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fspring%2Ftest%2Fcheckmate%2F%25EC%259D%25B8%25EC%2588%2598%25ED%2585%258C%25EC%258A%25A4%25ED%258A%25B8-%25EA%25B2%25A9%25EB%25A6%25AC%25ED%2595%2598%25EA%25B8%25B0%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDBC%25EB%259E%2580%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fspring%2Ftest%2Fcheckmate%2F%25EC%259D%25B8%25EC%2588%2598%25ED%2585%258C%25EC%258A%25A4%25ED%258A%25B8-%25EA%25B2%25A9%25EB%25A6%25AC%25ED%2595%2598%25EA%25B8%25B0%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDBC%25EB%259E%2580%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fspring%2Ftest%2Fcheckmate%2F%25EC%259D%25B8%25EC%2588%2598%25ED%2585%258C%25EC%258A%25A4%25ED%258A%25B8-%25EA%25B2%25A9%25EB%25A6%25AC%25ED%2595%2598%25EA%25B8%25B0%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/java/copyOf()vsUnmodifiable/" class="pagination--pager" title="Collections.unmodifiableList() vs List.copyOf()
+      <a href="/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/" class="pagination--pager" title="aws ec2 살펴보기1 (리전, 가용 영역)
 ">Previous</a>
     
     
-      <a href="/java/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%B2%94%EC%9C%84%EC%97%90-%EB%94%B0%EB%A5%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A2%85%EB%A5%98/" class="pagination--pager" title="테스트 범위에 따른 테스트 종류
+      <a href="/spring/test/checkmate/Service-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-@Transactional%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4/" class="pagination--pager" title="서비스 계층을 테스트할 때 @Transactional 사용을 지양하자
 ">Next</a>
     
   </nav>
@@ -784,7 +741,7 @@ Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/" rel="permalink">인수테스트 격리하기
+        <a href="/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/" rel="permalink">aws ec2 살펴보기1 (리전, 가용 영역)
 </a>
       
     </h2>
@@ -802,14 +759,15 @@ Connection 객체가 만들어지면, Query 문을 실행시키는 statement 객
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          less than 1 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.
+    <p class="archive__item-excerpt" itemprop="description">리전
+aws 리전이란 aws 리소스를 지리적 관점으로 영역으로 구분해놓은 것이다. 각 aws 리전은 격리되어 있고 독립적이다. 내가 만약 서울 리전에서 리소스를 만들었다면 미국 동부(오하이오) 리전에서 사용할 수 없다.
 </p>
   </article>
 </div>
