@@ -30,8 +30,8 @@
             </ul>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "til" %}
-                        <li><a href="/categories/github" class="">Github ({{category[1].size}})</a></li>
+                    {% if category[0] == "test" %}
+                        <li><a href="/categories/test" class="">Test ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
@@ -39,6 +39,27 @@
                 {% for category in site.categories %}
                     {% if category[0] == "web" %}
                         <li><a href="/categories/web" class="">Web ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "checkmate" %}
+                        <li><a href="/categories/checkmate" class="">checkmate ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "DBMS" %}
+                        <li><a href="/categories/DBMS" class="">DBMS ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "infra" %}
+                        <li><a href="/categories/infra" class="">infra ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
