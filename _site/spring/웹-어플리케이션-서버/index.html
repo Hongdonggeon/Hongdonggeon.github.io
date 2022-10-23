@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>JDK, JRE, JVM - Keep Going</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>웹 어플리케이션 서버 - Keep Going</title>
+<meta name="description" content="웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.">
 
 
   <meta name="author" content="kun">
@@ -22,30 +22,30 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Keep Going">
-<meta property="og:title" content="JDK, JRE, JVM">
-<meta property="og:url" content="http://localhost:4000/java/JDK,JRE,JVM/">
+<meta property="og:title" content="웹 어플리케이션 서버">
+<meta property="og:url" content="http://localhost:4000/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/">
 
 
-  <meta property="og:description" content="">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-02-06T00:00:00+09:00">
+  <meta property="og:description" content="웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.">
 
 
 
 
 
-  
+
+
+  <meta property="article:published_time" content="2022-06-16T00:00:00+09:00">
+
+
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/java/JDK,JRE,JVM/">
+
+<link rel="canonical" href="http://localhost:4000/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/">
 
 
 
@@ -369,16 +369,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="JDK, JRE, JVM">
-    <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2022-02-06T00:00:00+09:00">
+    <meta itemprop="headline" content="웹 어플리케이션 서버">
+    <meta itemprop="description" content="웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.">
+    <meta itemprop="datePublished" content="2022-06-16T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/java/JDK,JRE,JVM/" class="u-url" itemprop="url">JDK, JRE, JVM
+            <a href="http://localhost:4000/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/" class="u-url" itemprop="url">웹 어플리케이션 서버
 </a>
           </h1>
           
@@ -395,7 +395,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          1 minute read
         
       </span>
     
@@ -410,109 +410,90 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#jdk-java-development-kit">JDK (Java Development Kit)</a></li><li><a href="#jre-java-runtime-environment">JRE (Java Runtime Environment)</a></li><li><a href="#jvm-java-virtual-machine">JVM (Java Virtual Machine)</a><ul><li><a href="#정리">정리</a></li></ul></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#웹-서버">웹 서버</a></li><li><a href="#웹-애플리케이션-서버was">웹 애플리케이션 서버(WAS)</a></li><li><a href="#웹-시스템-구성">웹 시스템 구성</a></li><li><a href="#웹-어플리케이션-서버-vs-웹-컨테이너-서블릿-컨테이너">웹 어플리케이션 서버 vs 웹 컨테이너 (서블릿 컨테이너)</a></li></ul>
 
             </nav>
           </aside>
         
-        <p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
-
-<h1 id="jdk-java-development-kit">JDK (Java Development Kit)</h1>
-
-<p>JDK란 Java를 활용하여 프로그램을 개발할 때 필요한 도구 모음이다. <br />JRE는 Java 프로그램을 실행하기 위한 도구들의 구성요소로 독립적으로 사용 가능하다. <br />하지만 프로그램을 실행시키는 것도 개발의 일환이기 때문에 JDK는 JRE를 필요로 한다.</p>
+        <p>웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.</p>
 
 <p><br /></p>
 
-<p><strong>JDK 구성요소</strong></p>
+<h3 id="웹-서버">웹 서버</h3>
 
 <ul>
-  <li>javac : 자바 컴파일러. 자바 소스파일을 바이트코드로 반환</li>
-  <li>jdb : 자바 디버깅 툴</li>
-  <li>jar : 서로 관련있는 클래스 라이브러리들과 리소스를 하나의 파일로 묶어주는 툴</li>
+  <li>HTTP 기반으로 동작</li>
+  <li>정적 리소스 제공, 기타 부가기능
+    <ul>
+      <li>정적인 파일을 제공하므로 HTML 을 특정 사용자마다 다르게 보여줄 수 있음</li>
+      <li>정적 HTML, CSS, JS, 이미지, 영상</li>
+    </ul>
+  </li>
+  <li>웹 서버에서 요청에 알맞은 파일을 반환하며, 항상 동일한 페이지를 반환</li>
+  <li>예) NGINX, APACHE</li>
 </ul>
 
 <p><br /></p>
 
-<p><strong>JDK 종류</strong></p>
+<h3 id="웹-애플리케이션-서버was">웹 애플리케이션 서버(WAS)</h3>
 
 <ul>
-  <li>
-    <p>Java SE (Java Standard Edition)<br />: 표준 에디션의 자바 플랫폼이다. 자바 언어의 핵심 기능을 제공한다. 주요 패키지는 java.lang , java.io , java.util, java.awt 등이 있다.</p>
+  <li>HTTP 기반으로 동작</li>
+  <li>웹 서버 기능 포함 (정적 리소스 제공 가능)</li>
+  <li>프로그램 코드를 실행해서 애플리케이션 로직 수행
+    <ul>
+      <li>동적 HTML, HTTP API(JSON)</li>
+      <li>사용자에 따라서 다른 화면들을 보여줄 수 있다.</li>
+    </ul>
   </li>
-  <li>
-    <p>Java EE (Java Enterprise Edition)<br />: Java SE에 웹 어플리케이션 서버에서 동작하는 기능을 추가한 플랫폼이다.  JSP, Servlet, JDBC 등 기업용 어플리케이션을 개발하는데 필요한 다양한 것들이 포함된 플랫폼이다.</p>
-  </li>
-  <li>
-    <p>Java ME (Java Micro Edition)<br />: 임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.</p>
-
-    <p><br /></p>
-  </li>
+  <li>들어온 요청에 맞게 동적으로 만들어진 컨텐츠로 데이터베이스, 서버 내 로직 등을 활용해 만들어진 컨텐츠를 반환</li>
+  <li>서블릿, 스프링 MVC가 WAS에서 동작</li>
+  <li>Tomcat, Jetty, Undertow</li>
 </ul>
 
-<h1 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h1>
+<p><br /></p>
 
-<p>JVM 위에서 .class 파일이 원활하게 작동하기 위해서는 몇 가지 필수적인 요소들이 필요하는데 이를 제공해주는 것이 JRE다.<br /> JRE는 크게 JVM과 Java Class Libraries, Class Loader라는 요소로 구성이 된다.</p>
+<h3 id="웹-시스템-구성">웹 시스템 구성</h3>
+
+<p><img width="620" alt="image" src="https://user-images.githubusercontent.com/67885363/174735563-d139bbcf-969c-4b31-a85c-100840bac322.png" /></p>
+
+<ul>
+  <li>역할 분리</li>
+</ul>
+
+<p>웹 시스템을 구성할 때 WAS, DB 만으로 시스템 구성이 가능하다. WAS는 정적 리소스, 어플리케이션 로직 모두 제공 가능하기 때문이다. 그러나 WAS가 너무 많은 역할을 담당하면 서버 과부하가 우려 된다. HTML, CSS, JS 파일 같은 경우는 시스템적으로 단순하고 값이 싸다. 그러나 어플리케이션 로직은 비즈니스 로직이므로 값이 비싸다. 어플리케이션 로직이 정적 리소스 때문에 수행이 어려우면 안되므로 역할을 분리해준다.</p>
+
+<ul>
+  <li>장애 발생시</li>
+</ul>
+
+<p>정적 리소스만 제공하는 웹 서버는 잘 죽지 않고 대부분의 장애는 WAS에서 발생한다. 하지만 WAS는 장애가 발생하면 요청하는 웹 브라우저에서 WAS로 접근조차 되지 않으므로 오류 화면 조차도 노출이 불가능하다. WAS 서버가 죽더라도 웹 서버가 WAS 에 요청을 했는데 응답이 없거나 잘 연결되지 않으면 오류화면 HTML 제공하도록 설정할 수 있다.</p>
+
+<ul>
+  <li>리소스 관리</li>
+</ul>
+
+<p>WAS는 중요한 어플리케이션 로직 처리에 전담할 수 있다. 그리고 시스템 리소스를 효율적으로 관리할 수 있다. 정적인 리소스가 많이 필요하면 웹 서버를 증설하면 되고 어플리케이션 리소스가 많이 사용되면 WAS를 증설하면 된다.</p>
 
 <p><br /></p>
 
-<p><strong>Java Class Libraries</strong></p>
+<h3 id="웹-어플리케이션-서버-vs-웹-컨테이너-서블릿-컨테이너">웹 어플리케이션 서버 vs 웹 컨테이너 (서블릿 컨테이너)</h3>
 
-<p>Java를 실행시키는데 필수적인 라이브러리다.<br />java.io, java.util, java.thread, java.lang 등 작동에 필수적인 요소들을 가지고 있다.<br />JVM에 올라가는 바이트 코드에서도 필수 라이브러리를 참고하고 있기 때문에 간단한 코드라도 필수 라이브러리가 필요하다.</p>
+<p>톰캣을 부를 때, 어플리케이션 서버와 서블릿 컨테이너를 혼용해서 사용하는 경우가 잦아서 두 키워드에 혼란이 있었다. 톰캣은 굳이 둘 중에 하나로 분류하자고 하면 서블릿 컨테이너 쪽에 가깝다고 한다.</p>
 
-<p><br /></p>
+<p>왜냐하면 톰캣은 서블릿과 JSP를 위한 런타임 환경을 제공하나 어플리케이션 서버의 필수적이라고 할 수 있는 EJB 같은 기술이 적용되어 있지 않기 때문이다.</p>
 
-<p><strong>Class Loader</strong></p>
+<p>서블릿 컨테이너는 오직 서블릿 API 만 지원하는 것을 말하고 어플리케이션 서버는 Java EE (EJB, CDI, 서블릿 API 등..)의 전체를 지원한다고 한다.</p>
 
-<p>필요한 클래스들을 JVM 위로 올려주는 역할을 한다. <br />Javac를 통해 생성된 .class 파일은 각 디렉토리에 흩어져 있다.<br />그리고 라이브러리의 클래스 파일들은 $JAVAHOME_ 내부 경로에 존재한다.<br />이러한 각각의 클래스 파일들을 찾아서 JVM의 메모리에 탑재해주는 역할을 하는 것이 ClassLoader 이다.</p>
+<p>하지만, 톰캣은 서블릿 뿐만 아니라 JSP 같은 것도 실행할 수 있기 때문에 서블릿 컨테이너라고 부르는 것이 맞다라는 관점도 있고, 톰캣이 서블릿 컨테이너를 포함하고 있는 개념이라는 관점도 있다.</p>
 
-<p>ClassLoader 는 크게 Loading, Linking, 그리고 Initialization 3가지 역할을 맡게 된다.<br /> Loading 은 클래스 파일을 탑재하는 과정, Linking 은 클래스 파일을 사용하기 위해 검증하고, 기본 값으로 초기화하는 과정이다. Initialization 은 static field 의 값들을 개발자가 정의한 값으로 초기화를 하는 과정이다.</p>
+<p><br />
+<br /></p>
 
-<p><br /></p>
-
-<h1 id="jvm-java-virtual-machine">JVM (Java Virtual Machine)</h1>
-
-<p>JVM은 Java로 작성된 프로그램이 돌아가도록 만들어준다.<br />Java로 작성된 프로그램은 운영체제에 맞는 실행파일로 컴파일되는 것이 아닌 .class라는 확장자를 가진 파일로 변환이 되는데 이 .class 파일이 JVM위에서 작동하는 것이고 JVM이 .class 파일에 환경을 제공해준다.<br />JVM은 자바 인터프리터, JIT 커파일러, 가비지 컬렉터로 구성되어 있다.</p>
-
-<p><br /></p>
-
-<p><strong>Java Interpreter</strong></p>
-
-<p>자바 컴파일러에 의해 변환된 자바 바이트 코드를 읽고 해석하는 역할을 하는 것이 자바 인터프리터다.</p>
-
-<p><br /></p>
-
-<p><strong>JIT 컴파일러 (Just In Time compiler)</strong></p>
-
-<p>JIT 컴파일러란 런타임에 자바 바이트 코드를 실제 기계어로 변환해주는 컴파일러를 의미한다. 프로그램의 실행 속도를 향상시키기 위해 동적 번역이라는 기법을 사용한다.</p>
-
-<p><br /></p>
-
-<p><strong>Garbage Collector</strong></p>
-
-<p>jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 자동으로 회수해 준다.</p>
-
-<p><br /></p>
-
-<h3 id="정리">정리</h3>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/152675147-e4b7c544-68cf-40bf-813c-e4cabcbf8a9c.png" alt="img_java_programming" /></p>
-
-<p>우리가 작성하는 자바 클래스 파일(.java)은 JDK의 자바 컴파일러(javac) 를 통해 자바 바이트 코드(.class) 로 변환하게 된다.</p>
-
-<p>자바 컴파일러에 의해 생성된 자바 바이트 코드는 운영체제에 상관없이 JVM 위에서 작동이 되기 때문에 Java가 이식성이 좋은 것이다.</p>
-
-<p>그리고 바이트 코드가 JVM 위에서 원활하게 작동이 되기 위해서는 필수적인 자바 라이브러리나 우리가 작성한 클래스 파일들이 필요하는데, 이러한 각각의 클래스 파일들을 JVM 위에 올려주는 역할을 하는 것이 JRE이다.</p>
-
-<p><br /></p>
-
-<p>참고</p>
-
-<p>https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk<br />
-https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/<br />
-https://tecoble.techcourse.co.kr/post/2021-07-12-jvm-jre-jdk/<br />
-http://www.tcpschool.com/java/java_intro_programming</p>
+<blockquote>
+  <p>참고 <br />
+스프링 핵심 원리 - 기본편 (김영한 님)</p>
+</blockquote>
 
         
       </section>
@@ -531,7 +512,7 @@ http://www.tcpschool.com/java/java_intro_programming</p>
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#java" class="page__taxonomy-item p-category" rel="tag">java</a>
+      <a href="/categories/#spring" class="page__taxonomy-item p-category" rel="tag">spring</a>
     
     </span>
   </p>
@@ -539,7 +520,7 @@ http://www.tcpschool.com/java/java_intro_programming</p>
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-02-06T00:00:00+09:00">February 6, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-06-16T00:00:00+09:00">June 16, 2022</time></p>
 
       </footer>
 
@@ -548,21 +529,22 @@ http://www.tcpschool.com/java/java_intro_programming</p>
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=JDK%2C+JRE%2C+JVM%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDK%2CJRE%2CJVM%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%EC%9B%B9+%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98+%EC%84%9C%EB%B2%84%20http%3A%2F%2Flocalhost%3A4000%2Fspring%2F%25EC%259B%25B9-%25EC%2596%25B4%25ED%2594%258C%25EB%25A6%25AC%25EC%25BC%2580%25EC%259D%25B4%25EC%2585%2598-%25EC%2584%259C%25EB%25B2%2584%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDK%2CJRE%2CJVM%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fspring%2F%25EC%259B%25B9-%25EC%2596%25B4%25ED%2594%258C%25EB%25A6%25AC%25EC%25BC%2580%25EC%259D%25B4%25EC%2585%2598-%25EC%2584%259C%25EB%25B2%2584%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDK%2CJRE%2CJVM%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fspring%2F%25EC%259B%25B9-%25EC%2596%25B4%25ED%2594%258C%25EB%25A6%25AC%25EC%25BC%2580%25EC%259D%25B4%25EC%2585%2598-%25EC%2584%259C%25EB%25B2%2584%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/" class="pagination--pager" title="스프링 컨테이너
+">Previous</a>
     
     
-      <a href="/java/Junit/" class="pagination--pager" title="Junit
+      <a href="/spring/%EC%84%9C%EB%B8%94%EB%A6%BF/" class="pagination--pager" title="서블릿
 ">Next</a>
     
   </nav>

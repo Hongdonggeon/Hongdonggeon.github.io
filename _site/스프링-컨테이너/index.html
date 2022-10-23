@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>JDK, JRE, JVM - Keep Going</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>스프링 컨테이너 - Keep Going</title>
+<meta name="description" content="스프링 컨테이너">
 
 
   <meta name="author" content="kun">
@@ -22,30 +22,30 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Keep Going">
-<meta property="og:title" content="JDK, JRE, JVM">
-<meta property="og:url" content="http://localhost:4000/java/JDK,JRE,JVM/">
+<meta property="og:title" content="스프링 컨테이너">
+<meta property="og:url" content="http://localhost:4000/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/">
 
 
-  <meta property="og:description" content="">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-02-06T00:00:00+09:00">
+  <meta property="og:description" content="스프링 컨테이너">
 
 
 
 
 
-  
+
+
+  <meta property="article:published_time" content="2022-06-15T00:00:00+09:00">
+
+
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/java/JDK,JRE,JVM/">
+
+<link rel="canonical" href="http://localhost:4000/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/">
 
 
 
@@ -369,16 +369,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="JDK, JRE, JVM">
-    <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2022-02-06T00:00:00+09:00">
+    <meta itemprop="headline" content="스프링 컨테이너">
+    <meta itemprop="description" content="스프링 컨테이너">
+    <meta itemprop="datePublished" content="2022-06-15T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/java/JDK,JRE,JVM/" class="u-url" itemprop="url">JDK, JRE, JVM
+            <a href="http://localhost:4000/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/" class="u-url" itemprop="url">스프링 컨테이너
 </a>
           </h1>
           
@@ -407,112 +407,105 @@
 
       <section class="page__content e-content" itemprop="text">
         
-          <aside class="sidebar__right sticky">
-            <nav class="toc">
-              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#jdk-java-development-kit">JDK (Java Development Kit)</a></li><li><a href="#jre-java-runtime-environment">JRE (Java Runtime Environment)</a></li><li><a href="#jvm-java-virtual-machine">JVM (Java Virtual Machine)</a><ul><li><a href="#정리">정리</a></li></ul></li></ul></li></ul>
+        <h2 id="스프링-컨테이너">스프링 컨테이너</h2>
 
-            </nav>
-          </aside>
-        
-        <p><img src="https://user-images.githubusercontent.com/67885363/152673863-89540ec5-c5b8-4ade-9f61-d1bf528175cd.jpeg" alt="jdk" /></p>
+<h3 id="스프링-컨테이너란">스프링 컨테이너란?</h3>
 
-<p><img src="https://user-images.githubusercontent.com/67885363/152673876-68b6211c-8f99-4255-aa5c-e6a17f9dbb31.png" alt="JVM_JRE_JDK" /></p>
+<p>스프링 컨테이너는 스프링 빈의 생명 주기를 관리하여  IoC(제어역전)와 DI(의존성주입)을 제공해주는 역할을 한다.</p>
 
-<h1 id="jdk-java-development-kit">JDK (Java Development Kit)</h1>
-
-<p>JDK란 Java를 활용하여 프로그램을 개발할 때 필요한 도구 모음이다. <br />JRE는 Java 프로그램을 실행하기 위한 도구들의 구성요소로 독립적으로 사용 가능하다. <br />하지만 프로그램을 실행시키는 것도 개발의 일환이기 때문에 JDK는 JRE를 필요로 한다.</p>
+<p>스프링 컨테이너는 Bean Factory와 이를 상속한 ApplicationContext 2가지 유형이 존재한다.</p>
 
 <p><br /></p>
 
-<p><strong>JDK 구성요소</strong></p>
+<h4 id="bean-factory">Bean Factory</h4>
+
+<p>Bean Factory는 스프링 컨테이너의 최상위 인터페이스로 스프링 컨테이너 설정파일에 등록된 Bean 객체를 생성하고 관리하는 기본적인 기능만 담당하는 IoC 컨테이너이자 클래스를 말한다.
+컨테이너가 구동될 때 Bean 객체를 생성하는 것이 아니라 빈 사용 요청에 의해서 Bean 객체가 사용되는 시점(Lazy Loading) 에 객체를 생성하는 방식이다.</p>
+
+<p><br /></p>
+
+<h4 id="applicationcontext">ApplicationContext</h4>
+
+<p>ApplicationContext는 BeanFactory 인터페이스의 하위 인터페이스로 빈 관리 기능(DI 와 IoC) 뿐만 아니라 편리한 부가 기능을 제공한다. 트랜잭션 관리, 메시지 기반의 다국어 처리, AOP 처리 등 많은 부분을 지원한다.
+컨테이너가 구동되는 시점에 Bean 객체들을 생성하는 방식이다.</p>
+
+<p><br /></p>
+
+<h3 id="스프링-컨테이너-생성과정">스프링 컨테이너 생성과정</h3>
 
 <ul>
-  <li>javac : 자바 컴파일러. 자바 소스파일을 바이트코드로 반환</li>
-  <li>jdb : 자바 디버깅 툴</li>
-  <li>jar : 서로 관련있는 클래스 라이브러리들과 리소스를 하나의 파일로 묶어주는 툴</li>
+  <li>스프링 컨테이너가 생성된다.</li>
+  <li>스프링 빈을 등록한다.
+    <ul>
+      <li>수동 빈 등록을 한다면 설정 정보를 읽어서 스프링 빈을 등록한다.</li>
+      <li>자동 빈 등록을 한다면 @Component가 붙은 클래스들을 스프링 빈으로 등록한다.</li>
+    </ul>
+  </li>
+  <li>스프링 빈의 의존관계를 설정한다.
+    <ul>
+      <li>수동 빈 등록을 할시에는 설정 정보를 읽어서 의존관계를 주입한다.</li>
+      <li>자동 빈 등록을 할시에는 등록된 빈에 생성자나 @Autowired를 보고 의존관계를 주입한다.</li>
+    </ul>
+  </li>
 </ul>
 
 <p><br /></p>
 
-<p><strong>JDK 종류</strong></p>
+<h3 id="스프링이-설정-파일을-읽는-과정">스프링이 설정 파일을 읽는 과정</h3>
+
+<p>XML 설정 파일이나 자바 설정 파일에 빈을 정의해주면 해당 설정 파일을 이용해 스프링 컨테이너가 빈 정의 내용대로 빈을 관리하도록 한다.</p>
+
+<p>스프링은 어떻게 이런 다양한 설정 형식을 지원하는 것일까?</p>
+
+<p>그 중심에는 BeanDefinition이라는 추상화가 있다. XML이든 자바 코드든 읽어서 BeanDefinition을 만들면 된다.
+스프링 컨테이너는 자바 코드인지, XML인지 몰라도 되고 오직 BeanDefinition만 알면 된다.</p>
+
+<p>BeanDefinition은 빈 설정 메타정보라고 한다. 스프링 컨테이너는 이 메타정보를 기반으로 스프링 빈을 생성한다.</p>
+
+<p><img width="672" alt="image" src="https://user-images.githubusercontent.com/67885363/176005470-9d8265e6-9fb2-4d3e-87bd-138676a1db78.png" /></p>
+
+<p><br /></p>
+
+<h3 id="싱글턴-패턴">싱글턴 패턴</h3>
+
+<p>스프링은 태생이 기업용 온라인 서비스 기술을 지원하기 위해 탄생했다. 
+웹 어플리케이션은 보통 여러 고객이 동시에 요청을 하는데 만약 대량의 트래픽이 들어왔을 때 요청마다 객체가 생성되고 소멸된다면 메모리 낭비가 심할 것이다. 
+스프링의 해결 방안으로는 싱글톤 패턴을 사용하여 해당 객체를 1개만 생성하게 하고 공유하도록 하는 것이다.</p>
+
+<p>하지만 싱글톤 패턴에는 여러가지 문제점이 있다.</p>
 
 <ul>
-  <li>
-    <p>Java SE (Java Standard Edition)<br />: 표준 에디션의 자바 플랫폼이다. 자바 언어의 핵심 기능을 제공한다. 주요 패키지는 java.lang , java.io , java.util, java.awt 등이 있다.</p>
-  </li>
-  <li>
-    <p>Java EE (Java Enterprise Edition)<br />: Java SE에 웹 어플리케이션 서버에서 동작하는 기능을 추가한 플랫폼이다.  JSP, Servlet, JDBC 등 기업용 어플리케이션을 개발하는데 필요한 다양한 것들이 포함된 플랫폼이다.</p>
-  </li>
-  <li>
-    <p>Java ME (Java Micro Edition)<br />: 임베디드 기기들에서 구동되기 위한 환경을 제공하는 API를 모아둔 플랫폼이다. 휴대전화, PDA 등에서 Java 프로그래밍 언어를 지원하기 위해 만든 플랫폼 중 하나이다.</p>
-
-    <p><br /></p>
-  </li>
+  <li>private 생성자를 갖고 있기 때문에 상속할 수 없다.</li>
+  <li>싱글톤은 테스트하기가 힘들다.</li>
+  <li>필드에 공유 값을 설정하면 큰 장애가 발생할 수 있다.</li>
 </ul>
 
-<h1 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h1>
+<p>스프링은 이런 싱글톤 패턴의 문제점을 해결했다.</p>
 
-<p>JVM 위에서 .class 파일이 원활하게 작동하기 위해서는 몇 가지 필수적인 요소들이 필요하는데 이를 제공해주는 것이 JRE다.<br /> JRE는 크게 JVM과 Java Class Libraries, Class Loader라는 요소로 구성이 된다.</p>
+<p>스프링은 기본적으로 별다른 설정을 하지 않으면 내부에서 생성하는 빈 오브젝트를 모두 싱글톤으로 만듭니다.</p>
 
-<p><br /></p>
-
-<p><strong>Java Class Libraries</strong></p>
-
-<p>Java를 실행시키는데 필수적인 라이브러리다.<br />java.io, java.util, java.thread, java.lang 등 작동에 필수적인 요소들을 가지고 있다.<br />JVM에 올라가는 바이트 코드에서도 필수 라이브러리를 참고하고 있기 때문에 간단한 코드라도 필수 라이브러리가 필요하다.</p>
+<p>여기서 싱글톤은 디자인 패턴에서 나오는 싱글톤 패턴과 비슷한 개념이지만 구현 방법은 다릅니다.</p>
 
 <p><br /></p>
 
-<p><strong>Class Loader</strong></p>
+<h3 id="싱글턴-레지스트리">싱글턴 레지스트리</h3>
 
-<p>필요한 클래스들을 JVM 위로 올려주는 역할을 한다. <br />Javac를 통해 생성된 .class 파일은 각 디렉토리에 흩어져 있다.<br />그리고 라이브러리의 클래스 파일들은 $JAVAHOME_ 내부 경로에 존재한다.<br />이러한 각각의 클래스 파일들을 찾아서 JVM의 메모리에 탑재해주는 역할을 하는 것이 ClassLoader 이다.</p>
+<p>스프링은 기본적으로 별다른 설정을 하지 않으면 내부에서 생성하는 빈 오브젝트를 모두 싱글톤으로 만든다.
+여기서 싱글톤은 디자인 패턴에서 나오는 싱글톤 패턴과 비슷한 개념이지만 구현 방법은 다르다. 또한 위의 싱글톤 패턴의 단점들을 보완한 상태를 사용한다.
+이렇게 애플리케이션 컨텍스트는 싱글톤을 저장하고 관리하는 싱글톤 레지스트리라고 할 수 있다.</p>
 
-<p>ClassLoader 는 크게 Loading, Linking, 그리고 Initialization 3가지 역할을 맡게 된다.<br /> Loading 은 클래스 파일을 탑재하는 과정, Linking 은 클래스 파일을 사용하기 위해 검증하고, 기본 값으로 초기화하는 과정이다. Initialization 은 static field 의 값들을 개발자가 정의한 값으로 초기화를 하는 과정이다.</p>
+<p>private 생성자로 객체의 생성을 막는 방법이 아니라 일반 자바 클래스를 싱글톤으로 활용할 수 있도록 지원한다.</p>
 
-<p><br /></p>
+<p>가장 중요한 것은 싱글톤 패턴과 달리 스프링이 지지하는 객체지향적인 설계 방식의 원칙, 디자인 패턴 등을 적용하는데 아무런 제약이 없게 만들어준다는 것입니다.</p>
 
-<h1 id="jvm-java-virtual-machine">JVM (Java Virtual Machine)</h1>
+<p><br />
+<br /></p>
 
-<p>JVM은 Java로 작성된 프로그램이 돌아가도록 만들어준다.<br />Java로 작성된 프로그램은 운영체제에 맞는 실행파일로 컴파일되는 것이 아닌 .class라는 확장자를 가진 파일로 변환이 되는데 이 .class 파일이 JVM위에서 작동하는 것이고 JVM이 .class 파일에 환경을 제공해준다.<br />JVM은 자바 인터프리터, JIT 커파일러, 가비지 컬렉터로 구성되어 있다.</p>
-
-<p><br /></p>
-
-<p><strong>Java Interpreter</strong></p>
-
-<p>자바 컴파일러에 의해 변환된 자바 바이트 코드를 읽고 해석하는 역할을 하는 것이 자바 인터프리터다.</p>
-
-<p><br /></p>
-
-<p><strong>JIT 컴파일러 (Just In Time compiler)</strong></p>
-
-<p>JIT 컴파일러란 런타임에 자바 바이트 코드를 실제 기계어로 변환해주는 컴파일러를 의미한다. 프로그램의 실행 속도를 향상시키기 위해 동적 번역이라는 기법을 사용한다.</p>
-
-<p><br /></p>
-
-<p><strong>Garbage Collector</strong></p>
-
-<p>jvm은 가비지 컬렉터를 이용해 더는 사용하지 않는 메모리를 자동으로 회수해 준다.</p>
-
-<p><br /></p>
-
-<h3 id="정리">정리</h3>
-
-<p><img src="https://user-images.githubusercontent.com/67885363/152675147-e4b7c544-68cf-40bf-813c-e4cabcbf8a9c.png" alt="img_java_programming" /></p>
-
-<p>우리가 작성하는 자바 클래스 파일(.java)은 JDK의 자바 컴파일러(javac) 를 통해 자바 바이트 코드(.class) 로 변환하게 된다.</p>
-
-<p>자바 컴파일러에 의해 생성된 자바 바이트 코드는 운영체제에 상관없이 JVM 위에서 작동이 되기 때문에 Java가 이식성이 좋은 것이다.</p>
-
-<p>그리고 바이트 코드가 JVM 위에서 원활하게 작동이 되기 위해서는 필수적인 자바 라이브러리나 우리가 작성한 클래스 파일들이 필요하는데, 이러한 각각의 클래스 파일들을 JVM 위에 올려주는 역할을 하는 것이 JRE이다.</p>
-
-<p><br /></p>
-
-<p>참고</p>
-
-<p>https://www.codejava.net/java-core/what-are-jvm-jre-and-jdk<br />
-https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/<br />
-https://tecoble.techcourse.co.kr/post/2021-07-12-jvm-jre-jdk/<br />
-http://www.tcpschool.com/java/java_intro_programming</p>
+<blockquote>
+  <p>참고 <br />
+스프링 핵심 원리 - 기본편 (김영한 님)
+토비의 스프링 - vol.1 (이일민 님)</p>
+</blockquote>
 
         
       </section>
@@ -522,24 +515,9 @@ http://www.tcpschool.com/java/java_intro_programming</p>
         
 
 
-  
-
-
-  
-
-  <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
-    <span itemprop="keywords">
-    
-      <a href="/categories/#java" class="page__taxonomy-item p-category" rel="tag">java</a>
-    
-    </span>
-  </p>
-
-
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-02-06T00:00:00+09:00">February 6, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-06-15T00:00:00+09:00">June 15, 2022</time></p>
 
       </footer>
 
@@ -548,21 +526,22 @@ http://www.tcpschool.com/java/java_intro_programming</p>
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=JDK%2C+JRE%2C+JVM%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDK%2CJRE%2CJVM%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%E1%84%89%E1%85%B3%E1%84%91%E1%85%B3%E1%84%85%E1%85%B5%E1%86%BC+%E1%84%8F%E1%85%A5%E1%86%AB%E1%84%90%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%82%E1%85%A5%20http%3A%2F%2Flocalhost%3A4000%2F%25EC%258A%25A4%25ED%2594%2584%25EB%25A7%2581-%25EC%25BB%25A8%25ED%2585%258C%25EC%259D%25B4%25EB%2584%2588%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDK%2CJRE%2CJVM%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F%25EC%258A%25A4%25ED%2594%2584%25EB%25A7%2581-%25EC%25BB%25A8%25ED%2585%258C%25EC%259D%25B4%25EB%2584%2588%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2FJDK%2CJRE%2CJVM%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F%25EC%258A%25A4%25ED%2594%2584%25EB%25A7%2581-%25EC%25BB%25A8%25ED%2585%258C%25EC%259D%25B4%25EB%2584%2588%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/java/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%B2%94%EC%9C%84%EC%97%90-%EB%94%B0%EB%A5%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A2%85%EB%A5%98/" class="pagination--pager" title="테스트 범위에 따른 테스트 종류
+">Previous</a>
     
     
-      <a href="/java/Junit/" class="pagination--pager" title="Junit
+      <a href="/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/" class="pagination--pager" title="웹 어플리케이션 서버
 ">Next</a>
     
   </nav>

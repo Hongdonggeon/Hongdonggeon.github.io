@@ -65,34 +65,16 @@ var store = [{
         "url": "/java/%EC%BA%90%EC%8B%B1-%EA%B8%B0%EB%B2%95/",
         "teaser": null
       },{
-        "title": "Enum이란?",
-        "excerpt":" ","categories": ["java"],
-        "tags": [],
-        "url": "/java/Enum%EC%9D%B4%EB%9E%80/",
-        "teaser": null
-      },{
         "title": "싱글턴 패턴",
         "excerpt":"View는 유틸리티 클래스로? 싱글턴 패턴으로? 상태가 없는 클래스들은 모든 메서드를 static 으로 선언하여 유틸리티 클래스로 만들어준다. 하지만 static 메서드가 많아 지게 되면 메모리 측면에서 안 좋아진다. static 메서드들은 프로그램이 종료할 때까지 static영역에 남아있다. 하지만 상태가 없다고 유틸리티 클래스로 만들기는 무리다. Controller도 무상태 객체이고 static은 객체 지향 보다는 절차 지향에 가까운...","categories": ["java"],
         "tags": [],
         "url": "/java/%EC%8B%B1%EA%B8%80%ED%84%B4-%ED%8C%A8%ED%84%B4/",
         "teaser": null
       },{
-        "title": "Exception",
-        "excerpt":" ","categories": [],
-        "tags": [],
-        "url": "/Exception/",
-        "teaser": null
-      },{
         "title": "절차지향 vs 객체지향",
         "excerpt":"절차지향 vs 객체지향 절차 지향 프로시저로 프로그램을 구성하는 기법을 절차 지향 프로그래밍이라고 부른다. 프로시저는 데이터를 사용해서 기능을 구현한다. 프로시저는 다른 프로시저를 사용하기도 한다. 여러 프로시저가 동일한 데이터를 공유한다. 다수의 프로시저들이 데이터를 공유하는 방식으로 만들어지기 때문에, 절차 지향 프로그램은 자연스럽게 데이터를 중심으로 구현하게 된다. 절차 지향의 문제점 데이터 타입이나 의미를 변경해야...","categories": ["java"],
         "tags": [],
         "url": "/java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EA%B3%BC-%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5/",
-        "teaser": null
-      },{
-        "title": "클래스와 객체",
-        "excerpt":" ","categories": [],
-        "tags": [],
-        "url": "/%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80-%EA%B0%9D%EC%B2%B4/",
         "teaser": null
       },{
         "title": "방어적 복사",
@@ -105,5 +87,53 @@ var store = [{
         "excerpt":"이전 내용을 간략하게 요약해보자. 인자로 들어올 원본 List의 변화가 객체 내부 필드의 변화까지 일어나지 않게 하기 위해 방어적 복사를 해주었다. 방어적 복사를 하게 되면, 원본 List와 객체 내부 필드의 참조 값이 달라지면서, 외부의 변화에 대해 막아줄 수 있었다. public final class Cards { private final List&lt;Card&gt; cards; public Cards(List&lt;Card&gt; initialCards)...","categories": ["java"],
         "tags": [],
         "url": "/java/copyOf()vsUnmodifiable/",
+        "teaser": null
+      },{
+        "title": "JDBC란",
+        "excerpt":"JDBC란 JDBC(Java DataBase Connectivity)는 자바 프로그램에서 Database를 조작하게 해주는 API이다. JDBC API는 JDK에서 제공하며 JDBC 프로그래밍을 위해서는 JDBC드라이버가 필요하다. JDBC 드라이버는 각 DBMS 회사에서 제공하는 라이브러리 압축파일이다. 이번 체스 미션에서는 MySQL을 사용하기 때문에, MySQL 드라이버를 사용했다. JDBD API 클래스 JDBC 클래스와 인터페이스는 자바 패키지 java.sql과 javax.sql에 포함되어 있다. JDBC를 이용한...","categories": ["java"],
+        "tags": [],
+        "url": "/java/JDBC%EB%9E%80/",
+        "teaser": null
+      },{
+        "title": "테스트 범위에 따른 테스트 종류",
+        "excerpt":"테스트의 범위는 테스트의 목적과 수행하는 사람에 따라 달라진다. 일반적인 웹 어플리케이션에서 테스트 범위에 따른 테스트 종류는 아래의 그림과 같이 세 가지로 나눌 수 있다. 기능 테스트와 E2E 테스트 기능 테스트는 사용자 입장에서 시스템이 제공하는 기능이 올바르게 동작하는지 확인한다. 기능 테스트를 수행하려면 시스템을 구동하고 사용하는데 필요한 모든 구성 요소가 필요하다. 기능...","categories": ["java"],
+        "tags": [],
+        "url": "/java/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%B2%94%EC%9C%84%EC%97%90-%EB%94%B0%EB%A5%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A2%85%EB%A5%98/",
+        "teaser": null
+      },{
+        "title": "스프링 컨테이너",
+        "excerpt":"스프링 컨테이너 스프링 컨테이너란? 스프링 컨테이너는 스프링 빈의 생명 주기를 관리하여 IoC(제어역전)와 DI(의존성주입)을 제공해주는 역할을 한다. 스프링 컨테이너는 Bean Factory와 이를 상속한 ApplicationContext 2가지 유형이 존재한다. Bean Factory Bean Factory는 스프링 컨테이너의 최상위 인터페이스로 스프링 컨테이너 설정파일에 등록된 Bean 객체를 생성하고 관리하는 기본적인 기능만 담당하는 IoC 컨테이너이자 클래스를 말한다. 컨테이너가...","categories": [],
+        "tags": [],
+        "url": "/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/",
+        "teaser": null
+      },{
+        "title": "웹 어플리케이션 서버",
+        "excerpt":"웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다. 웹 서버 HTTP 기반으로 동작 정적 리소스 제공, 기타 부가기능 정적인 파일을 제공하므로 HTML 을 특정 사용자마다 다르게 보여줄 수 있음 정적 HTML, CSS, JS, 이미지, 영상 웹 서버에서 요청에 알맞은...","categories": ["spring"],
+        "tags": [],
+        "url": "/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/",
+        "teaser": null
+      },{
+        "title": "서블릿",
+        "excerpt":"서블릿 서블릿 이전의 CGI 이전의 웹 프로그램들은 클라이언트의 요청에 대한 응답으로 정적인 리소스만 넘겨주었다. 웹 프로그래밍은 점점 발전하게 되었고, 사용자의 요청에 맞게 동적인 페이지를 작성할 수 있게 되었는데 이 역할을 CGI라는 인터페이스가 해주었다. 하지만 CGI는 단점이 있었다. CGI는 클라이언트에서 요청이 올 때마다 각각에 대한 처리 프로세스를 만들어냈다. 들어오는 요청들이 같은...","categories": ["spring"],
+        "tags": [],
+        "url": "/spring/%EC%84%9C%EB%B8%94%EB%A6%BF/",
+        "teaser": null
+      },{
+        "title": "MVC 구조",
+        "excerpt":"MVC 구조 동작 순서 DispatcherServlet으로 클라이언트의 웹 요청이 들어온다. 웹 요청을 핸들러 매핑에 위임해 요청 URL에 매핑된 핸들러를 조회한다. 핸들러를 실행할 수 있는 핸들러 어댑터를 조회한다. 핸들러 어댑터가 실행되고 핸들러 어댑터가 핸들러를 실행시킨다. 이때 핸들러가 반환한 정보를 핸들러 어댑터가 ModelAndView로 변환해서 반환한다. 뷰 리졸버가 뷰 이름을 전달받아 뷰 리졸버는 뷰의...","categories": ["spring"],
+        "tags": [],
+        "url": "/spring/MVC-%EA%B5%AC%EC%A1%B0/",
+        "teaser": null
+      },{
+        "title": "스프링 빈",
+        "excerpt":"스프링 빈 스프링 컨테이너에서 관리하는 자바 객체를 스프링 빈이라고 한다. 조금 더 자세하게 설명하자면, 기존에 Java 프로그램에서는 객체를 생성할 때 우리가 직접 new 생성자를 입력해 객체를 생성하였지만, 우리가 직접 객체를 생성하는 것이 아닌 Spring에 의해 생성되고 관리되는 자바 객체를 스프링 빈이라고 한다. 그럼 스프링 컨테이너에는 빈을 등록하는 방법들에 대해 알아보자....","categories": ["spring"],
+        "tags": [],
+        "url": "/spring/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B9%88/",
+        "teaser": null
+      },{
+        "title": "영속성 컨텍스트의 특징",
+        "excerpt":"1차 캐시 영속성 컨텍스트는 내부에 캐시를 가지고 있다. 쉽게 이야기해서 영속성 컨텍스트 내부에 엔티티를 보관하고 있는 Map이 하나 있다고 생각하면 된다. 1차 캐시의 키는 식별자 값인데, 식별자 값은 우리가 엔티티를 정의할 때 @Id 를 붙인 필드다. 따라서 영속성 컨텍스트에 데이터를 저장하고 조회하는 모든 기준은 데이터베이스 기본 키 값이다. 1차 캐시의...","categories": ["jpa"],
+        "tags": [],
+        "url": "/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/",
         "teaser": null
       }]

@@ -1,0 +1,927 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>MVC 구조 - Keep Going</title>
+<meta name="description" content="MVC 구조">
+
+
+  <meta name="author" content="kun">
+  
+  <meta property="article:author" content="kun">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Keep Going">
+<meta property="og:title" content="MVC 구조">
+<meta property="og:url" content="http://localhost:4000/spring/MVC-%EA%B5%AC%EC%A1%B0/">
+
+
+  <meta property="og:description" content="MVC 구조">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-06-18T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/spring/MVC-%EA%B5%AC%EC%A1%B0/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Keep Going Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Keep Going
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Tech</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">kun</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>돌아가면 돌아갈수록 단단해진다</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:ghd700@naver.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/Hongdonggeon" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    <br/>
+    
+      
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">23</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
+        <span class="nav__sub-title">DEV</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
+                
+                    
+                        <li><a href="/categories/java" class="">Java (16)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/spring" class="">Spring Boot (4)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+      </li>
+  </ul>
+</nav>
+    
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="MVC 구조">
+    <meta itemprop="description" content="MVC 구조">
+    <meta itemprop="datePublished" content="2022-06-18T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/spring/MVC-%EA%B5%AC%EC%A1%B0/" class="u-url" itemprop="url">MVC 구조
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#mvc-구조">MVC 구조</a><ul><li><a href="#동작-순서">동작 순서</a></li><li><a href="#프론트-컨트롤러-패턴과-dispatcherservlet">프론트 컨트롤러 패턴과 DispatcherServlet</a></li><li><a href="#스프링-mvc-동작방식">스프링 MVC 동작방식</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="mvc-구조">MVC 구조</h2>
+
+<p><img width="1020" alt="image" src="https://user-images.githubusercontent.com/67885363/174560490-4ac6fccf-7325-4db4-8f71-4c32cfb2672a.png" /></p>
+
+<h3 id="동작-순서">동작 순서</h3>
+
+<ol>
+  <li>DispatcherServlet으로 클라이언트의 웹 요청이 들어온다.</li>
+  <li>웹 요청을 핸들러 매핑에 위임해 요청 URL에 매핑된 핸들러를 조회한다.</li>
+  <li>핸들러를 실행할 수 있는 핸들러 어댑터를 조회한다.</li>
+  <li>핸들러 어댑터가 실행되고 핸들러 어댑터가 핸들러를 실행시킨다. 이때 핸들러가 반환한 정보를 핸들러 어댑터가 ModelAndView로 변환해서 반환한다.</li>
+  <li>뷰 리졸버가 뷰 이름을 전달받아 뷰 리졸버는 뷰의 논리 이름을 물리 이름으로 바꾸고, 렌더링 역할을 담당하는 뷰 객체를 반환한다.</li>
+  <li>DispatcherServlet은 View에게 Model을 전달하고 화면 표시를 요청한다. 이때, Model이 null이면 View를 그대로 사용하고 Model 값이 있으면 View에 Model 데이터를 렌더링한다.</li>
+  <li>DispatcherServlet은 View 결과를 클라이언트에게 반환한다.</li>
+</ol>
+
+<p><br />
+<br /></p>
+
+<h3 id="프론트-컨트롤러-패턴과-dispatcherservlet">프론트 컨트롤러 패턴과 DispatcherServlet</h3>
+
+<p>DispatcherServlet을 설명하기 전에 프론트 컨트롤러 패턴에 대해 알아보자.
+프론트 컨트롤러 패턴이란 모든 요청을 받는 서블릿을 하나로 두고, 서블릿이 요청에 맞는 컨트롤러를 호출해서 처리해주는 것이다.
+프론트 컨트롤러 패턴을 도입하면, 컨트롤러를 구현할 때 직접 서블릿을 다루지 않아도 되고, 공통된 로직을 줄임으로써 개발자는 핵심 로직에만 집중할 수 있다.</p>
+
+<ul>
+  <li>프론트 컨트롤러 도입 전</li>
+</ul>
+
+<p><img width="670" alt="image" src="https://user-images.githubusercontent.com/67885363/175099647-94d7a9d8-bced-4f97-8acb-f32b56e98ac7.png" /></p>
+
+<ul>
+  <li>프론트 컨트롤러 도입 후</li>
+</ul>
+
+<p><img width="670" alt="image" src="https://user-images.githubusercontent.com/67885363/175099833-c2640c9d-4dc0-42e3-8168-198874b41bed.png" /></p>
+
+<p>우리가 스프링을 이용해 개발을 해오면서 컨트롤러 로직을 작성할 때, 서블릿을 직접 다룬 적이 없었던 이유도 Spring web mvc가 프론트 컨트롤러 패턴을 사용하고 있기 때문이다.</p>
+
+<p>클라이언트로부터 요청이 들어오면 서블릿 컨테이너가 해당하는 서블릿을 실행시키는데 이 때 실행되는 서블릿이 Dispatcher Servlet이다. 공통 작업은 DispatcherServlet에서 처리하고, 이외의 작업은 적절한 세부 컨트롤러를 호출하여 처리한다.</p>
+
+<p><br />
+<br /></p>
+
+<h3 id="스프링-mvc-동작방식">스프링 MVC 동작방식</h3>
+
+<p>DispatcherServlet은 FrameworkServlet.java &gt; HttpServlet.java &gt; Servlet.java 를 상속받아 구현한 서블릿으로 Servlet Container에서 들어오는 모든 요청을 먼저 받아 중앙 집중식으로 처리해주는 프론트 컨트롤러다.</p>
+
+<p>DispatcherServlet은 웹 요청에 따른 처리를 해주기 위해 처음으로 <code class="language-plaintext highlighter-rouge">doService()</code>메서드를 호출한다.</p>
+
+<p><img width="854" alt="image" src="https://user-images.githubusercontent.com/67885363/175106591-22c95a30-4ec2-4a8d-adaf-60912ff66c56.png" /></p>
+
+<p>그리고 DispatcherServlet의 핵심인 <code class="language-plaintext highlighter-rouge">doDispatch()</code> 메서드를 호출한다.</p>
+
+<p><br /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doDispatch</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span>
+            <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">HttpServletRequest</span> <span class="n">processedRequest</span> <span class="o">=</span> <span class="n">request</span><span class="o">;</span>
+        <span class="nc">HandlerExecutionChain</span> <span class="n">mappedHandler</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="nc">ModelAndView</span> <span class="n">mv</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+		<span class="c1">// 1. 핸들러 조회</span>
+        <span class="n">mappedHandler</span> <span class="o">=</span> <span class="n">getHandler</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mappedHandler</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">noHandlerFound</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+		<span class="c1">//2.핸들러 어댑터 조회-핸들러를 처리할 수 있는 어댑터</span>
+        <span class="nc">HandlerAdapter</span> <span class="n">ha</span> <span class="o">=</span> <span class="n">getHandlerAdapter</span><span class="o">(</span><span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+
+		<span class="c1">// 3. 핸들러 어댑터 실행 -&gt; 4. 핸들러 어댑터를 통해 핸들러 실행 -&gt; 5. ModelAndView 반환 </span>
+        <span class="n">mv</span> <span class="o">=</span> <span class="n">ha</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+
+        <span class="n">processDispatchResult</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">,</span> <span class="n">mv</span><span class="o">,</span>
+                <span class="n">dispatchException</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">processDispatchResult</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+                                       <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="nc">HandlerExecutionChain</span> <span class="n">mappedHandler</span><span class="o">,</span> <span class="nc">ModelAndView</span>
+                                               <span class="n">mv</span><span class="o">,</span> <span class="nc">Exception</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="c1">// 뷰 렌더링 호출</span>
+        <span class="n">render</span><span class="o">(</span><span class="n">mv</span><span class="o">,</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">render</span><span class="o">(</span><span class="nc">ModelAndView</span> <span class="n">mv</span><span class="o">,</span> <span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+                          <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">View</span> <span class="n">view</span><span class="o">;</span>
+        <span class="nc">String</span> <span class="n">viewName</span> <span class="o">=</span> <span class="n">mv</span><span class="o">.</span><span class="na">getViewName</span><span class="o">();</span>
+
+        <span class="c1">//6. 뷰 리졸버를 통해서 뷰 찾기,7.View 반환</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="n">resolveViewName</span><span class="o">(</span><span class="n">viewName</span><span class="o">,</span> <span class="n">mv</span><span class="o">.</span><span class="na">getModelInternal</span><span class="o">(),</span> <span class="n">locale</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+		<span class="c1">// 8. 뷰 렌더링</span>
+        <span class="n">view</span><span class="o">.</span><span class="na">render</span><span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">getModelInternal</span><span class="o">(),</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>먼저 웹 요청을 처리할 수 있는 핸들러를 찾기 위해 <code class="language-plaintext highlighter-rouge">getHandler()</code> 메서드를 호출한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nd">@Nullable</span>
+	<span class="kd">protected</span> <span class="nc">HandlerExecutionChain</span> <span class="nf">getHandler</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">handlerMappings</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">for</span> <span class="o">(</span><span class="nc">HandlerMapping</span> <span class="n">mapping</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">handlerMappings</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">HandlerExecutionChain</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="na">getHandler</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">handler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">return</span> <span class="n">handler</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<p>핸들러 매핑을 순서대로 실행해서, 핸들러를 찾는다.</p>
+
+<blockquote>
+  <p>0 = RequestMappingHandlerMapping : 애노테이션 기반의 컨트롤러인 @RequestMapping에서 사용
+<br /> 1 = BeanNameUrlHandlerMapping : URL과 일치하는 이름을 갖는 스프링 빈의 이름으로 핸들러를 찾는다.
+<br /> 2 = ControllerBeanNameHandlerMapping : URL과 일치하는 이름을 갖는 스프링 빈의 아이디로 핸들러를 찾는다.</p>
+</blockquote>
+
+<p>핸들러 매핑으로 HandlerExecutionChain을 결정하는데 HandlerExecutionChain 구현체는 실제로 호출된 핸들러에 대한 참조를 가지고 있다. 즉 무엇이 실행되어야 될지 알고 있는 객체라고 말할 수 있다.</p>
+
+<p>HandlerExecutionChian이 발견되지 않아 null을 반환하면 404 Not Found를 전달하고, 발견되면 HandlerAdapter 결정하러간다.</p>
+
+<p><br /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kd">protected</span> <span class="nc">HandlerAdapter</span> <span class="nf">getHandlerAdapter</span><span class="o">(</span><span class="nc">Object</span> <span class="n">handler</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">handlerAdapters</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">for</span> <span class="o">(</span><span class="nc">HandlerAdapter</span> <span class="n">adapter</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">handlerAdapters</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">adapter</span><span class="o">.</span><span class="na">supports</span><span class="o">(</span><span class="n">handler</span><span class="o">))</span> <span class="o">{</span>
+					<span class="k">return</span> <span class="n">adapter</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">throw</span> <span class="k">new</span> <span class="nf">ServletException</span><span class="o">(</span><span class="s">"No adapter for handler ["</span> <span class="o">+</span> <span class="n">handler</span> <span class="o">+</span>
+				<span class="s">"]: The DispatcherServlet configuration needs to include a HandlerAdapter that supports this handler"</span><span class="o">);</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<p>찾은 핸들러를 실행하기 위해 해당 핸들러를 맞는 핸들러 어댑터를 탐색해야 한다. 이를 위해 <code class="language-plaintext highlighter-rouge">getHandlerAdapter()</code>메서드를 호출한다. 핸들러 어댑터도 순서대로 <code class="language-plaintext highlighter-rouge">supports()</code>메서드를 실행해서 찾는다.</p>
+
+<blockquote>
+  <p>0 = RequestMappingHandlerAdapter : 애노테이션 기반의 컨트롤러인 @RequestMapping에서 사용
+<br /> 1 = HttpRequestHandlerAdapter : HttpRequestHandler 처리
+<br /> 2 = SimpleControllerHandlerAdapter : Controller 인터페이스(애노테이션X, 과거에 사용) 처리</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">mv</span> <span class="o">=</span> <span class="n">ha</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>핸들러 어댑터를 이용하여  <code class="language-plaintext highlighter-rouge">handle()</code>메서드로 핸들러의 메서드를 실행하고 그 결과로 ModelAndView를 반환한다.</p>
+
+<p><br /></p>
+
+<p>핸들러가 작업을 마치고 정보를 ModelAndView 타입 오브젝트에 담아서 DispatcherServlet에 돌려주는 방법은 크게 두 가지다. 하나는 View 타입의 오브젝트를 돌려주는 방법이고, 다른 하나는 뷰 이름을 돌려주는 방법이다. 뷰 이름을 돌려주는 경우에는 실제 사용할 뷰를 결정해주는 뷰 리졸버가 필요하다.</p>
+
+<p>다음으로 <code class="language-plaintext highlighter-rouge">processDispatchResult()</code>메서드가 호출된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">processDispatchResult</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+                                       <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="nc">HandlerExecutionChain</span> <span class="n">mappedHandler</span><span class="o">,</span> <span class="nc">ModelAndView</span>
+                                               <span class="n">mv</span><span class="o">,</span> <span class="nc">Exception</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="n">render</span><span class="o">(</span><span class="n">mv</span><span class="o">,</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">processDispatchResult()</code>메서드는  <code class="language-plaintext highlighter-rouge">render()</code>메서드를 호출한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">render</span><span class="o">(</span><span class="nc">ModelAndView</span> <span class="n">mv</span><span class="o">,</span> <span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+                          <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">View</span> <span class="n">view</span><span class="o">;</span>
+        <span class="nc">String</span> <span class="n">viewName</span> <span class="o">=</span> <span class="n">mv</span><span class="o">.</span><span class="na">getViewName</span><span class="o">();</span>
+
+        <span class="n">view</span> <span class="o">=</span> <span class="n">resolveViewName</span><span class="o">(</span><span class="n">viewName</span><span class="o">,</span> <span class="n">mv</span><span class="o">.</span><span class="na">getModelInternal</span><span class="o">(),</span> <span class="n">locale</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+        <span class="n">view</span><span class="o">.</span><span class="na">render</span><span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">getModelInternal</span><span class="o">(),</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">render()</code>는 View의 논리 이름을 물리 이름으로 변환시키기 위해 <code class="language-plaintext highlighter-rouge">resolveViewName()</code>메서드를 호출한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nd">@Nullable</span>
+	<span class="kd">protected</span> <span class="nc">View</span> <span class="nf">resolveViewName</span><span class="o">(</span><span class="nc">String</span> <span class="n">viewName</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">,</span>
+			<span class="nc">Locale</span> <span class="n">locale</span><span class="o">,</span> <span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+
+		<span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">viewResolvers</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">for</span> <span class="o">(</span><span class="nc">ViewResolver</span> <span class="n">viewResolver</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">viewResolvers</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">viewResolver</span><span class="o">.</span><span class="na">resolveViewName</span><span class="o">(</span><span class="n">viewName</span><span class="o">,</span> <span class="n">locale</span><span class="o">);</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">return</span> <span class="n">view</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<p>뷰 리졸버의 여러 구현체의 <code class="language-plaintext highlighter-rouge">resolveViewName()</code> 메서드를 호출하여 View의 논리 이름을 물리 이름으로 변환시킨다.</p>
+
+<blockquote>
+  <p>1 = BeanNameViewResolver : 빈 이름으로 뷰를 찾아서 반환한다. (예: 엑셀 파일 생성 기능에 사용)
+<br /> 2 = InternalResourceViewResolver : JSP를 처리할 수 있는 뷰를 반환한다.</p>
+</blockquote>
+
+<p>스프링 부트는 InternalResourceViewResolver 뷰 리졸버를 자동으로 등록하는데, 이때 application.properties 에 등록한 spring.mvc.view.prefix , spring.mvc.view.suffix 설정 정보를 사용해서 등록한다.</p>
+
+<p>마지막으로, View 객체의 <code class="language-plaintext highlighter-rouge">render()</code> 메소드를 호출하여 View에 Model 데이터를 렌더링한다.</p>
+
+<p><br />
+<br /></p>
+
+<blockquote>
+  <p>참고 <br />
+스프링 핵심 원리 - 기본편 (김영한 님)
+토비의 스프링 - vol.1 (이일민 님)</p>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#spring" class="page__taxonomy-item p-category" rel="tag">spring</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-06-18T00:00:00+09:00">June 18, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=MVC+%EA%B5%AC%EC%A1%B0%20http%3A%2F%2Flocalhost%3A4000%2Fspring%2FMVC-%25EA%25B5%25AC%25EC%25A1%25B0%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fspring%2FMVC-%25EA%25B5%25AC%25EC%25A1%25B0%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fspring%2FMVC-%25EA%25B5%25AC%25EC%25A1%25B0%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/spring/%EC%84%9C%EB%B8%94%EB%A6%BF/" class="pagination--pager" title="서블릿
+">Previous</a>
+    
+    
+      <a href="/spring/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B9%88/" class="pagination--pager" title="스프링 빈
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/" rel="permalink">영속성 컨텍스트의 특징
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">1차 캐시
+영속성 컨텍스트는 내부에 캐시를 가지고 있다.
+쉽게 이야기해서 영속성 컨텍스트 내부에 엔티티를 보관하고 있는 Map이 하나 있다고 생각하면 된다.
+1차 캐시의 키는 식별자 값인데, 식별자 값은 우리가 엔티티를 정의할 때 @Id 를 붙인 필드다.
+따라서 영속성 컨텍스트에 ...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B9%88/" rel="permalink">스프링 빈
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">스프링 빈
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/%EC%84%9C%EB%B8%94%EB%A6%BF/" rel="permalink">서블릿
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">서블릿
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%9C%EB%B2%84/" rel="permalink">웹 어플리케이션 서버
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">웹은 HTTP 기반으로 통신한다. 클라이언트에서 서버로 데이터를 전송할 때, 서버에서 클라이언트로 데이터를 응답할 때 모두 HTTP 프로토콜 기반으로 동작한다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Keep Going. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
