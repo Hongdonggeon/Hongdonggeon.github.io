@@ -1,0 +1,36 @@
+---
+title: JPQL과 페치 조인
+toc: true
+toc_sticky: true
+categories:
+  - jpa
+date: 2022-07-15
+---
+
+## JPQL이란
+JPQL(Java PErsistence Query Language)은 엔티티 객체를 조회하는 객체지향 쿼리다.
+JPQL은 SQL을 추상화해서 특정 데이터베이스에 의존하지 않는다. 데이터베이스 방언을 변경하면 JPQL을 수정하지 않고도 데이터베이스를 변경할 수 있다. 왜냐하면 JPQL이 제공하는 표준화된 함수를 사용하면 선택한 방언에 따라 해당 데이터베이스에 맞춘 적절한 SQL 함수가 실행되기 때문이다.
+
+<br/>
+
+## JPQL 페치 조인
+일반적인 SQL에서 이야기하는 조인의 종류는 아니고 JPQL에서 성능 최적화를 위헤 제공하는 기능이다. 연관된 엔티티나 컬렉션을 한번에 같이 조회하는 기능이다.
+
+### 엔티티 페치 조인
+페치 조인을 사용해서 Question 엔티티를 조회하면서 연관된 User 엔티티도 함께 조회하는 JPQL을 보자.
+![](https://velog.velcdn.com/images/hdg3052/post/9e112e18-59af-4c42-8878-00d8a84c68e0/image.png)
+
+![](https://velog.velcdn.com/images/hdg3052/post/1337de76-9a5f-4366-a3b2-00b86cb4c16b/image.png)
+
+SQL을 보면 Question 엔티티만 조회하였는데도 연관된 Useer 엔티티도 함께 조회된 것을 확인할 수 있다. 페치조인을 이용해서 조회한다면 User 엔티티는 프록시 객체가 아니라 실제 객체다.
+![](https://velog.velcdn.com/images/hdg3052/post/b4a2131c-0b0d-4bc5-9fba-2b9715ac5dd7/image.png)
+
+Question과 User엔티티를 지연 로딩으로 설정했다고 가정을 하고, `entityManger.find`로 question을 조회하면 User객체는 프록시 객체다. 
+![](https://velog.velcdn.com/images/hdg3052/post/38d0ed19-a5c1-4230-b3fc-99947c163682/image.png)
+
+
+<br/>
+<br/>
+
+> 참고 <br/>
+자바 ORM 표준 JPA 프로그래밍

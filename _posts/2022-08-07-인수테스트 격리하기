@@ -1,0 +1,78 @@
+---
+title: 인수테스트 격리하기
+toc: true
+toc_sticky: true
+categories:
+  - spring
+  - test
+  - checkmate
+date: 2022-08-07
+---
+
+인수테스트란 사용자 시나리오에 맞춰서 실제 운영 환경에서 사용될 준비가 되었는지를 통합적으로 확인하는 테스트다.
+
+인수 테스트의 목적이 실제 운영 환경과 같은 조건을 테스트하고자 하는 것이기 때문에 mock 프레임워크 등을 사용하지 않고 실제 데이터베이스를 사용해야 조건에 충족할 수 있다. 
+
+그러므로 테스트가 실행되면서 데이터베이스의 상태는 변하게 되고 테스트는 데이터베이스의 상태에 따라 성공 여부가 달라지게 될 것이다. 
+
+데이터베이스의 상태에 의존받지 않기 위해 테스트를 효과적으로 격리해야한다.
+
+
+
+### @DirtiesContext
+
+![image](https://user-images.githubusercontent.com/67885363/196947575-adab8873-debe-40ad-861c-6e7ccd20b3e1.png)
+
+이 @DirtiesContext 는 classMode에 따라 Spring Context를 새로 로드한다. 우리는 classMode를 `BEFORE_EACH_TEST_METHOD`로 지정했기 때문에 모든 테스트 메서드마다 시작하기 이전에 contexts를 재생성했다. 
+
+메서드마다 context를 새로 로드하기 때문에 격리는 잘 되었지만 문제가 있었다.
+
+테스트 갯수가 얼마되지 않았을 때에는 실행할 때 체감할 수 있을 정도로 많은 시간이 걸리지 않았지만, 점점 테스트 갯수가 많아지면서 시간이 너무 오래걸리게 되었다. 
+
+![image](https://user-images.githubusercontent.com/67885363/196950043-46a190e1-c99c-41f5-9a69-063a1ec49381.png)
+
+총 51개의 인수테스트가 실행되는데 2분 29초이나 걸렸다. 다른 격리하는 방법을 찾게 되었다.
+
+
+
+<br/>
+
+
+
+### @SQL
+
+![image](https://user-images.githubusercontent.com/67885363/197001536-ffa71a2b-7f20-495a-959d-e0e15d04d3fe.png)
+
+스트링 부트에서 제공하는 어노테이션이다. executionPhase의 속성이 `BEFORE_TEST_METHOD`이기 때문에 실행되기 전에 @sql이 가리키는 경로에 있는 SQL 실행이 먼저 일어나고 있다. executionPhase 속성의 기본 값이 `BEFORE_TEST_METHOD` 이다. 
+
+그리고 sql 파일에는 모든 데이터를 지워주는 쿼리문을 작성해주면 된다.
+
+```sql
+TRUNCATE TABLE attendance;
+TRUNCATE TABLE event;
+TRUNCATE TABLE participant;
+TRUNCATE TABLE meeting;
+TRUNCATE TABLE user;
+```
+
+
+
+좋은 방식이지만 sql 파일을 계속 관리해주어야 하는 단점이 있다. 만약 새로운 테이블이 추가되면 sql 파일에도 추가를 해주어야한다. 엔티티 구조가 간단하면 사용할만 하지만, 엔티티가 정말 많아진다면 sql 파일 관리하는 것도 많이 귀찮아질 것이다.
+
+
+
+<br/>
+
+
+
+### EntityManager로 TRUNCATE 쿼리 실행시키기
+
+![image](https://user-images.githubusercontent.com/67885363/197004856-c48f1c71-8e7b-48e4-91fc-d88fbf3b39e7.png)
+
+이 방법은 EntityManager를 빈으로 주입 받아 모든 테이블 이름을 List에 추가한 후 List를 for문으로 돌면서 `TRUNCATE` 쿼리문을 실행시켜주는 것이다. 
+
+위의 init 메서드를 빈이 생성될 때 자동으로 실행될 수 있게 `@PostConstruct` 어노테이션을 붙여주면서 따로 메서드를 실행시키지 않게 해주었다. 테스트 클래스에서는 Junit의 `@BeforeEach`로 execute 메서드를 실행시켜주면 테이블의 모든 데이터를 지우면서 격리시킬 수 있다.
+
+![image](https://user-images.githubusercontent.com/67885363/197008774-a7b85b0f-a5da-456a-81be-7555d3be6cf1.png)
+
+이 방법은 DirtiesContext처럼 spring context를 새로 로드하지 않기 때문에 시간이 많이 걸리지 않게 되고 @sql 방법처럼 따로 sql 파일을 관리하지 않아도 되므로 가장 좋은 방법으로 보인다. 

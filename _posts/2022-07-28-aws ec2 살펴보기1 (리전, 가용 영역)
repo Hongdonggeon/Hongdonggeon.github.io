@@ -1,0 +1,34 @@
+---
+title: aws ec2 살펴보기1 (리전, 가용 영역)
+toc: true
+toc_sticky: true
+categories:
+  - infra
+date: 2022-07-28
+---
+
+## 리전
+aws 리전이란 aws 리소스를 지리적 관점으로 영역으로 구분해놓은 것이다. 각 aws 리전은 격리되어 있고 독립적이다. 내가 만약 서울 리전에서 리소스를 만들었다면 미국 동부(오하이오) 리전에서 사용할 수 없다.
+
+리전은 전 세계적으로 여러 곳에 존재하고 있기 때문에 재해 발생시에도 서비스를 공급할 수 있고 사용자는 자신의 위치와 가장 가까운 리전을 선택함으로서 빠른 서비스를 이용할 수 있다.
+
+![](https://velog.velcdn.com/images/hdg3052/post/ded36692-320b-4334-8e23-ff7ecf8abbda/image.png)
+
+<br/>
+
+## 가용 영역 (Avaliability Zone)
+가용 영역이란 aws 리전 내에서 격리된 위치다. 리전은 일반적으로 3개 이상의 가용 영역으로 구성되어 있는데 낙뢰, 지진과 같은 자연재에서의 연쇄적인 피해를 보호하기 위해 물리적으로 유의미한 거리를 두고 설치한다.
+
+가용 영역은 하나 이상의 개별 데이터 센터로 구성되고 개별 데이터 센터에는 일반적으로 50,000 ~ 80,000대의 물리적 서버가 있다고 한다.
+
+리전의 모든 가용영역은 전용 메트로 광 네트워크로 연결되어 있어 높은 처리량과 지연 시간이 짧은 네트워킹을 제공한다.
+
+![](https://velog.velcdn.com/images/hdg3052/post/9e1a7f97-6e62-437c-9c20-02b76dcc7ab4/image.png)
+
+![](https://velog.velcdn.com/images/hdg3052/post/85e38e00-bc69-45d8-926a-c9e79dec304f/image.png)
+
+
+
+> 참고
+https://docs.aws.amazon.com/ko_kr/general/latest/gr/rande-manage.html
+https://aws.amazon.com/ko/about-aws/global-infrastructure/regions_az/
