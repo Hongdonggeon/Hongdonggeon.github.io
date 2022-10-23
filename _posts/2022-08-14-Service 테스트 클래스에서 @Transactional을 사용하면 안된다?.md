@@ -1,13 +1,15 @@
 ---
 title: 서비스 계층을 테스트할 때 @Transactional 사용을 지양하자
-toc: true
-toc_sticky: true
 categories:
   - spring
   - test
   - checkmate
 date: 2022-08-14
 ---
+
+> 이 글은 개인적인 제 생각입니다.
+
+
 
 보통 우리는 여러 repository 메서드를를 실행시키는(DB에 접근하는) Service 계층에서 원자성을 보장하기 위해 `@Transactional` 어노테이션을 붙여줍니다. 
 
