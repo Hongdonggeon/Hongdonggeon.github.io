@@ -34,3 +34,8 @@ JUnit은 테스트 메서드를 실행할 때마다 매번 테스트 클래스�
 
 우리팀은 Controller Test에서 Service 클래스를 mocking 하고 있는 슬라이싱 테스트를 하고 있다. 각 클래스는 필요한 서비스 클래스를 @MockBean으로 주입받고 있기 때문에 모든 테스트 클래스가 환경이 달라 ApplicationContext가 재사용되고 있지 않았다.
 
+- Controller 환경이 같을 때
+https://youtu.be/mbsHgEo-bMI
+
+- Controller 환경이 다를 때
+https://youtu.be/jchDQkxZL7Q
