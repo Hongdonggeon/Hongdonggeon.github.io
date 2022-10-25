@@ -162,7 +162,7 @@ var store = [{
         "teaser": null
       },{
         "title": "서비스 계층을 테스트할 때 @Transactional 사용을 지양하자",
-        "excerpt":"보통 우리는 여러 repository 메서드를를 실행시키는(DB에 접근하는) Service 계층에서 원자성을 보장하기 위해 @Transactional 어노테이션을 붙여줍니다. 트랜잭션 관리는 서비스 계층의 역할 중에서 가장 중요하다고 볼 수도 있는 역할이라고 생각을 하는데요. 단순히 테스트 격리를 위해서 Service 테스트 클래스에서 @Transactional을 붙여주게 된다면 각 서비스 메서드들은 테스트 클래스의 트랜잭션에 참여하게 되기 때문에 서비스 계층의...","categories": ["spring","test","checkmate"],
+        "excerpt":"이 글은 개인적인 제 생각입니다. 보통 우리는 여러 repository 메서드를를 실행시키는(DB에 접근하는) Service 계층에서 원자성을 보장하기 위해 @Transactional 어노테이션을 붙여줍니다. 트랜잭션 관리는 서비스 계층의 역할 중에서 가장 중요하다고 볼 수도 있는 역할이라고 생각을 하는데요. 단순히 테스트 격리를 위해서 Service 테스트 클래스에서 @Transactional을 붙여주게 된다면 각 서비스 메서드들은 테스트 클래스의 트랜잭션에...","categories": ["spring","test","checkmate"],
         "tags": [],
         "url": "/spring/test/checkmate/Service-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-@Transactional%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4/",
         "teaser": null
@@ -174,7 +174,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Application Context를 재활용해서 테스트 시간을 줄이자",
-        "excerpt":"Application Context를 재활용해서 테스트 시간을 줄이자 JUnit은 테스트 메서드를 실행할 때마다 매번 테스트 클래스의 새로운 오브젝트를 만든다. 따라서 모든 테스트는 서로 영향을 주지 않으며 독립적으로 실행되는 것을 보장한다. 하지만 테스트가 독립적이라고 해서 매번 Application Context를 새로 만드는 건 매우 비효율적이다. 스프링은 이러한 문제를 해결하기 위해 Context Caching 기능을 제공한다. Spring...","categories": ["spring","test","checkmate"],
+        "excerpt":"JUnit은 테스트 메서드를 실행할 때마다 매번 테스트 클래스의 새로운 오브젝트를 만든다. 따라서 모든 테스트는 서로 영향을 주지 않으며 독립적으로 실행되는 것을 보장한다. 하지만 테스트가 독립적이라고 해서 매번 Application Context를 새로 만드는 건 매우 비효율적이다. 스프링은 이러한 문제를 해결하기 위해 Context Caching 기능을 제공한다. Spring 테스트 컨텍스트 프레임워크는 한번 ApplicationContext가 만들어지면...","categories": ["spring","test","checkmate"],
         "tags": [],
         "url": "/spring/test/checkmate/Application-Context%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EA%B0%84%EC%9D%84-%EC%A4%84%EC%9D%B4%EC%9E%90/",
         "teaser": null
