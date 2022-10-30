@@ -1,0 +1,842 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>aws ec2 살펴보기2 (vpc, 서브넷) - Keep Going</title>
+<meta name="description" content="VPC (Virtual Private Cloud)">
+
+
+  <meta name="author" content="kun">
+  
+  <meta property="article:author" content="kun">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Keep Going">
+<meta property="og:title" content="aws ec2 살펴보기2 (vpc, 서브넷)">
+<meta property="og:url" content="http://localhost:4000/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B02-(vpc,-%EC%84%9C%EB%B8%8C%EB%84%B7)/">
+
+
+  <meta property="og:description" content="VPC (Virtual Private Cloud)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-07-30T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B02-(vpc,-%EC%84%9C%EB%B8%8C%EB%84%B7)/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Keep Going Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Keep Going
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Tech</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">kun</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>돌아가면 돌아갈수록 단단해진다</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:ghd700@naver.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/Hongdonggeon" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    <br/>
+    
+      
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">43</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
+        <span class="nav__sub-title">DEV</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
+                
+                    
+                        <li><a href="/categories/java" class="">java (16)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/spring" class="">spring (8)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/test" class="">test (4)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/checkmate" class="">checkmate (4)</a></li>
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/infra" class="">infra (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/jpa" class="">jpa (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+      </li>
+  </ul>
+</nav>
+    
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="aws ec2 살펴보기2 (vpc, 서브넷)">
+    <meta itemprop="description" content="VPC (Virtual Private Cloud)">
+    <meta itemprop="datePublished" content="2022-07-30T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B02-(vpc,-%EC%84%9C%EB%B8%8C%EB%84%B7)/" class="u-url" itemprop="url">aws ec2 살펴보기2 (vpc, 서브넷)
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <h2 id="vpc-virtual-private-cloud">VPC (Virtual Private Cloud)</h2>
+
+<p>VPC는  논리적으로 분리된 가상의 네트워크 공간이다.
+각각의 VPC는 완전히 독립된 네트워크처럼 작동하게 된다.
+사용자가 VPC를 생성할 때 서브넷 생성, 라우팅 테이블, 네트워크 게이트웨이 구성 등 설정에 따라 자유롭게 구성할 수 있다.</p>
+
+<p><img width="845" alt="image" src="https://user-images.githubusercontent.com/67885363/197716515-17b6457f-1a63-469e-b314-8cefcb25c961.png" /></p>
+
+<p>VPC를 구축하기 위해서는 VPC의 IP 범위를 RFC1918이라는 사설 IP 대역에 맞추어 구축해야한다. 그리고 VPC내에서 생성된 인스턴스는 IP 대역 내의 사설 IP를 할당받게 된다.</p>
+
+<blockquote>
+  <p>사설 IP란</p>
+
+  <p>사설 IP 는 사설 네트워크에 연결된 디바이스를 식별하기 위해 사용되는 IP 주소이다. 사설 IP 주소는 사설 네트워크 내에서만 유효한 주소로, 따라서 외부 인터넷에서는 사용될 수 없다.</p>
+</blockquote>
+
+<p>VPC에서 사용하는 사설 IP 대역</p>
+
+<ul>
+  <li>10.0.0.0 ~ 10.255.255.255(10.0.0.0/8)</li>
+  <li>172.16.0.0 ~ 172.31.255.255(172.16.0.0/12)</li>
+  <li>192.168.0.0 ~ 192.168.255.255(192.168.0.0/16)</li>
+</ul>
+
+<p>한번 설정된 IP 대역은 수정이 불가하고 각 VPC는 하나의 리전에 종속된다.</p>
+
+<h2 id="서브넷">서브넷</h2>
+
+<p>VPC안에서 더 많은 네트워크 망을 구성하기 위해 서브넷팅을 하고 분할된 네트워크를 서브넷이라고 한다.
+서브넷을 나누게 되면 더 많은 네트워크망을 만들기 위해서다.</p>
+
+<p>서브넷은 가용영역 여러 개에 걸쳐서 설정할 수 없다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197740712-ad02fb6b-9fd7-400f-b581-d483b7962adb.png" alt="image" /></p>
+
+<h2 id="라우팅-테이블과-라우터">라우팅 테이블과 라우터</h2>
+
+<p>네트워크 요청이 발생하게 되면 데이터는 라우터로 향하게 된다. 라우팅 테이블은 각 목적지에 대한 이정표 집합이라고 생각하면 된다. 각 네트워크 요청은 라우터로 향하게 되고 각 요청은 라우팅 테이블에 따라 작동한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197750943-3b8c86ae-f02e-4c71-87a8-c359e72fca53.png" alt="image" /></p>
+
+<p>위 그림에서 서브넷 A의 라우팅 테이블을 보면, 172.31.0.0/16 범위안의 네트워크 요청은 로컬로 향하게 된다.</p>
+
+<h3 id="인터넷-게이트-웨이">인터넷 게이트 웨이</h3>
+
+<p>위 그림의 서브넷 B의 라우팅 테이블을 보면, 172.31.0.0/16 범위의 트래픽에 포함되지 않으면 0.0.0.0/0 (모든 트래픽에 대해) 인터넷 게이트 웨이 A로 향하라고 하고 있다. 여기서 인터넷 게이트란 VPC와 인터넷을 연결해주는 관문이다.</p>
+
+<p>여기서 서브넷 B 같이 인터넷과 연결되어있는 서브넷은 퍼블릭 서브넷이라고 하고, 서브넷 A같이 인터넷과 연결되어 있지 않은 서브넷은 프라이빗 서브넷이라고 한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197742645-62871b60-817e-43ec-a987-151cc63363a9.png" alt="image" /></p>
+
+<h3 id="nat-게이트-웨이">NAT 게이트 웨이</h3>
+
+<p>NAT 게이트웨이는 프라이빗 서브넷이 인터넷과 통신하기위한 아웃바운드 인스턴스다. NAT 게이트 웨이는 퍼블릭 서브넷의 인스턴스안에 설치하여 프라이빗 서브넷의 인스턴스와 연결한다. 만약 프라이빗 서브넷에서 외부로 요청하는 아웃바운드 트래픽을 발생하게 되면, NAT 게이트 웨이는 private 서브넷의 소스 IP를 자신의 소스 IP로 변경해서 외부로 네트워크가 전달되게 해준다.</p>
+
+<p><img src="https://miro.medium.com/max/1400/1*jS8gNWRUH1SFi1XAHFU0aQ.png" alt="img" /></p>
+
+<ul>
+  <li>VPC 생성 예시</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/67885363/197754289-43a7357c-480d-4cbf-bb55-f1a4a6ce98c4.png" alt="image" /></p>
+
+<blockquote>
+  <p>참고</p>
+
+  <p>https://medium.com/harrythegreat/aws-%EA%B0%80%EC%9E%A5%EC%89%BD%EA%B2%8C-vpc-%EA%B0%9C%EB%85%90%EC%9E%A1%EA%B8%B0-71eef95a7098</p>
+
+  <p>https://namu.wiki/w/%EC%82%AC%EC%84%A4%20IP</p>
+
+  <p>https://blog.kico.co.kr/2022/03/08/aws-vpc/</p>
+</blockquote>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#infra" class="page__taxonomy-item p-category" rel="tag">infra</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-07-30T00:00:00+09:00">July 30, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=aws+ec2+%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B02+%28vpc%2C+%EC%84%9C%EB%B8%8C%EB%84%B7%29%20http%3A%2F%2Flocalhost%3A4000%2Finfra%2Faws-ec2-%25EC%2582%25B4%25ED%258E%25B4%25EB%25B3%25B4%25EA%25B8%25B02-%28vpc%2C-%25EC%2584%259C%25EB%25B8%258C%25EB%2584%25B7%29%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Finfra%2Faws-ec2-%25EC%2582%25B4%25ED%258E%25B4%25EB%25B3%25B4%25EA%25B8%25B02-%28vpc%2C-%25EC%2584%259C%25EB%25B8%258C%25EB%2584%25B7%29%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Finfra%2Faws-ec2-%25EC%2582%25B4%25ED%258E%25B4%25EB%25B3%25B4%25EA%25B8%25B02-%28vpc%2C-%25EC%2584%259C%25EB%25B8%258C%25EB%2584%25B7%29%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/" class="pagination--pager" title="aws ec2 살펴보기1 (리전, 가용 영역)
+">Previous</a>
+    
+    
+      <a href="/spring/test/checkmate/%EC%9D%B8%EC%88%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B2%A9%EB%A6%AC%ED%95%98%EA%B8%B0/" class="pagination--pager" title="인수테스트 격리하기
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EC%84%A0%EA%B8%B0-(2)/" rel="permalink">쿼리 개선기 (2)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%EC%9D%B8%EC%A6%9D%EB%B2%88%ED%98%B8%EB%A5%BC-%EB%B3%B4%EA%B4%80%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-redis-%EB%8F%84%EC%9E%85%ED%95%98%EA%B8%B0/" rel="permalink">인증번호를 보관하기 위한 redis 도입하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D-%EC%9A%94%EC%B2%AD-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0/" rel="permalink">이메일 인증 요청 비동기 처리하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B5%AC%ED%98%84%ED%95%A0%EA%B9%8C/" rel="permalink">이메일 인증을 어떻게 구현할까
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Keep Going. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

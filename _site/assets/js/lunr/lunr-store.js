@@ -137,6 +137,18 @@ var store = [{
         "url": "/jpa/%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%98-%ED%8A%B9%EC%A7%95/",
         "teaser": null
       },{
+        "title": "트랜잭션 없이 entitymanager.persist를 하면 어떻게 될까?",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EC%97%86%EC%9D%B4-EntityManager.persist%EB%A5%BC-%ED%95%98%EB%A9%B4-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%90%A0%EA%B9%8C/",
+        "teaser": null
+      },{
+        "title": "Update 쿼리는 flush할 때 나갈까? commit을 할 때 나갈까?",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/update-%EC%BF%BC%EB%A6%AC%EB%8A%94-flush%ED%95%A0-%EB%95%8C-%EB%82%98%EA%B0%88%EA%B9%8C-commit%EC%9D%84-%ED%95%A0-%EB%95%8C-%EB%82%98%EA%B0%88%EA%B9%8C/",
+        "teaser": null
+      },{
         "title": "JPQL과 페치 조인",
         "excerpt":"JPQL이란 JPQL(Java PErsistence Query Language)은 엔티티 객체를 조회하는 객체지향 쿼리다. JPQL은 SQL을 추상화해서 특정 데이터베이스에 의존하지 않는다. 데이터베이스 방언을 변경하면 JPQL을 수정하지 않고도 데이터베이스를 변경할 수 있다. 왜냐하면 JPQL이 제공하는 표준화된 함수를 사용하면 선택한 방언에 따라 해당 데이터베이스에 맞춘 적절한 SQL 함수가 실행되기 때문이다. JPQL 페치 조인 일반적인 SQL에서 이야기하는...","categories": ["jpa"],
         "tags": [],
@@ -146,13 +158,19 @@ var store = [{
         "title": "JPQL 벌크 연산을 주의하자",
         "excerpt":"JPQL 벌크 연산 엔티티를 수정하려면 영속성 컨텍스트의 변경 감지 기능이나, 삭제하려면 entityManger.remove() 메서드를 사용할 수 있다. 하지만 이 방법으로 수백 개 이상의 엔티티를 하나씩 처리하기에는 시간이 너무 오래 걸린다. 이럴 때 여러 건을 한번에 수정하거나 삭제하는 벌크 연산을 사용할 수 있다. 벌크 연산의 주의점 하지만 벌크 연산을 사용할 때는 벌크...","categories": ["jpa"],
         "tags": [],
-        "url": "/jpa/JPQL-%EB%B2%8C%ED%81%AC-%EC%97%B0%EC%82%B0/",
+        "url": "/jpa/JPQL-%EB%B2%8C%ED%81%AC-%EC%97%B0%EC%82%B0%EC%9D%84-%EC%A3%BC%EC%9D%98%ED%95%98%EC%9E%90/",
         "teaser": null
       },{
         "title": "aws ec2 살펴보기1 (리전, 가용 영역)",
         "excerpt":"리전 aws 리전이란 aws 리소스를 지리적 관점으로 영역으로 구분해놓은 것이다. 각 aws 리전은 격리되어 있고 독립적이다. 내가 만약 서울 리전에서 리소스를 만들었다면 미국 동부(오하이오) 리전에서 사용할 수 없다. 리전은 전 세계적으로 여러 곳에 존재하고 있기 때문에 재해 발생시에도 서비스를 공급할 수 있고 사용자는 자신의 위치와 가장 가까운 리전을 선택함으로서 빠른...","categories": ["infra"],
         "tags": [],
         "url": "/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B01-(%EB%A6%AC%EC%A0%84,-%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD)/",
+        "teaser": null
+      },{
+        "title": "aws ec2 살펴보기2 (vpc, 서브넷)",
+        "excerpt":"VPC (Virtual Private Cloud) VPC는 논리적으로 분리된 가상의 네트워크 공간이다. 각각의 VPC는 완전히 독립된 네트워크처럼 작동하게 된다. 사용자가 VPC를 생성할 때 서브넷 생성, 라우팅 테이블, 네트워크 게이트웨이 구성 등 설정에 따라 자유롭게 구성할 수 있다. VPC를 구축하기 위해서는 VPC의 IP 범위를 RFC1918이라는 사설 IP 대역에 맞추어 구축해야한다. 그리고 VPC내에서 생성된...","categories": ["infra"],
+        "tags": [],
+        "url": "/infra/aws-ec2-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B02-(vpc,-%EC%84%9C%EB%B8%8C%EB%84%B7)/",
         "teaser": null
       },{
         "title": "인수테스트 격리하기",
@@ -177,5 +195,65 @@ var store = [{
         "excerpt":"JUnit은 테스트 메서드를 실행할 때마다 매번 테스트 클래스의 새로운 오브젝트를 만든다. 따라서 모든 테스트는 서로 영향을 주지 않으며 독립적으로 실행되는 것을 보장한다. 하지만 테스트가 독립적이라고 해서 매번 Application Context를 새로 만드는 건 매우 비효율적이다. 스프링은 이러한 문제를 해결하기 위해 Context Caching 기능을 제공한다. Spring 테스트 컨텍스트 프레임워크는 한번 ApplicationContext가 만들어지면...","categories": ["spring","test","checkmate"],
         "tags": [],
         "url": "/spring/test/checkmate/Application-Context%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EA%B0%84%EC%9D%84-%EC%A4%84%EC%9D%B4%EC%9E%90/",
+        "teaser": null
+      },{
+        "title": "Mysql 에서의 트랜잭션 격리",
+        "excerpt":"DB 커넥션, 세션   ","categories": [],
+        "tags": [],
+        "url": "/MySQL-%EC%97%90%EC%84%9C%EC%9D%98-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EA%B2%A9%EB%A6%AC/",
+        "teaser": null
+      },{
+        "title": "Jacoco를 적용해서 테스트 커버리지 유지하기",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/jacoco%EB%A5%BC-%EC%A0%81%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BB%A4%EB%B2%84%EB%A6%AC%EC%A7%80-%EC%9C%A0%EC%A7%80%ED%95%98%EA%B8%B0/",
+        "teaser": null
+      },{
+        "title": "인덱스 적용기 (1)",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%9D%B8%EB%8D%B1%EC%8A%A4-%EC%A0%81%EC%9A%A9%EA%B8%B0-(1)/",
+        "teaser": null
+      },{
+        "title": "인덱스 적용기 (2)",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%9D%B8%EB%8D%B1%EC%8A%A4-%EC%A0%81%EC%9A%A9%EA%B8%B0-(2)/",
+        "teaser": null
+      },{
+        "title": "Nginx로 https 적용하기",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/Nginx%EB%A1%9C-Https-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/",
+        "teaser": null
+      },{
+        "title": "쿼리 개선기 (1)",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EC%84%A0%EA%B8%B0-(1)/",
+        "teaser": null
+      },{
+        "title": "이메일 인증을 어떻게 구현할까",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B5%AC%ED%98%84%ED%95%A0%EA%B9%8C/",
+        "teaser": null
+      },{
+        "title": "이메일 인증 요청 비동기 처리하기",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D-%EC%9A%94%EC%B2%AD-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0/",
+        "teaser": null
+      },{
+        "title": "인증번호를 보관하기 위한 redis 도입하기",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%9D%B8%EC%A6%9D%EB%B2%88%ED%98%B8%EB%A5%BC-%EB%B3%B4%EA%B4%80%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-redis-%EB%8F%84%EC%9E%85%ED%95%98%EA%B8%B0/",
+        "teaser": null
+      },{
+        "title": "쿼리 개선기 (2)",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EC%84%A0%EA%B8%B0-(2)/",
         "teaser": null
       }]
