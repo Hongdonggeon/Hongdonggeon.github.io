@@ -1,5 +1,5 @@
 ---
-title: 동시성 처리하기 (Synchronized)
+title: 동시성 처리하기1 (Synchronized)
 categories:
   - java
   - spring
@@ -89,3 +89,16 @@ race Condition이 발생한 이유는 @Transactional 동작 원리때문입니�
 따라서 해당 문제는 데이터베이스 락을 통해 Race Condition 문제를 해결해야 합니다.
 
 데이터베이스 락을 통한 Race Condition 문제는 다음 포스팅에서 알아보겠습니다.
+
+
+
+<br/>
+
+<br/>
+
+
+
+> 참고
+>
+> 재고시스템으로 알아보는 동시성 이슈 해결방법 
+
